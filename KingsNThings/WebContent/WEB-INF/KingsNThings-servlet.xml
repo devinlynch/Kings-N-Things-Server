@@ -7,6 +7,6 @@
 
   <!-- the application context definition for the springapp DispatcherServlet -->
 
-	<bean class="com.kings.TestController" />
+	<bean class="com.kings.test.TestController" />
  
 </beans>
