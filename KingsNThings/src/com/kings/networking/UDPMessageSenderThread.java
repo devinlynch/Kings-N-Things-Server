@@ -20,10 +20,10 @@ public class UDPMessageSenderThread extends Thread {
 	}
 	
 	public static UDPMessageSenderThread getInstance() {
-        if (instance == null) {
-            instance = new UDPMessageSenderThread();
-        }
-        return instance;
+		if (instance == null) {
+			instance = new UDPMessageSenderThread();
+		}
+		return instance;
     }
 	
 	@Override
