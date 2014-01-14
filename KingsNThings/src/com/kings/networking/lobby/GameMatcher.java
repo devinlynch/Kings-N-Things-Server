@@ -80,11 +80,11 @@ public class GameMatcher {
 	}
 
 	/**
-	 * Registers the user into an existing no full {@link GameLobby} or creates a new {@link GameLobby} for the user.
+	 * Registers the user into an existing non full {@link GameLobby} or creates a new {@link GameLobby} for the user.
 	 * @param userWaiting
 	 * @return the {@link GameLobby} which the user was registered in
 	 */
-	protected GameLobby registerUserInANonFullLobby(UserWaiting userWaiting) {
+	public GameLobby registerUserInANonFullLobby(UserWaiting userWaiting) {
 		int numberOfPlayersWanted = userWaiting.getNumberOfPlayersWanted();
 		
 		GameLobby lobby = getNonFullLobby(numberOfPlayersWanted);
@@ -107,11 +107,11 @@ public class GameMatcher {
 	}
 	
 	/**
-	 * Returns a lobby with the same amount of player wanted that is not full yet
+	 * Returns a non full {@link GameLobby} with the same amount of players wanted by the other {@link User}s
 	 * @param numberOfPlayersWanted
 	 * @return
 	 */
-	protected GameLobby getNonFullLobby(int numberOfPlayersWanted) {
+	public GameLobby getNonFullLobby(int numberOfPlayersWanted) {
 		synchronized (nonFullGameLobbies) {
 			Iterator<GameLobby> it = nonFullGameLobbies.iterator();
 			while(it.hasNext()) {

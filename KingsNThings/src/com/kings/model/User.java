@@ -11,6 +11,10 @@ public class User {
 		
 	}
 	
+	public User(String id) {
+		this.setId(id);
+	}
+	
 	public String getUsername() {
 		return username;
 	}
@@ -53,6 +57,10 @@ public class User {
 		
 		String thisId = this.getId();
 		String thatId = comparingUser.getId();
+		
+		if(thisId == null && thatId == null)
+			return false;
+		
 		return thisId != null && thisId.equals(thatId);
 	}
 	
