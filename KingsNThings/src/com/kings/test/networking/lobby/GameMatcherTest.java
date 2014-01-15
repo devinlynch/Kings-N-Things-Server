@@ -80,7 +80,6 @@ public class GameMatcherTest {
 		GameLobby lobby1 = matcher.registerUserInANonFullLobby(uw);
 		
 		assertTrue(lobby1.isFull());
-		assertNotNull(lobby1.getGame());
 		
 		// Test new game lobby assigned
 		UserWaiting uw2 = new UserWaiting();

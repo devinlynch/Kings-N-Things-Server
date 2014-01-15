@@ -1,5 +1,9 @@
 package com.kings.model;
 
+import com.kings.networking.UDPMessage;
+import com.kings.networking.UDPSenderQueue;
+import com.kings.networking.lobby.GameLobby;
+
 public class User {
 	private String id;
 	private String username;
@@ -7,8 +11,18 @@ public class User {
 	private int port;
 	private String hostName;
 	
+	private Game game;
+	private GameLobby gameLobby;
+	private MatchmakingStatus matchmakingStatus;
+	
+	public enum MatchmakingStatus{
+		SEARCHING_FOR_GAME,
+		IN_LOBBY_WAITING_FOR_MORE_PLAYERS,
+		GAME_STARTING,
+		IN_GAME
+	}
+	
 	public User() {
-		
 	}
 	
 	public User(String id) {
@@ -62,6 +76,11 @@ public class User {
 			return false;
 		
 		return thisId != null && thisId.equals(thatId);
+	}
+	
+	public void sendJSONMessage(String message) {
+		UDPMessage udpMessage = new UDPMessage(getHostName(), getPort(), message);
+		UDPSenderQueue.addMessagesToQueue(udpMessage);
 	}
 	
 }
