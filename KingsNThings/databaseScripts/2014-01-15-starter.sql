@@ -35,3 +35,7 @@ CREATE TABLE `kingsnthings`.`game_user` (
 ALTER TABLE `kingsnthings`.`user` 
 ADD COLUMN `created_datetime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `port`,
 ADD COLUMN `last_update` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER `created_datetime`;
+
+ALTER TABLE `kingsnthings`.`user` 
+ADD UNIQUE INDEX `username_UNIQUE` (`username` ASC);
+

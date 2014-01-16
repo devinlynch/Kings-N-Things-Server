@@ -7,5 +7,8 @@
             <generator class="native" />
         </id>
         <property name="username" />
+        <property name="password" />
+        <property name="hostName" column="host_name" />
+        <property name="port" />
     </class>
 </hibernate-mapping>

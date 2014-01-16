@@ -10,6 +10,13 @@ public class DataAccess {
 	private static Session session;
 	private static SessionFactory sessionFactory;
 	private static Configuration config;
+	private static DataAccess instance = null;
+	
+	public static DataAccess getInstance() {
+		if(instance==null)
+			instance = new DataAccess();
+		return instance;
+	}
 	
 	@SuppressWarnings("deprecation")
 	public static void configure() {
@@ -44,6 +51,10 @@ public class DataAccess {
 		getSession().getTransaction().commit();
 	}
 	
+	public boolean isTransactionActive() {
+		return getSession().getTransaction() != null && getSession().getTransaction().isActive();
+	}
+	
 	public void rollback() {
 		getSession().getTransaction().rollback();
 	}
@@ -58,5 +69,12 @@ public class DataAccess {
 		access.beginTransaction();
 		s.save(new User("2"));
 		access.commit();
+	}
+	
+	public User getUserByUsername(String username) {
+		return (User) getSession()
+			.createQuery("from User where username = :un")
+			.setParameter("un", username)
+			.uniqueResult();
 	}
 }

@@ -14,7 +14,7 @@ public class User {
 	private String userId;
 	private String username;
 	private String password;
-	private int port;
+	private Integer port;
 	private String hostName;
 	private Date createdDateTime;
 	private Date lastUpdate;
@@ -53,10 +53,10 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public int getPort() {
+	public Integer getPort() {
 		return port;
 	}
-	public void setPort(int port) {
+	public void setPort(Integer port) {
 		this.port = port;
 	}
 	public String getHostName() {
