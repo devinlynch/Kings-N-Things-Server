@@ -64,10 +64,9 @@ public class GameLobby {
 	}
 	
 	/**
-	 * Turns this GameLobby into a {@link Game} and assigns it to the game attribute.  Also calls
-	 * on the GameMatcher to add it into the set of full game lobbies. <b>You only call this once
-	 * the Lobby is ready to be turned into a game, do not do any more operations on the lobby
-	 * afterwards</b>
+	 * Turns this GameLobby into a {@link Game} and assigns it to the game attribute. <b>You only call this once
+	 * the Lobby is ready to be turned into a game, do not do any more operations on the lobby afterwards</b>
+	 * 
 	 */
 	public Game becomeGame() {
 		//TODO any other game initializing
@@ -77,9 +76,6 @@ public class GameLobby {
 			game.addUser(user);
 		}
 		setGame(game);
-		
-		GameMatcher matcher = GameMatcher.getInstance();
-		matcher.assignLobbyAsBeingFull(this);
 		
 		return game;
 	}

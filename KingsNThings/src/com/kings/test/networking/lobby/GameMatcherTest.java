@@ -19,9 +19,9 @@ public class GameMatcherTest {
 		GameMatcher matcher = new GameMatcher();
 		
 		User u1 = new User();
-		u1.setId("1");
+		u1.setUserId("1");
 		User u2 = new User();
-		u2.setId("2");
+		u2.setUserId("2");
 		UserWaiting uw1 = new UserWaiting(u1, 3);
 		UserWaiting uw2 = new UserWaiting(u2, 3);
 		
@@ -48,7 +48,7 @@ public class GameMatcherTest {
 		
 		// Test getting null when user is not in lobby
 		User u3 = new User();
-		u3.setId("3");
+		u3.setUserId("3");
 		GameLobby gl2 = matcher.getUsersLobby(u3);
 		assertNull(gl2);
 	}
@@ -80,7 +80,6 @@ public class GameMatcherTest {
 		GameLobby lobby1 = matcher.registerUserInANonFullLobby(uw);
 		
 		assertTrue(lobby1.isFull());
-		assertNotNull(lobby1.getGame());
 		
 		// Test new game lobby assigned
 		UserWaiting uw2 = new UserWaiting();
