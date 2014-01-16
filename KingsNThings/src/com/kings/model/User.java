@@ -1,20 +1,32 @@
 package com.kings.model;
 
+import java.util.Date;
+import java.util.Set;
+
+
 import com.kings.networking.UDPMessage;
 import com.kings.networking.UDPSenderQueue;
 import com.kings.networking.lobby.GameLobby;
 
 public class User {
-	private String id;
+	
+	// Columns
+	private String userId;
 	private String username;
 	private String password;
 	private int port;
 	private String hostName;
+	private Date createdDateTime;
+	private Date lastUpdate;
 	
-	private Game game;
+	// DB Relations
+	private Set<Game> games;
+
+	// Cache only values
 	private GameLobby gameLobby;
-	private MatchmakingStatus matchmakingStatus;
 	
+	//TODO
+	private MatchmakingStatus matchmakingStatus;
 	public enum MatchmakingStatus{
 		SEARCHING_FOR_GAME,
 		IN_LOBBY_WAITING_FOR_MORE_PLAYERS,
@@ -25,8 +37,8 @@ public class User {
 	public User() {
 	}
 	
-	public User(String id) {
-		this.setId(id);
+	public User(String userId) {
+		this.setUserId(userId);
 	}
 	
 	public String getUsername() {
@@ -53,13 +65,35 @@ public class User {
 	public void setHostName(String hostName) {
 		this.hostName = hostName;
 	}
-	
-	public String getId() {
-		return id;
+	public String getUserId() {
+		return userId;
 	}
-
-	public void setId(String id) {
-		this.id = id;
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	public Date getCreatedDateTime() {
+		return createdDateTime;
+	}
+	public void setCreatedDateTime(Date createdDateTime) {
+		this.createdDateTime = createdDateTime;
+	}
+	public Date getLastUpdate() {
+		return lastUpdate;
+	}
+	public void setLastUpdate(Date lastUpdate) {
+		this.lastUpdate = lastUpdate;
+	}
+	public GameLobby getGameLobby() {
+		return gameLobby;
+	}
+	public void setGameLobby(GameLobby gameLobby) {
+		this.gameLobby = gameLobby;
+	}
+	public Set<Game> getGames() {
+		return games;
+	}
+	public void setGames(Set<Game> games) {
+		this.games = games;
 	}
 
 	@Override
@@ -69,8 +103,8 @@ public class User {
 		
 		User comparingUser = (User) o;
 		
-		String thisId = this.getId();
-		String thatId = comparingUser.getId();
+		String thisId = this.getUserId();
+		String thatId = comparingUser.getUserId();
 		
 		if(thisId == null && thatId == null)
 			return false;
