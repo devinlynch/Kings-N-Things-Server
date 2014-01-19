@@ -1,14 +1,13 @@
 package com.kings.model;
 
 public class Gold extends Thing {
-	private String goldvalue;
-	Thing id;
+	private int goldvalue;
 
-	public String getGoldvalue() {
+	public int getGoldvalue() {
 		return goldvalue;
 	}
 
-	public void setGoldvalue(String goldvalue) {
+	public void setGoldvalue(int goldvalue) {
 		this.goldvalue = goldvalue;
 	}
 }

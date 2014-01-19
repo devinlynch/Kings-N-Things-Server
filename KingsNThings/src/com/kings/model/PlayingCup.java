@@ -1,5 +1,5 @@
 package com.kings.model;
 
-public class PlayingCup {
-	BoardContainer id;
+public class PlayingCup extends BoardContainer {
+	
 }

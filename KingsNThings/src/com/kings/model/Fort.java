@@ -1,23 +1,26 @@
 package com.kings.model;
 
-public class Fort extends Counter {
-	private String level;
-	private String combatValue;
-
-	public String getLevel() {
-		return level;
+public class Fort extends CounterType {
+	private int levelNum;
+	private int cost;
+	private CombatType combatType;
+	
+	public int getLevelNum() {
+		return levelNum;
 	}
-
-	public void setLevel(String level) {
-		this.level = level;
+	public void setLevelNum(int levelNum) {
+		this.levelNum = levelNum;
 	}
-
-	public String getCombatValue() {
-		return combatValue;
+	public int getCost() {
+		return cost;
 	}
-
-	public void setCombatValue(String combatValue) {
-		this.combatValue = combatValue;
+	public void setCost(int cost) {
+		this.cost = cost;
 	}
-
+	public CombatType getCombatType() {
+		return combatType;
+	}
+	public void setCombatType(CombatType combatType) {
+		this.combatType = combatType;
+	}
 }

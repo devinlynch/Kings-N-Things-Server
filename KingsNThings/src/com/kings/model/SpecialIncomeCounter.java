@@ -1,6 +1,6 @@
 package com.kings.model;
 
-public class SpecialIncomeCounters extends Thing {
+public class SpecialIncomeCounter extends Thing {
 	private int goldValue;
 
 	public int getGoldValue() {

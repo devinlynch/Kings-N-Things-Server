@@ -1,7 +1,6 @@
 package com.kings.model;
 
-public class Rack {
-	BoardContainer id;
+public class Rack extends BoardContainer {
 	public int limit;
 
 	public int getLimit() {

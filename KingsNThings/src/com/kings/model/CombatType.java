@@ -2,8 +2,8 @@ package com.kings.model;
 
 public class CombatType {
 	private String name;
-	Fort id;
-
+	private String id; 
+	
 	public String getName() {
 		return name;
 	}
@@ -12,11 +12,12 @@ public class CombatType {
 		this.name = name;
 	}
 
-	public Fort getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Fort id) {
+	public void setId(String id) {
 		this.id = id;
 	}
+
 }

@@ -1,5 +1,5 @@
 package com.kings.model;
 
-public class HexLocation {
+public class HexLocation extends BoardContainer {
 
 }

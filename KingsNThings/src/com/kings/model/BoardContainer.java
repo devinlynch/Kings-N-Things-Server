@@ -1,8 +1,7 @@
 package com.kings.model;
 public class BoardContainer {
-    private String id;
+	private String id;
     private String name;
-    private int location;
     
 	public String getId() {
 		return id;
@@ -15,11 +14,5 @@ public class BoardContainer {
 	}
 	public void setName(String name) {
 		this.name = name;
-	}
-	public int getLocation() {
-		return location;
-	}
-	public void setLocation(int location) {
-		this.location = location;
 	}
 }

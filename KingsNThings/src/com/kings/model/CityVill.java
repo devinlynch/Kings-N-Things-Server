@@ -1,13 +1,13 @@
 package com.kings.model;
 
-public class CityVill {
-	SpecialIncomeCounters id;
+public class CityVill extends SpecialIncomeCounter {
+	private int combatValue;
 
-	public SpecialIncomeCounters getId() {
-		return id;
+	public int getCombatValue() {
+		return combatValue;
 	}
 
-	public void setId(SpecialIncomeCounters id) {
-		this.id = id;
+	public void setCombatValue(int combatValue) {
+		this.combatValue = combatValue;
 	}
 }

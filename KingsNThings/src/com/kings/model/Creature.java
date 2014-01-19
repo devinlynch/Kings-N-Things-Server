@@ -1,14 +1,26 @@
 package com.kings.model;
 
 public class Creature extends Thing {
-	public int CombatValue;
-	Thing id;
-
+	private int combatValue;
+	private CombatType combatType;
+	private Terrain terrainType;
+	
 	public int getCombatValue() {
-		return CombatValue;
+		return combatValue;
 	}
-
 	public void setCombatValue(int combatValue) {
-		CombatValue = combatValue;
+		this.combatValue = combatValue;
+	}
+	public CombatType getCombatType() {
+		return combatType;
+	}
+	public void setCombatType(CombatType combatType) {
+		this.combatType = combatType;
+	}
+	public Terrain getTerrainType() {
+		return terrainType;
+	}
+	public void setTerrainType(Terrain terrainType) {
+		this.terrainType = terrainType;
 	}
 }
