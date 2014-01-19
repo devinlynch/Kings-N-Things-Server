@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import com.kings.model.Game;
 import com.kings.model.User;
 import com.kings.networking.lobby.exceptions.GameLobbyAlreadyFullException;
 
@@ -19,13 +18,10 @@ import com.kings.networking.lobby.exceptions.GameLobbyAlreadyFullException;
 public class GameMatcher {
 	// Need to synchronize
 	private Set<GameLobby> nonFullGameLobbies;
-	private Set<GameLobby> pendingGameLobbies;
-
 	private static GameMatcher instance;
 	
 	public GameMatcher() {
 		nonFullGameLobbies = new HashSet<GameLobby>();
-		pendingGameLobbies = new HashSet<GameLobby>();
 	}
 	
 	public static GameMatcher getInstance() {
@@ -101,9 +97,17 @@ public class GameMatcher {
 		}
 		
 		if(lobby.isFull())
-			lobby.becomeGame();
+			createGameFromLobby(lobby);
 		
 		return lobby;
+	}
+	
+	public void createGameFromLobby(GameLobby lobby) {
+		synchronized (nonFullGameLobbies) {
+			getNonFullGameLobbies().remove(lobby);
+		}
+		GameCreatorQueue queue = GameCreatorQueue.getInstance();
+		queue.addToQueue(lobby);
 	}
 	
 	/**
@@ -132,18 +136,6 @@ public class GameMatcher {
 		return null;
 	}
 	
-	/**
-	 * Remove the given lobby from the set of full lobbies and adds it to the pending lobby.  <b>This
-	 * should ONLY be called once a {@link GameLobby} has a {@link Game} set to it.</b>
-	 * @param gameLobby
-	 */
-	public void assignLobbyAsBeingFull(GameLobby gameLobby) {
-		synchronized (nonFullGameLobbies) {
-			getNonFullGameLobbies().remove(gameLobby);
-		}
-		getPendingGameLobbies().add(gameLobby);
-	}
-	
 	public void addGameLobby(GameLobby gameLobby) {
 		getNonFullGameLobbies().add(gameLobby);
 	}
@@ -156,14 +148,4 @@ public class GameMatcher {
 		this.nonFullGameLobbies = gameLobbies;
 	}
 
-	public Set<GameLobby> getPendingGameLobbies() {
-		return pendingGameLobbies;
-	}
-
-	public void setPendingGameLobbies(Set<GameLobby> pendingGameLobbies) {
-		this.pendingGameLobbies = pendingGameLobbies;
-	}
-	
-	
-	
 }

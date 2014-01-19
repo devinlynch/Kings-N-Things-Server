@@ -1,5 +1,7 @@
 package com.kings.networking.lobby;
 
+import java.util.Date;
+
 import com.kings.model.User;
 
 /**
@@ -10,9 +12,10 @@ import com.kings.model.User;
 public class UserWaiting {
 	private User user;
 	private int numberOfPlayersWanted;
+	private Date startedWaitingDate;
+	private Date lastMessageReceivedDate;
 	
 	public UserWaiting(){
-		
 	}
 	
 	public UserWaiting(User user, int numberOfPlayersWanted) {
@@ -32,7 +35,22 @@ public class UserWaiting {
 	public void setNumberOfPlayersWanted(int numberOfPlayersWanted) {
 		this.numberOfPlayersWanted = numberOfPlayersWanted;
 	}
-	
+	public Date getStartedWaitingDate() {
+		return startedWaitingDate;
+	}
+
+	public void setStartedWaitingDate(Date startedWaitingDate) {
+		this.startedWaitingDate = startedWaitingDate;
+	}
+
+	public Date getLastMessageReceivedDate() {
+		return lastMessageReceivedDate;
+	}
+
+	public void setLastMessageReceivedDate(Date lastMessageReceivedDate) {
+		this.lastMessageReceivedDate = lastMessageReceivedDate;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if(! (o instanceof UserWaiting))

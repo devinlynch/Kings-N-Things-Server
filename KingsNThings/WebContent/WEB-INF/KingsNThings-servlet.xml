@@ -7,6 +7,15 @@
 
   <!-- the application context definition for the springapp DispatcherServlet -->
 
-	<bean class="com.kings.test.TestController" />
+	  <bean class="com.kings.test.TestController" />
+ 	  <bean class="com.kings.controllers.account.LoginController" />
+  	  <bean class="com.kings.controllers.account.RegisterController" />
  
+	  <bean id="handlerMapping" class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+	    <property name="interceptors">
+	      <bean class="com.kings.controllers.GlobalKATInterceptor"/>
+	    </property>
+	  </bean>
+	
+
 </beans>

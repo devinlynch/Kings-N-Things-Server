@@ -3,6 +3,7 @@ package com.kings.model;
 public class GamePiece {
 	private String id;
 	private BoardContainer location;
+	private Player owner;
 	
 	public String getId() {
 		return id;
