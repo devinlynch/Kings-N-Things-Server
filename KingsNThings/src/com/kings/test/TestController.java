@@ -38,7 +38,7 @@ public class TestController {
 			@RequestParam String message) {
 		
 		Map<String, String> map = new HashMap<String,String>();
-		map.put("result", "ok");
+		map.put("type", "test");
 
 		UDPMessage udpMessage = new UDPMessage(host, port, message);
 		UDPSenderQueue.addMessagesToQueue(udpMessage);
@@ -52,5 +52,6 @@ public class TestController {
 		}
 		return json;
 	}
+	
 
 }
