@@ -8,6 +8,7 @@ public class HttpResponseMessage implements Serializable {
 	private ResponseStatus responseStatus = ResponseStatus.OK_REQUEST;
 	private HttpResponseData data;
 	private String name;
+	private String type;
 	private HttpResponseError error;
 	
 	public HttpResponseMessage() {
@@ -21,6 +22,10 @@ public class HttpResponseMessage implements Serializable {
 	public enum ResponseStatus {
 		OK_REQUEST,
 		INVALID_REQUEST
+	}
+	
+	public enum ResponseType{
+		TEST
 	}
 
 	public ResponseStatus getResponseStatus() {
@@ -53,5 +58,13 @@ public class HttpResponseMessage implements Serializable {
 
 	public void setData(HttpResponseData data) {
 		this.data = data;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 }
