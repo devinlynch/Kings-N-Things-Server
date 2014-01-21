@@ -2,6 +2,9 @@ package com.kings.http;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kings.util.Utils;
+
 public class HttpResponseMessage implements Serializable {
 	private static final long serialVersionUID = -1112738164581552274L;
 	
@@ -66,5 +69,9 @@ public class HttpResponseMessage implements Serializable {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+	
+	public String toJson() {
+		return Utils.toJson(this);
 	}
 }

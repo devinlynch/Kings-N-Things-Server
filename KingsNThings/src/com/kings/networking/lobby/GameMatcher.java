@@ -8,17 +8,18 @@ import com.kings.model.User;
 import com.kings.networking.lobby.exceptions.GameLobbyAlreadyFullException;
 
 /**
- * Matches users who are waiting to a game lobby.  This class holds
+ * Takes users out of the waiting queue and adds them to a lobby.  This class holds
  * all of the game lobbys. <b>Use the getInstance method for getting
  * reference to the game matcher.  This needs to be a singleton because
  * the set of game lobbies are being stored in memory.</b>
  * @author devinlynch
  *
  */
-public class GameMatcher {
-	// Need to synchronize
+public class GameMatcher extends Thread {
+	// This is stored in the JVM memory, we need to make this stored in a cache server
 	private Set<GameLobby> nonFullGameLobbies;
 	private static GameMatcher instance;
+	private boolean stopped;
 	
 	public GameMatcher() {
 		nonFullGameLobbies = new HashSet<GameLobby>();
@@ -27,8 +28,33 @@ public class GameMatcher {
 	public static GameMatcher getInstance() {
 		if(instance == null) {
 			instance = new GameMatcher();
+			GameCreatorQueue.getInstance();
+		}
+		
+		if(! instance.isAlive() ) {
+			instance.setStopped(false);
+			instance.start();
 		}
 		return instance;
+	}
+	
+	@Override
+	public void run() {
+		while( ! isStopped() ) {
+			UserWaitingQueue queue = UserWaitingQueue.getInstance();
+			UserWaiting userWaiting = queue.getUserWaiting();
+			
+			if(userWaiting != null)
+				registerUserWaiting(userWaiting);
+			
+			if( !queue.isUsersInQueue() ) {
+				try {
+					Thread.sleep(50);
+				} catch (InterruptedException e) {
+					setStopped(true);
+				}
+			}
+		}
 	}
 	
 	/**
@@ -96,9 +122,6 @@ public class GameMatcher {
 			System.out.println("GOT A GameLobbyAlreadyFullException in registerUserInANonFullLobby.  THIS SHOULD NOT BE HAPPENING!!!");
 		}
 		
-		if(lobby.isFull())
-			createGameFromLobby(lobby);
-		
 		return lobby;
 	}
 	
@@ -140,12 +163,26 @@ public class GameMatcher {
 		getNonFullGameLobbies().add(gameLobby);
 	}
 	
+	public boolean removeGameLobby(GameLobby gameLobby) {
+		synchronized (nonFullGameLobbies) {
+			return nonFullGameLobbies.remove(gameLobby);
+		}
+	}
+	
 	public Set<GameLobby> getNonFullGameLobbies() {
 		return nonFullGameLobbies;
 	}
 
 	public void setNonFullGameLobbies(Set<GameLobby> gameLobbies) {
 		this.nonFullGameLobbies = gameLobbies;
+	}
+
+	public boolean isStopped() {
+		return stopped;
+	}
+
+	public void setStopped(boolean stopped) {
+		this.stopped = stopped;
 	}
 
 }

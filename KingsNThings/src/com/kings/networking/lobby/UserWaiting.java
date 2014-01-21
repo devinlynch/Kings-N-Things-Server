@@ -21,6 +21,7 @@ public class UserWaiting {
 	public UserWaiting(User user, int numberOfPlayersWanted) {
 		setUser(user);
 		setNumberOfPlayersWanted(numberOfPlayersWanted);
+		setStartedWaitingDate(new Date());
 	}
 	
 	public User getUser() {

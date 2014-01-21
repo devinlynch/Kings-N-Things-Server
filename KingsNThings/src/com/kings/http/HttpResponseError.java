@@ -14,7 +14,9 @@ public class HttpResponseError {
 	public enum ResponseError {
 		BAD_USERNAME_AND_PASSWORD,
 		ALREADY_LOGGED_IN,
-		ALREADY_REGISTERED
+		ALREADY_REGISTERED,
+		GENERIC_ERROR,
+		NOT_LOGGED_IN
 	}
 
 	public ResponseError getResponseError() {

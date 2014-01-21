@@ -1,7 +1,9 @@
 package com.kings.networking.lobby;
 
 import java.util.ArrayDeque;
+import java.util.Iterator;
 import java.util.Queue;
+import java.util.Set;
 
 import com.kings.model.Game;
 
@@ -26,8 +28,10 @@ public class GameCreatorQueue extends Thread {
 			instance.start();
 		}
 		
-		if( !instance.isAlive() )
+		if( !instance.isAlive() ) {
 			instance.start();
+			instance.setStopped(false);
+		}
 		return instance;
 	}
 	
@@ -37,22 +41,43 @@ public class GameCreatorQueue extends Thread {
 	
 	@Override
 	public void run() {
-		while(! isStopped() || gameLobbies.size() > 0) {
-			if(gameLobbies.size() > 0) {
-				GameLobby gameLobby = gameLobbies.remove();
-				Game createdGame = gameLobby.becomeGame();
-				createdGame.start();
-			}
+		while( ! isStopped() ) {
+			runThroughPendingGameLobbies();
 			
-			// If the queue is empty now, sleep a bit
-			if(gameLobbies.size() == 0) {
-				try {
-					Thread.sleep(50);
-				} catch (InterruptedException e) {
-					setStopped(true);
-				}
+			try {
+				Thread.sleep(50);
+			} catch (InterruptedException e) {
+				setStopped(true);
 			}
 		}
+	}
+	
+	
+	protected void runThroughPendingGameLobbies() {
+		Set<GameLobby> gameLobbies = GameMatcher.getInstance().getNonFullGameLobbies();
+		Iterator<GameLobby> it = gameLobbies.iterator();
+		while( it.hasNext() ) {
+			GameLobby gameLobby = it.next();
+			
+			if(gameLobby.isEmpty()) {
+				GameMatcher.getInstance().removeGameLobby(gameLobby);
+				continue;
+			}
+			
+			if(gameLobby.isFull()) {
+				turnIntoGame(gameLobby);
+			}
+			
+			
+		}
+	}
+	
+	protected void turnIntoGame(GameLobby gameLobby) {
+		boolean isStillInQueue = GameMatcher.getInstance().removeGameLobby(gameLobby);
+		if( ! isStillInQueue )
+			return;
+		Game createdGame = gameLobby.becomeGame();
+		createdGame.start();
 	}
 	
 	public boolean isStopped() {

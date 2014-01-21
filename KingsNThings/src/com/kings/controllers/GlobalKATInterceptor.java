@@ -6,8 +6,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.kings.database.DataAccess;
-
 public class GlobalKATInterceptor extends HandlerInterceptorAdapter {
 	
 	@Override
@@ -15,8 +13,8 @@ public class GlobalKATInterceptor extends HandlerInterceptorAdapter {
             HttpServletRequest request,
             HttpServletResponse response,
             Object handler) throws Exception {
-		if(handler instanceof AbstractKingsController) {
-			preHandleAbstractKingsController((AbstractKingsController) handler);
+		if(handler instanceof GenericKingsControllerInterface) {
+			return ((GenericKingsControllerInterface) handler).preHandleRequest(request, response);
 		}
 		
 		return true;
@@ -29,24 +27,8 @@ public class GlobalKATInterceptor extends HandlerInterceptorAdapter {
 			Object handler, 
 			ModelAndView modelAndView) {
 		
-		if(handler instanceof AbstractKingsController) {
-			postHandleAbstractKingsController((AbstractKingsController) handler);
-		}
-	}
-	
-	public void preHandleAbstractKingsController(AbstractKingsController handler) {
-		DataAccess access = handler.getDataAccess();
-		
-		if(access != null && !access.isTransactionActive()) {
-			access.beginTransaction();
-		}
-	}
-	
-	public void postHandleAbstractKingsController(AbstractKingsController handler) {
-		DataAccess access = handler.getDataAccess();
-		
-		if(access != null && access.isTransactionActive()) {
-			access.commit();
+		if(handler instanceof GenericKingsControllerInterface) {
+			((GenericKingsControllerInterface) handler).postHandleRequest(request, response, modelAndView);
 		}
 	}
 }

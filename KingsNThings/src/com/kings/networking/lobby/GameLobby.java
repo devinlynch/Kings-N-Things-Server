@@ -40,6 +40,10 @@ public class GameLobby {
 		return users.size() >= numberOfPlayersWanted;
 	}
 	
+	public boolean isEmpty() {
+		return users.size() == 0;
+	}
+	
 	/**
 	 * Unregisters the user from this lobby, that is, it removes the user from the set of
 	 * UserWaitings if he exists in the set

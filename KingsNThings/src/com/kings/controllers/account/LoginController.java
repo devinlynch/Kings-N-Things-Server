@@ -19,7 +19,7 @@ import com.kings.util.Utils;
 @RequestMapping("/account")
 public class LoginController extends AbstractAccountController {
 	
-	@RequestMapping(value="", method=RequestMethod.POST)
+	@RequestMapping(value="login", method=RequestMethod.POST)
 	public @ResponseBody String login(
 				@RequestParam String username,
 				@RequestParam String password,
@@ -43,7 +43,6 @@ public class LoginController extends AbstractAccountController {
 			message = badUsernamePassMessage();
 			return Utils.toJson(message);
 		}
-		
 		
 		createSessionFromValidatedUsed(user, session);
 		user.setPort(port);

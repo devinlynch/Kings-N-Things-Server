@@ -67,8 +67,14 @@ public class DataAccess {
 		DataAccess access = new DataAccess();
 		Session s = access.getSession();
 		access.beginTransaction();
-		s.save(new User("2"));
+		access.get(User.class, "6");
+		
 		access.commit();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public <T>T get(Class<T> type, String id) {
+		return (T) getSession().get(type, id);
 	}
 	
 	public User getUserByUsername(String username) {
