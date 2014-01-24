@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -14,7 +15,8 @@ import com.kings.util.Utils;
 
 @RequestMapping("/register")
 public class RegisterController extends AbstractAccountController {
-	@RequestMapping(value="")
+	
+	@RequestMapping(value="", method=RequestMethod.POST)
 	public @ResponseBody String register(
 			@RequestParam(required=true) String username,
 			@RequestParam(required=true) String password,
@@ -25,9 +27,11 @@ public class RegisterController extends AbstractAccountController {
 			HttpServletResponse res){
 		HttpResponseMessage message = null;
 		HttpSession session = req.getSession();
+		String type = "register";
 		
 		if(isLoggedIn(session)) {
 			message = alreadyLoggedInMessage();
+			message.setType(type);
 			return Utils.toJson(message);
 		}
 		
@@ -35,6 +39,7 @@ public class RegisterController extends AbstractAccountController {
 		
 		if(user != null) {
 			message = alreadyRegisteredMessage();
+			message.setType(type);
 			return Utils.toJson(message);
 		}
 		
@@ -51,6 +56,9 @@ public class RegisterController extends AbstractAccountController {
 		}
 		
 		message =  successfulRegisterMessage();
+		message.setType(type);
+		message.addToData("user", user);
+		message.addToData("isLoggedIn", true);
 		return Utils.toJson(message);
 	}
 	

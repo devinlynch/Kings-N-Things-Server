@@ -3,7 +3,7 @@ package com.kings.model;
 import java.util.Date;
 import java.util.Set;
 
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kings.networking.UDPMessage;
 import com.kings.networking.UDPSenderQueue;
 import com.kings.networking.lobby.GameLobby;
@@ -13,11 +13,13 @@ public class User {
 	// Columns
 	private String userId;
 	private String username;
-	private String password;
 	private Integer port;
 	private String hostName;
 	private Date createdDateTime;
 	private Date lastUpdate;
+	
+	@JsonIgnore
+	private String password;
 	
 	// DB Relations
 	private Set<Game> games;

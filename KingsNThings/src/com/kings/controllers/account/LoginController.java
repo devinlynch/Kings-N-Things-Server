@@ -30,9 +30,11 @@ public class LoginController extends AbstractAccountController {
 		
 		HttpResponseMessage message = null;
 		HttpSession session = req.getSession();
+		String type = "login";
 		
 		if(isLoggedIn(session)) {
 			message = alreadyLoggedInMessage();
+			message.setType(type);
 			return Utils.toJson(message);
 		}
 		
@@ -41,6 +43,7 @@ public class LoginController extends AbstractAccountController {
 		boolean isUserCredentialsOk = validateUser(user, password);
 		if( !isUserCredentialsOk ) {
 			message = badUsernamePassMessage();
+			message.setType(type);
 			return Utils.toJson(message);
 		}
 		
@@ -49,6 +52,9 @@ public class LoginController extends AbstractAccountController {
 		user.setHostName(hostName);
 		
 		message = successfulLoginMessage();
+		message.setType(type);
+		message.addToData("user", user);
+		
 		return Utils.toJson(message);
 	}
 		

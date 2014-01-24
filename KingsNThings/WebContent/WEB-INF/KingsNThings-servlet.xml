@@ -7,7 +7,6 @@
 
   <!-- the application context definition for the springapp DispatcherServlet -->
 
-	  <bean class="com.kings.test.TestController" />
  	  <bean class="com.kings.controllers.account.LoginController" />
   	  <bean class="com.kings.controllers.account.RegisterController" />
    	  <bean class="com.kings.controllers.lobby.LobbyController" />

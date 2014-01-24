@@ -74,4 +74,10 @@ public class HttpResponseMessage implements Serializable {
 	public String toJson() {
 		return Utils.toJson(this);
 	}
+	
+	public void addToData(String key, Object val) {
+		if(data == null)
+			data = new HttpResponseData();
+		data.put(key, val);
+	}
 }
