@@ -48,8 +48,11 @@ public class LoginController extends AbstractAccountController {
 		}
 		
 		createSessionFromValidatedUsed(user, session);
-		user.setPort(port);
-		user.setHostName(hostName);
+		
+		if(port != null)
+			user.setPort(port);
+		if(hostName != null)
+			user.setHostName(hostName);
 		
 		message = successfulLoginMessage();
 		message.setType(type);

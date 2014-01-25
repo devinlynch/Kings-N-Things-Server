@@ -80,7 +80,7 @@ public class UserWaiting {
 	
 	public void informNoLobbyFound() {
 		HttpResponseMessage message = new HttpResponseMessage();
-		message.setType("lobbyJoin");
+		message.setType("joinLobby");
 		message.setError(new HttpResponseError(getResponseErrorForNoLobbyFound()));
 		getUser().sendJSONMessage(message.toJson());
 	}
@@ -91,7 +91,7 @@ public class UserWaiting {
 	
 	public void informLobbyFound(GameLobby lobby) {
 		HttpResponseMessage message = new HttpResponseMessage();
-		message.setType("lobbyJoin");
+		message.setType("joinLobby");
 		message.addToData("didJoinLobby", true);
 		message.addToData("joinedLobby", lobby);
 		getUser().sendJSONMessage(message.toJson());

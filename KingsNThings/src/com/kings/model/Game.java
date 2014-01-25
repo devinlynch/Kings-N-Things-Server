@@ -9,25 +9,17 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Game {
-	private Set<User> users;
+	private Set<Player> players;
 	
 	public Game() {
-		users = new HashSet<User>();
-	}
-
-	public Set<User> getUsers() {
-		return users;
-	}
-
-	public void setUsers(Set<User> users) {
-		this.users = users;
+		setPlayers(new HashSet<Player>());
 	}
 	
-	public void addUsers(Set<User> users) {
-		getUsers().addAll(users);
+	public void addPlayers(Set<Player> players) {
+		getPlayers().addAll(players);
 	}
-	public void addUser(User user) {
-		getUsers().add(user);
+	public void addPlayer(Player player) {
+		getPlayers().add(player);
 	}
 	
 	public void start() {
@@ -38,13 +30,15 @@ public class Game {
 		
 		
 		// For testing, this isnt actually whats going to be sent
-		for(User user : users) {
+		for(Player player : players) {
 			try {
 				ObjectMapper mapper = new ObjectMapper();
 				Map<String, String> map = new HashMap<String,String>();
 				map.put("event", "joinedGame");
 				map.put("game", mapper.writeValueAsString(this));
 				String json = mapper.writeValueAsString(map);
+				
+				User user = player.getUser();
 				user.sendJSONMessage(json);
 			} catch (JsonProcessingException e) {
 				// TODO Auto-generated catch block
@@ -52,6 +46,16 @@ public class Game {
 			}
 		}
 		
+	}
+
+
+
+	public Set<Player> getPlayers() {
+		return players;
+	}
+
+	public void setPlayers(Set<Player> players) {
+		this.players = players;
 	}
 	
 }

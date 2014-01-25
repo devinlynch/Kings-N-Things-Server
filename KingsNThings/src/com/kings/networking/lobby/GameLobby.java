@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import com.kings.model.Game;
+import com.kings.model.Player;
 import com.kings.model.User;
 import com.kings.networking.lobby.exceptions.GameLobbyAlreadyFullException;
 
@@ -79,7 +80,8 @@ public class GameLobby {
 		Game game = new Game();
 		for(UserWaiting userWaiting : getUsers()) {
 			User user = userWaiting.getUser();
-			game.addUser(user);
+			Player player = new Player(user);
+			game.addPlayer(player);
 		}
 		setGame(game);
 		

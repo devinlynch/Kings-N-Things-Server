@@ -114,7 +114,15 @@ public class User {
 		return thisId != null && thisId.equals(thatId);
 	}
 	
+	
 	public void sendJSONMessage(String message) {
+		Integer port = getPort();
+		String hostName = getHostName();
+		if(port == null || hostName == null) {
+			//TODO handle user who doesnt have these set...
+			return;
+		}
+		
 		UDPMessage udpMessage = new UDPMessage(getHostName(), getPort(), message);
 		UDPSenderQueue.addMessagesToQueue(udpMessage);
 	}

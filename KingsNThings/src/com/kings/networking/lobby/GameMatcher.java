@@ -25,14 +25,21 @@ public class GameMatcher extends Thread {
 		nonFullGameLobbies = new HashSet<GameLobby>();
 	}
 	
-	public static GameMatcher getInstance() {
+	public GameMatcher(Set<GameLobby> gameLobbies) {
+		nonFullGameLobbies = gameLobbies;
+	}
+	
+	public synchronized static GameMatcher getInstance() {
 		if(instance == null) {
 			instance = new GameMatcher();
 			GameCreatorQueue.getInstance();
 		}
 		
 		if(! instance.isAlive() ) {
-			instance.setStopped(false);
+			if(instance.isInterrupted()){
+				instance = new GameMatcher(instance.getNonFullGameLobbies());
+			}
+				
 			instance.start();
 		}
 		return instance;
@@ -93,11 +100,13 @@ public class GameMatcher extends Thread {
 		} else if(userWaiting.isUserWaitingSearchGame()) {
 			UserWaitingSearchGame searchLobby = (UserWaitingSearchGame) userWaiting;
 			lobby = getGameLobbyHostedByUser(searchLobby.getUsernameOfPlayerSearchingFor());
-			try {
-				lobby.addUserWaiting(userWaiting);
-			} catch (GameLobbyAlreadyFullException e) {
-				lobby = null;
-				e.printStackTrace();
+			if(lobby != null) {
+				try {
+					lobby.addUserWaiting(userWaiting);
+				} catch (GameLobbyAlreadyFullException e) {
+					lobby = null;
+					e.printStackTrace();
+				}
 			}
 		} else{
 			lobby = registerUserInANonFullLobby(userWaiting);
@@ -221,7 +230,7 @@ public class GameMatcher extends Thread {
 		}
 	}
 	
-	public Set<GameLobby> getNonFullGameLobbies() {
+	public synchronized Set<GameLobby> getNonFullGameLobbies() {
 		return nonFullGameLobbies;
 	}
 

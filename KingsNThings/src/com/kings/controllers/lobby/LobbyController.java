@@ -18,6 +18,7 @@ import com.kings.networking.lobby.UserWaitingSearchGame;
 
 @RequestMapping("/lobby")
 public class LobbyController extends AbstractLoggedInOnlyController {
+	private String type="lobbyHttpResponse";
 	
 	@RequestMapping(value="joinLobby")
 	public @ResponseBody String joinLobby(
@@ -25,11 +26,12 @@ public class LobbyController extends AbstractLoggedInOnlyController {
 		HttpServletRequest req,
 		HttpServletResponse res) throws NotLoggedInException{
 
-		User user = getUser(req);
+		User user = getUserForReal(req);
 		UserWaiting userWaiting = new UserWaiting(user, numberOfPreferredPlayers);
 		UserWaitingQueue.addUserWaitingToQueue(userWaiting);
 		
 		HttpResponseMessage message = new HttpResponseMessage();
+		message.setType(type);
 		return message.toJson();
 	}
 	
@@ -39,11 +41,12 @@ public class LobbyController extends AbstractLoggedInOnlyController {
 		HttpServletRequest req,
 		HttpServletResponse res) throws NotLoggedInException{
 		
-		User user = getUser(req);
+		User user = getUserForReal(req);
 		UserWaiting userWaiting = new UserWaitingHostGame(user, numberOfPreferredPlayers);
 		UserWaitingQueue.addUserWaitingToQueue(userWaiting);
 		
 		HttpResponseMessage message = new HttpResponseMessage();
+		message.setType(type);
 		return message.toJson();	}
 	
 	@RequestMapping(value="searchLobby")
@@ -52,11 +55,12 @@ public class LobbyController extends AbstractLoggedInOnlyController {
 		HttpServletRequest req,
 		HttpServletResponse res) throws NotLoggedInException{
 		
-		User user = getUser(req);
+		User user = getUserForReal(req);
 		UserWaiting userWaiting = new UserWaitingSearchGame(user, usernameOfHost);
 		UserWaitingQueue.addUserWaitingToQueue(userWaiting);
 		
 		HttpResponseMessage message = new HttpResponseMessage();
+		message.setType(type);
 		return message.toJson();
 	}
 	
