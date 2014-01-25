@@ -58,14 +58,14 @@ public class GameMatcherTest {
 		GameMatcher matcher = getTestGameMatcher();
 		
 		// Test getting non full lobby
-		GameLobby lobby = matcher.getNonFullLobby(3);
+		GameLobby lobby = matcher.getNonFullSearchableLobby(3);
 		assertEquals(lobby.getNumberOfPlayersWanted(), 3);
 		
 		// Test null lobby because all lobbies are full
 		UserWaiting uw = new UserWaiting();
 		uw.setUser(new User("4"));
 		lobby.addUserWaiting(uw);
-		lobby = matcher.getNonFullLobby(3);
+		lobby = matcher.getNonFullSearchableLobby(3);
 		assertNull(lobby);
 	}
 	

@@ -18,6 +18,8 @@ public class GameLobby {
 	private Set<UserWaiting> users;
 	private int numberOfPlayersWanted;
 	private Game game;
+	private boolean isPrivate;
+	private User host;
 	
 	public GameLobby() {
 		users = new HashSet<UserWaiting>();
@@ -90,5 +92,21 @@ public class GameLobby {
 
 	public void setGame(Game game) {
 		this.game = game;
+	}
+
+	public User getHost() {
+		return host;
+	}
+
+	public void setHost(User host) {
+		this.host = host;
+	}
+
+	public boolean isPrivate() {
+		return isPrivate;
+	}
+
+	public void setPrivate(boolean isPrivate) {
+		this.isPrivate = isPrivate;
 	}
 }
