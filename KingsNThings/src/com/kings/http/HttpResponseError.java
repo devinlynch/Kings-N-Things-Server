@@ -19,7 +19,8 @@ public class HttpResponseError {
 		NOT_LOGGED_IN,
 		NO_LOBBY_AVAILABLE,
 		NO_OPEN_LOBBY_FOR_USER,
-		UNABLE_TO_HOST_LOBBY
+		UNABLE_TO_HOST_LOBBY,
+		USER_ALREADY_IN_GAME
 	}
 
 	public ResponseError getResponseError() {

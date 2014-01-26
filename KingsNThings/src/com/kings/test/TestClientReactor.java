@@ -14,6 +14,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kings.database.DataAccess;
 import com.kings.http.HttpResponseMessage;
+import com.kings.model.Game;
 import com.kings.model.User;
 import com.kings.networking.MessageSender;
 import com.kings.networking.UDPMessage;
@@ -80,8 +81,14 @@ public class TestClientReactor {
 	
 	@Test
 	public void test3() {
+		DataAccess.getInstance().beginTransaction();
 		User user = DataAccess.getInstance().get(User.class, "10");
-		System.out.println(user.getHostName());
+		System.out.println(user.getGames());
+		
+		Game game = new Game();
+		game.addUser(user);
+		DataAccess.getInstance().save(game);
+		DataAccess.getInstance().commit();
 	}
 
 }

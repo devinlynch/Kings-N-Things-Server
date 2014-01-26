@@ -7,7 +7,9 @@ import com.kings.database.DataAccess;
 import com.kings.http.HttpResponseMessage;
 import com.kings.http.KingsAndThingsSession;
 import com.kings.http.HttpResponseError.ResponseError;
+import com.kings.model.Game;
 import com.kings.model.User;
+import com.kings.networking.lobby.GameLobby;
 
 public abstract class AbstractAccountController extends AbstractDatabaseController {
 
@@ -36,5 +38,16 @@ public abstract class AbstractAccountController extends AbstractDatabaseControll
 	
 	protected HttpResponseMessage alreadyRegisteredMessage() {
 		return new HttpResponseMessage(ResponseError.ALREADY_REGISTERED);
+	}
+	
+	public void addDataToMessageForLoggedInUser(User user, HttpResponseMessage message){
+		message.addToData("user", user);
+		GameLobby gameLobby = user.getGameLobby();
+		if(gameLobby != null)
+			message.addToData("gameLobby", user.getGameLobby());
+		Game game = user.getGame();
+		if(game != null)
+			message.addToData("game", game);
+		
 	}
 }

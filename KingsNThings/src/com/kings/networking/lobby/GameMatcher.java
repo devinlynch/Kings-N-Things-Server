@@ -48,22 +48,33 @@ public class GameMatcher extends Thread {
 	@Override
 	public void run() {
 		while( ! isStopped() ) {
-			UserWaitingQueue queue = UserWaitingQueue.getInstance();
-			UserWaiting userWaiting = queue.getUserWaiting();
-						
-			if(userWaiting != null){
-				GameLobby lobby = registerUserWaiting(userWaiting);
-				if(lobby != null) {
-					userWaiting.informLobbyFound(lobby);
-				} else{
-					userWaiting.informNoLobbyFound();
+			try{
+				UserWaitingQueue queue = UserWaitingQueue.getInstance();
+				UserWaiting userWaiting = queue.getUserWaiting();
+							
+				if(userWaiting != null){
+					GameLobby lobby = registerUserWaiting(userWaiting);
+					if(lobby != null) {
+						userWaiting.informLobbyFound(lobby);
+					} else{
+						userWaiting.informNoLobbyFound();
+					}
 				}
-			}
 			
-			if( !queue.isUsersInQueue() ) {
+				if( !queue.isUsersInQueue() ) {
+					try {
+						Thread.sleep(50);
+					} catch (InterruptedException e) {
+						setStopped(true);
+					}
+				}
+			} catch(Exception e) {
+				System.err.println("Error running through loop in GameMatcher");
+				e.printStackTrace();
+				
 				try {
 					Thread.sleep(50);
-				} catch (InterruptedException e) {
+				} catch (InterruptedException ie) {
 					setStopped(true);
 				}
 			}
@@ -144,6 +155,21 @@ public class GameMatcher extends Thread {
 						return lobby;
 					}
 				}
+			}
+		}
+		return null;
+	}
+	
+	public GameLobby getGameLobby(String gameLobbyId) {
+		if(gameLobbyId==null)
+			return null;
+		
+		synchronized (nonFullGameLobbies) {
+			Iterator<GameLobby> it = getNonFullGameLobbies().iterator();
+			while(it.hasNext()) {
+				GameLobby lobby = it.next();
+				if(gameLobbyId.equals(lobby.getGameLobbyId()))
+					return lobby;
 			}
 		}
 		return null;

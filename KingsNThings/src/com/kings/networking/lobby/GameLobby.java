@@ -6,9 +6,9 @@ import java.util.Set;
 
 import com.kings.http.HttpResponseMessage;
 import com.kings.model.Game;
-import com.kings.model.Player;
 import com.kings.model.User;
 import com.kings.networking.lobby.exceptions.GameLobbyAlreadyFullException;
+import com.kings.util.Utils;
 
 /**
  * Holds a set of players who are paired up to play against each other, may be waiting
@@ -17,6 +17,7 @@ import com.kings.networking.lobby.exceptions.GameLobbyAlreadyFullException;
  *
  */
 public class GameLobby {
+	private String gameLobbyId;
 	private Set<UserWaiting> users;
 	private int numberOfPlayersWanted;
 	private Game game;
@@ -25,6 +26,7 @@ public class GameLobby {
 	
 	public GameLobby() {
 		users = new HashSet<UserWaiting>();
+		setGameLobbyId(Utils.generateRandomId());
 	}
 	
 	public Set<UserWaiting> getUsers() {
@@ -97,10 +99,10 @@ public class GameLobby {
 	public Game becomeGame() {
 		//TODO any other game initializing
 		Game game = new Game();
+		game.setCreatedFromGameLobbyId(getGameLobbyId());
 		for(UserWaiting userWaiting : getUsers()) {
 			User user = userWaiting.getUser();
-			Player player = new Player(user);
-			game.addPlayer(player);
+			game.addUser(user);
 		}
 		setGame(game);
 		
@@ -129,5 +131,13 @@ public class GameLobby {
 
 	public void setPrivate(boolean isPrivate) {
 		this.isPrivate = isPrivate;
+	}
+
+	public String getGameLobbyId() {
+		return gameLobbyId;
+	}
+
+	public void setGameLobbyId(String gameLobbyId) {
+		this.gameLobbyId = gameLobbyId;
 	}
 }

@@ -14,6 +14,7 @@ import com.kings.controllers.account.NotLoggedInException;
 import com.kings.http.HttpResponseError;
 import com.kings.http.HttpResponseError.ResponseError;
 import com.kings.http.HttpResponseMessage;
+import com.kings.model.Game;
 import com.kings.model.User;
 import com.kings.networking.lobby.GameLobby;
 import com.kings.networking.lobby.GameMatcher;
@@ -33,6 +34,11 @@ public class LobbyController extends AbstractLoggedInOnlyController {
 		HttpServletResponse res) throws NotLoggedInException{
 
 		User user = getUserForReal(req);
+		Game game = user.getGame();
+		if(game != null) {
+			return userAlreadyinGameMessage(game).toJson();
+		}
+		
 		UserWaiting userWaiting = new UserWaiting(user, numberOfPreferredPlayers);
 		UserWaitingQueue.addUserWaitingToQueue(userWaiting);
 		
@@ -48,6 +54,11 @@ public class LobbyController extends AbstractLoggedInOnlyController {
 		HttpServletResponse res) throws NotLoggedInException{
 		
 		User user = getUserForReal(req);
+		Game game = user.getGame();
+		if(game != null) {
+			return userAlreadyinGameMessage(game).toJson();
+		}
+		
 		UserWaiting userWaiting = new UserWaitingHostGame(user, numberOfPreferredPlayers);
 		UserWaitingQueue.addUserWaitingToQueue(userWaiting);
 		
@@ -62,6 +73,11 @@ public class LobbyController extends AbstractLoggedInOnlyController {
 		HttpServletResponse res) throws NotLoggedInException{
 		
 		User user = getUserForReal(req);
+		Game game = user.getGame();
+		if(game != null) {
+			return userAlreadyinGameMessage(game).toJson();
+		}
+		
 		UserWaiting userWaiting = new UserWaitingSearchGame(user, usernameOfHost);
 		UserWaitingQueue.addUserWaitingToQueue(userWaiting);
 		
@@ -77,6 +93,10 @@ public class LobbyController extends AbstractLoggedInOnlyController {
 		
 		try{
 			User user = getUserForReal(req);
+			Game game = user.getGame();
+			if(game != null) {
+				return userAlreadyinGameMessage(game).toJson();
+			}
 			GameMatcher.getInstance().unregisterUserFromLobby(user);
 		} catch(Exception e){
 			e.printStackTrace();
@@ -89,26 +109,37 @@ public class LobbyController extends AbstractLoggedInOnlyController {
 	
 	@RequestMapping(value="getLobbyState")
 	public @ResponseBody String getLobbyState(
-		HttpServletRequest req,
-		HttpServletResponse res) throws NotLoggedInException{
+			@RequestParam String gameLobbyId,
+			HttpServletRequest req,
+			HttpServletResponse res) throws NotLoggedInException{
 		
 		HttpResponseMessage message = new HttpResponseMessage();
 		message.setType("gameLobbyState");
 		
 		GameLobby lobby = null;
 		try{
-			User user = getUserForReal(req);
-			lobby = GameMatcher.getInstance().getUsersLobby(user);
+			lobby = GameMatcher.getInstance().getGameLobby(gameLobbyId);
 		} catch(Exception e) {
 		}
 		
 		if(lobby != null){
 			message.addToData("lobby", lobby);
 		} else{
-			message.setError(new HttpResponseError(ResponseError.GENERIC_ERROR));
+			Game game = getDataAccess().getGameByGameLobbyId(gameLobbyId);
+			if(game != null) {
+				message = game.getGameStartedMessage();
+			} else{
+				message.setError(new HttpResponseError(ResponseError.GENERIC_ERROR));
+			}
 		}
 		message.setCreatedDate(new Date());
 		return message.toJson();
 	}
 	
+	public HttpResponseMessage userAlreadyinGameMessage(Game game) {
+		HttpResponseMessage m = new HttpResponseMessage(ResponseError.USER_ALREADY_IN_GAME);
+		m.setType(type);
+		m.addToData("game", game);
+		return m;
+	}
 }

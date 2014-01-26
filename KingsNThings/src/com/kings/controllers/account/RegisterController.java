@@ -51,14 +51,14 @@ public class RegisterController extends AbstractAccountController {
 		user.setPort(port);
 		saveUser(user);
 		
-		if(loginAfterRegister) {
-			createSessionFromValidatedUsed(user, session);
-		}
-		
 		message =  successfulRegisterMessage();
 		message.setType(type);
-		message.addToData("user", user);
-		message.addToData("isLoggedIn", true);
+		if(loginAfterRegister) {
+			createSessionFromValidatedUsed(user, session);
+			addDataToMessageForLoggedInUser(user, message);
+			message.addToData("isLoggedIn", true);
+		}
+		
 		return Utils.toJson(message);
 	}
 	

@@ -17,4 +17,10 @@ public class GamePiece {
 	public void setLocation(BoardContainer location) {
 		this.location = location;
 	}
+	public Player getOwner() {
+		return owner;
+	}
+	public void setOwner(Player owner) {
+		this.owner = owner;
+	}
 }

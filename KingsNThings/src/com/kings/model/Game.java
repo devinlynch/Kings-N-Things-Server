@@ -1,25 +1,30 @@
 package com.kings.model;
 
-import java.util.HashMap;
+import java.util.Date;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.kings.http.HttpResponseMessage;
 
 public class Game {
-	private Set<Player> players;
+	private String gameId;
+	private Set<User> users;
+	private Date startedDate;
+	private GameState gameState;
+	private String createdFromGameLobbyId;
+	private boolean active;
 	
 	public Game() {
-		setPlayers(new HashSet<Player>());
+		setUsers(new HashSet<User>());
+		gameState = new GameState();
 	}
 	
-	public void addPlayers(Set<Player> players) {
-		getPlayers().addAll(players);
+	public void addUsers(Set<User> players) {
+		getUsers().addAll(players);
 	}
-	public void addPlayer(Player player) {
-		getPlayers().add(player);
+	public void addUser(User player) {
+		getUsers().add(player);
 	}
 	
 	public void start() {
@@ -28,34 +33,72 @@ public class Game {
 		// Right now it is being called from the GameCreatorQueue, so the users are all assigned to this game and now all logic of creating a game
 		// and sending messages to the client needs to happen here
 		
+		setStartedDate(new Date());
+		setActive(true);
 		
-		// For testing, this isnt actually whats going to be sent
-		for(Player player : players) {
-			try {
-				ObjectMapper mapper = new ObjectMapper();
-				Map<String, String> map = new HashMap<String,String>();
-				map.put("event", "gameStarted");
-				map.put("game", mapper.writeValueAsString(this));
-				String json = mapper.writeValueAsString(map);
-				
-				User user = player.getUser();
-				user.sendJSONMessage(json);
-			} catch (JsonProcessingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		for(User user : users) {
+			sendGameStartedMessageToUser(user);
 		}
-		
 	}
 
-
-
-	public Set<Player> getPlayers() {
-		return players;
-	}
-
-	public void setPlayers(Set<Player> players) {
-		this.players = players;
+	public void sendGameStartedMessageToUser(User user) {
+		HttpResponseMessage message = getGameStartedMessage();
+		user.sendJSONMessage(message.toJson());
 	}
 	
+	@JsonIgnore
+	public HttpResponseMessage getGameStartedMessage(){
+		HttpResponseMessage message = new HttpResponseMessage();
+		message.setType("gameStarted");
+		message.addToData("game", this);
+		return message;
+	}
+	
+	public Set<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(Set<User> users) {
+		this.users = users;
+	}
+
+	public String getGameId() {
+		return gameId;
+	}
+
+	public void setGameId(String gameId) {
+		this.gameId = gameId;
+	}
+
+	public Date getStartedDate() {
+		return startedDate;
+	}
+
+	public void setStartedDate(Date startedDate) {
+		this.startedDate = startedDate;
+	}
+
+	public GameState getGameState() {
+		return gameState;
+	}
+
+	public void setGameState(GameState gameState) {
+		this.gameState = gameState;
+	}
+
+	public String getCreatedFromGameLobbyId() {
+		return createdFromGameLobbyId;
+	}
+
+	public void setCreatedFromGameLobbyId(String createdFromGameLobbyId) {
+		this.createdFromGameLobbyId = createdFromGameLobbyId;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
 }

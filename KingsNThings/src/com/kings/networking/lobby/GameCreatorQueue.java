@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.Queue;
 import java.util.Set;
 
+import com.kings.database.DataAccess;
 import com.kings.model.Game;
 
 /**
@@ -43,8 +44,12 @@ public class GameCreatorQueue extends Thread {
 	@Override
 	public void run() {
 		while( ! isStopped() ) {
-			runThroughPendingGameLobbies();
-			
+			try{
+				runThroughPendingGameLobbies();
+			} catch(Exception e) {
+				System.err.println("Error running through pending game lobbies in GameCreatorQueue");
+				e.printStackTrace();
+			}
 			try {
 				Thread.sleep(50);
 			} catch (InterruptedException e) {
@@ -80,8 +85,28 @@ public class GameCreatorQueue extends Thread {
 		if( ! isStillInQueue )
 			return;
 		System.out.println("Removed game lobby " + gameLobby.toString() + " from queue, turning into game");
-		Game createdGame = gameLobby.becomeGame();
-		createdGame.start();
+		
+		DataAccess access = DataAccess.getInstance();
+		try{
+			access.beginTransaction();
+			
+			Game createdGame = gameLobby.becomeGame();
+			access.save(createdGame);
+			createdGame.start();
+			access.commit();
+		} catch(Exception e) {
+			try{
+				if(access.isTransactionActive())
+					access.rollback();
+			} catch(Exception _e) {
+				_e.printStackTrace();
+			}
+			System.err.println("Error starting game!");
+			e.printStackTrace();
+			
+			//TODO: inform users that that the game was not created, force them to join new game
+		}
+
 	}
 	
 	public boolean isStopped() {

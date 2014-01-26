@@ -23,6 +23,7 @@ public class TestJsonSerialize {
 			e.printStackTrace();
 		}
 		
+		@SuppressWarnings("unused")
 		ClassA _a = null;
 		try {
 			_a = mapper.readValue(json, ClassA.class);
