@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import com.kings.http.HttpResponseMessage;
 import com.kings.model.Game;
 import com.kings.model.Player;
 import com.kings.model.User;
@@ -53,13 +54,16 @@ public class GameLobby {
 	 * @param user
 	 */
 	public void unregisterUser(User user) {
-		Iterator<UserWaiting> it = getUsers().iterator();
-		while(it.hasNext()) {
-			UserWaiting uw = it.next();
-			User userAlreadyInLobby = uw.getUser();
-			if(user.equals(userAlreadyInLobby)) {
-				it.remove();
+		synchronized (users) {
+			Iterator<UserWaiting> it = getUsers().iterator();
+			while(it.hasNext()) {
+				UserWaiting uw = it.next();
+				User userAlreadyInLobby = uw.getUser();
+				if(user.equals(userAlreadyInLobby)) {
+					it.remove();
+				}
 			}
+			informUsersOfNewLobbyState();
 		}
 	}
 	
@@ -68,6 +72,21 @@ public class GameLobby {
 			throw new GameLobbyAlreadyFullException();
 		
 		getUsers().add(userWaiting);
+		informUsersOfNewLobbyState();
+	}
+	
+	public void informUsersOfNewLobbyState() {
+		synchronized (users) {
+			HttpResponseMessage message = new HttpResponseMessage();
+			message.setType("gameLobbyState");
+			message.addToData("lobby", this);
+			String json = message.toJson();
+			
+			for(UserWaiting userWaiting : users) {
+				User user = userWaiting.getUser();
+				user.sendJSONMessage(json);
+			}
+		}
 	}
 	
 	/**

@@ -34,7 +34,7 @@ public class Game {
 			try {
 				ObjectMapper mapper = new ObjectMapper();
 				Map<String, String> map = new HashMap<String,String>();
-				map.put("event", "joinedGame");
+				map.put("event", "gameStarted");
 				map.put("game", mapper.writeValueAsString(this));
 				String json = mapper.writeValueAsString(map);
 				

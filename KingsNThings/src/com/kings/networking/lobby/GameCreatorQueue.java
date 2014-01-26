@@ -1,6 +1,7 @@
 package com.kings.networking.lobby;
 
 import java.util.ArrayDeque;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Queue;
 import java.util.Set;
@@ -55,7 +56,9 @@ public class GameCreatorQueue extends Thread {
 	
 	protected void runThroughPendingGameLobbies() {
 		Set<GameLobby> gameLobbies = GameMatcher.getInstance().getNonFullGameLobbies();
-		Iterator<GameLobby> it = gameLobbies.iterator();
+		Set<GameLobby> coppiedLobbies = new HashSet<GameLobby>(gameLobbies);
+		
+		Iterator<GameLobby> it = coppiedLobbies.iterator();
 		while( it.hasNext() ) {
 			GameLobby gameLobby = it.next();
 			
@@ -76,6 +79,7 @@ public class GameCreatorQueue extends Thread {
 		boolean isStillInQueue = GameMatcher.getInstance().removeGameLobby(gameLobby);
 		if( ! isStillInQueue )
 			return;
+		System.out.println("Removed game lobby " + gameLobby.toString() + " from queue, turning into game");
 		Game createdGame = gameLobby.becomeGame();
 		createdGame.start();
 	}

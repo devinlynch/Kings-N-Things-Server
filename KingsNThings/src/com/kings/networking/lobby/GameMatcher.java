@@ -50,7 +50,7 @@ public class GameMatcher extends Thread {
 		while( ! isStopped() ) {
 			UserWaitingQueue queue = UserWaitingQueue.getInstance();
 			UserWaiting userWaiting = queue.getUserWaiting();
-			
+						
 			if(userWaiting != null){
 				GameLobby lobby = registerUserWaiting(userWaiting);
 				if(lobby != null) {
@@ -78,11 +78,7 @@ public class GameMatcher extends Thread {
 	public GameLobby registerUserWaiting(UserWaiting userWaiting) {
 		User user = userWaiting.getUser();
 		
-		GameLobby usersLobby = getUsersLobby(user);
-		if(usersLobby != null) {
-			// User is already in lobby, unregister them from the lobby and search for a new one
-			usersLobby.unregisterUser(user);
-		}
+		unregisterUserFromLobby(user);
 		
 		GameLobby lobby= null;
 		if(userWaiting.isUserWaitingHostGame()) {
@@ -113,6 +109,18 @@ public class GameMatcher extends Thread {
 		}
 		
 		return lobby;
+	}
+	
+	/**
+	 * Unregisters he given user from a lobby if they are in a lobby
+	 * @param user
+	 */
+	public void unregisterUserFromLobby(User user) {
+		GameLobby usersLobby = getUsersLobby(user);
+		if(usersLobby != null) {
+			// User is already in lobby, unregister them from the lobby and search for a new one
+			usersLobby.unregisterUser(user);
+		}
 	}
 	
 	/**

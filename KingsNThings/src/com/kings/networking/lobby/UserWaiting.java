@@ -93,7 +93,7 @@ public class UserWaiting {
 		HttpResponseMessage message = new HttpResponseMessage();
 		message.setType("joinLobby");
 		message.addToData("didJoinLobby", true);
-		message.addToData("joinedLobby", lobby);
+		message.addToData("lobby", lobby);
 		getUser().sendJSONMessage(message.toJson());
 	}
 }
