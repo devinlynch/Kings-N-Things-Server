@@ -25,14 +25,21 @@ public class GameMatcher extends Thread {
 		nonFullGameLobbies = new HashSet<GameLobby>();
 	}
 	
-	public static GameMatcher getInstance() {
+	public GameMatcher(Set<GameLobby> gameLobbies) {
+		nonFullGameLobbies = gameLobbies;
+	}
+	
+	public synchronized static GameMatcher getInstance() {
 		if(instance == null) {
 			instance = new GameMatcher();
 			GameCreatorQueue.getInstance();
 		}
 		
 		if(! instance.isAlive() ) {
-			instance.setStopped(false);
+			if(instance.isInterrupted()){
+				instance = new GameMatcher(instance.getNonFullGameLobbies());
+			}
+				
 			instance.start();
 		}
 		return instance;
@@ -41,16 +48,33 @@ public class GameMatcher extends Thread {
 	@Override
 	public void run() {
 		while( ! isStopped() ) {
-			UserWaitingQueue queue = UserWaitingQueue.getInstance();
-			UserWaiting userWaiting = queue.getUserWaiting();
+			try{
+				UserWaitingQueue queue = UserWaitingQueue.getInstance();
+				UserWaiting userWaiting = queue.getUserWaiting();
+							
+				if(userWaiting != null){
+					GameLobby lobby = registerUserWaiting(userWaiting);
+					if(lobby != null) {
+						userWaiting.informLobbyFound(lobby);
+					} else{
+						userWaiting.informNoLobbyFound();
+					}
+				}
 			
-			if(userWaiting != null)
-				registerUserWaiting(userWaiting);
-			
-			if( !queue.isUsersInQueue() ) {
+				if( !queue.isUsersInQueue() ) {
+					try {
+						Thread.sleep(50);
+					} catch (InterruptedException e) {
+						setStopped(true);
+					}
+				}
+			} catch(Exception e) {
+				System.err.println("Error running through loop in GameMatcher");
+				e.printStackTrace();
+				
 				try {
 					Thread.sleep(50);
-				} catch (InterruptedException e) {
+				} catch (InterruptedException ie) {
 					setStopped(true);
 				}
 			}
@@ -65,14 +89,49 @@ public class GameMatcher extends Thread {
 	public GameLobby registerUserWaiting(UserWaiting userWaiting) {
 		User user = userWaiting.getUser();
 		
+		unregisterUserFromLobby(user);
+		
+		GameLobby lobby= null;
+		if(userWaiting.isUserWaitingHostGame()) {
+			lobby = new GameLobby();
+			lobby.setNumberOfPlayersWanted(userWaiting.getNumberOfPlayersWanted());
+			lobby.setHost(user);
+			lobby.setPrivate(true);
+			try {
+				lobby.addUserWaiting(userWaiting);
+			} catch (GameLobbyAlreadyFullException e) {
+				lobby = null;
+				e.printStackTrace();
+			}
+			addGameLobby(lobby);
+		} else if(userWaiting.isUserWaitingSearchGame()) {
+			UserWaitingSearchGame searchLobby = (UserWaitingSearchGame) userWaiting;
+			lobby = getGameLobbyHostedByUser(searchLobby.getUsernameOfPlayerSearchingFor());
+			if(lobby != null) {
+				try {
+					lobby.addUserWaiting(userWaiting);
+				} catch (GameLobbyAlreadyFullException e) {
+					lobby = null;
+					e.printStackTrace();
+				}
+			}
+		} else{
+			lobby = registerUserInANonFullLobby(userWaiting);
+		}
+		
+		return lobby;
+	}
+	
+	/**
+	 * Unregisters he given user from a lobby if they are in a lobby
+	 * @param user
+	 */
+	public void unregisterUserFromLobby(User user) {
 		GameLobby usersLobby = getUsersLobby(user);
 		if(usersLobby != null) {
 			// User is already in lobby, unregister them from the lobby and search for a new one
 			usersLobby.unregisterUser(user);
 		}
-		
-		GameLobby lobby = registerUserInANonFullLobby(userWaiting);
-		return lobby;
 	}
 	
 	/**
@@ -100,6 +159,21 @@ public class GameMatcher extends Thread {
 		}
 		return null;
 	}
+	
+	public GameLobby getGameLobby(String gameLobbyId) {
+		if(gameLobbyId==null)
+			return null;
+		
+		synchronized (nonFullGameLobbies) {
+			Iterator<GameLobby> it = getNonFullGameLobbies().iterator();
+			while(it.hasNext()) {
+				GameLobby lobby = it.next();
+				if(gameLobbyId.equals(lobby.getGameLobbyId()))
+					return lobby;
+			}
+		}
+		return null;
+	}
 
 	/**
 	 * Registers the user into an existing non full {@link GameLobby} or creates a new {@link GameLobby} for the user.
@@ -109,12 +183,9 @@ public class GameMatcher extends Thread {
 	public GameLobby registerUserInANonFullLobby(UserWaiting userWaiting) {
 		int numberOfPlayersWanted = userWaiting.getNumberOfPlayersWanted();
 		
-		GameLobby lobby = getNonFullLobby(numberOfPlayersWanted);
-		if(lobby==null){
-			lobby = new GameLobby();
-			lobby.setNumberOfPlayersWanted(numberOfPlayersWanted);
-			addGameLobby(lobby);
-		}
+		GameLobby lobby = getNonFullSearchableLobby(numberOfPlayersWanted);
+		if(lobby==null)
+			lobby = createAndAddNewGameLobbyFromUserWaiting(userWaiting);
 		
 		try {
 			lobby.addUserWaiting(userWaiting);
@@ -122,6 +193,13 @@ public class GameMatcher extends Thread {
 			System.out.println("GOT A GameLobbyAlreadyFullException in registerUserInANonFullLobby.  THIS SHOULD NOT BE HAPPENING!!!");
 		}
 		
+		return lobby;
+	}
+	
+	protected GameLobby createAndAddNewGameLobbyFromUserWaiting(UserWaiting userWaiting) {
+		GameLobby lobby = new GameLobby();
+		lobby.setNumberOfPlayersWanted(userWaiting.getNumberOfPlayersWanted());
+		addGameLobby(lobby);
 		return lobby;
 	}
 	
@@ -138,20 +216,37 @@ public class GameMatcher extends Thread {
 	 * @param numberOfPlayersWanted
 	 * @return
 	 */
-	public GameLobby getNonFullLobby(int numberOfPlayersWanted) {
+	public GameLobby getNonFullSearchableLobby(int numberOfPlayersWanted) {
 		synchronized (nonFullGameLobbies) {
 			Iterator<GameLobby> it = nonFullGameLobbies.iterator();
 			while(it.hasNext()) {
 				GameLobby lobby = it.next();
 				int numPlayersWantedInLobby = lobby.getNumberOfPlayersWanted();
 				
-				// Continue if the lobby is full
-				if(lobby.isFull())
+				// Continue if the lobby is full or its a private game
+				if(lobby.isFull() || lobby.isPrivate())
 					continue;
 				
 				// TODO: maybe we can look for lobbies with around the same amount of players
 				// 		 instead of exact
 				if(numberOfPlayersWanted == numPlayersWantedInLobby) {
+					return lobby;
+				}
+			}
+		}
+		return null;
+	}
+	
+	public GameLobby getGameLobbyHostedByUser(String username) {
+		synchronized (nonFullGameLobbies) {
+			Iterator<GameLobby> it = nonFullGameLobbies.iterator();
+			while(it.hasNext()) {
+				GameLobby lobby = it.next();
+		
+				if(lobby.isFull())
+					continue;
+				
+				if(lobby.getHost() != null && lobby.getHost().getUsername().equals(username)) {
 					return lobby;
 				}
 			}
@@ -169,7 +264,7 @@ public class GameMatcher extends Thread {
 		}
 	}
 	
-	public Set<GameLobby> getNonFullGameLobbies() {
+	public synchronized Set<GameLobby> getNonFullGameLobbies() {
 		return nonFullGameLobbies;
 	}
 

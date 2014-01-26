@@ -2,6 +2,9 @@ package com.kings.networking.lobby;
 
 import java.util.Date;
 
+import com.kings.http.HttpResponseError;
+import com.kings.http.HttpResponseError.ResponseError;
+import com.kings.http.HttpResponseMessage;
 import com.kings.model.User;
 
 /**
@@ -16,12 +19,21 @@ public class UserWaiting {
 	private Date lastMessageReceivedDate;
 	
 	public UserWaiting(){
+		setStartedWaitingDate(new Date());
 	}
 	
 	public UserWaiting(User user, int numberOfPlayersWanted) {
+		this();
 		setUser(user);
 		setNumberOfPlayersWanted(numberOfPlayersWanted);
-		setStartedWaitingDate(new Date());
+	}
+	
+	public boolean isUserWaitingHostGame(){
+		return false;
+	}
+	
+	public boolean isUserWaitingSearchGame() {
+		return false;
 	}
 	
 	public User getUser() {
@@ -64,5 +76,24 @@ public class UserWaiting {
 		}
 		
 		return comparingUW.getUser().equals(this.getUser());
+	}
+	
+	public void informNoLobbyFound() {
+		HttpResponseMessage message = new HttpResponseMessage();
+		message.setType("joinLobby");
+		message.setError(new HttpResponseError(getResponseErrorForNoLobbyFound()));
+		getUser().sendJSONMessage(message.toJson());
+	}
+	
+	protected ResponseError getResponseErrorForNoLobbyFound() {
+		return ResponseError.NO_LOBBY_AVAILABLE;
+	}
+	
+	public void informLobbyFound(GameLobby lobby) {
+		HttpResponseMessage message = new HttpResponseMessage();
+		message.setType("joinLobby");
+		message.addToData("didJoinLobby", true);
+		message.addToData("lobby", lobby);
+		getUser().sendJSONMessage(message.toJson());
 	}
 }

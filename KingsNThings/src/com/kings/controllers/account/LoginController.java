@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.kings.http.HttpResponseMessage;
 import com.kings.http.HttpResponseError.ResponseError;
 import com.kings.model.User;
-import com.kings.util.Utils;
 
 @Controller
 @RequestMapping("/account")
@@ -32,30 +31,34 @@ public class LoginController extends AbstractAccountController {
 		HttpSession session = req.getSession();
 		String type = "login";
 		
+		User user = getUser(username);
+		
 		if(isLoggedIn(session)) {
 			message = alreadyLoggedInMessage();
 			message.setType(type);
-			return Utils.toJson(message);
+			addDataToMessageForLoggedInUser(user, message);
+			return message.toJson();
 		}
-		
-		User user = getUser(username);
 		
 		boolean isUserCredentialsOk = validateUser(user, password);
 		if( !isUserCredentialsOk ) {
 			message = badUsernamePassMessage();
 			message.setType(type);
-			return Utils.toJson(message);
+			return message.toJson();
 		}
 		
 		createSessionFromValidatedUsed(user, session);
-		user.setPort(port);
-		user.setHostName(hostName);
+		
+		if(port != null)
+			user.setPort(port);
+		if(hostName != null)
+			user.setHostName(hostName);
 		
 		message = successfulLoginMessage();
 		message.setType(type);
-		message.addToData("user", user);
+		addDataToMessageForLoggedInUser(user, message);
 		
-		return Utils.toJson(message);
+		return message.toJson();
 	}
 		
 	/**

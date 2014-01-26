@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.kings.model.Game" table="game">
+        <id name="gameId" column="game_id">
+            <generator class="native" />
+        </id>
+        <property name="startedDate" />
+        <property name="active" />
+        <property name="createdFromGameLobbyId" column="created_from_game_lobby_id"></property>
+        <set name="users" table="game_user">
+        	<key>
+        		<column name="game_id" not-null="true" />
+            </key>
+            <many-to-many entity-name="com.kings.model.User">
+                <column name="user_id" not-null="true" />
+            </many-to-many>
+        </set>
+    </class>
+</hibernate-mapping>

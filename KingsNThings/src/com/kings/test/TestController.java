@@ -1,5 +1,6 @@
 package com.kings.test;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,10 +11,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kings.model.User;
 import com.kings.networking.UDPMessage;
 import com.kings.networking.UDPSenderQueue;
+import com.kings.networking.lobby.UserWaiting;
+import com.kings.networking.lobby.UserWaitingQueue;
+import com.kings.networking.lobby.UserWaitingSearchGame;
 
 @Controller
+@RequestMapping("/test")
 public class TestController {
 	
 	@RequestMapping("/testJSON")
@@ -51,6 +57,28 @@ public class TestController {
 			json = "{error: '" +e.toString() +"'}";
 		}
 		return json;
+	}
+	
+	@RequestMapping("/addTestUserWaiting")
+	public @ResponseBody String addTestUserWaiting(@RequestParam int numberOfPreferredPlayers) {
+		User testUser = new User();
+		testUser.setUserId(""+new Date().getTime());
+		testUser.setUsername("t-"+new Date().getTime());
+		UserWaiting userWaiting = new UserWaiting(testUser, numberOfPreferredPlayers);
+		UserWaitingQueue.addUserWaitingToQueue(userWaiting);
+		
+		return "Added";
+	}
+	
+	@RequestMapping("/testJoinGame")
+	public @ResponseBody String addTestUserWaiting(@RequestParam String usernameOfHost) {
+		User testUser = new User();
+		testUser.setUserId(""+new Date().getTime());
+		testUser.setUsername("t-"+new Date().getTime());
+		UserWaiting userWaiting = new UserWaitingSearchGame(testUser, usernameOfHost);
+		UserWaitingQueue.addUserWaitingToQueue(userWaiting);
+		
+		return "Added";
 	}
 	
 

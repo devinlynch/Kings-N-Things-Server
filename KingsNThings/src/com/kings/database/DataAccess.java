@@ -1,9 +1,12 @@
 package com.kings.database;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.proxy.HibernateProxy;
 
+import com.kings.model.Game;
 import com.kings.model.User;
 
 public class DataAccess {
@@ -41,6 +44,7 @@ public class DataAccess {
 	
 	public static void addClassMappings() {
 		config.addClass(User.class);
+		config.addClass(Game.class);
 	}
 	
 	public void beginTransaction() {
@@ -64,12 +68,21 @@ public class DataAccess {
 	}
 	
 	public static void main(String[] args) {
-		DataAccess access = new DataAccess();
-		Session s = access.getSession();
-		access.beginTransaction();
-		access.get(User.class, "6");
-		
-		access.commit();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static <T> T initializeAndUnproxy(T entity) {
+	    if (entity == null) {
+	        throw new 
+	           NullPointerException("Entity passed for initialization is null");
+	    }
+
+	    Hibernate.initialize(entity);
+	    if (entity instanceof HibernateProxy) {
+	        entity = (T) ((HibernateProxy) entity).getHibernateLazyInitializer()
+	                .getImplementation();
+	    }
+	    return entity;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -82,5 +95,12 @@ public class DataAccess {
 			.createQuery("from User where username = :un")
 			.setParameter("un", username)
 			.uniqueResult();
+	}
+	
+	public Game getGameByGameLobbyId(String gameLobbyId) {
+		return (Game) getSession()
+				.createQuery("from Game where createdFromGameLobbyId = :un")
+				.setParameter("un", gameLobbyId)
+				.uniqueResult();
 	}
 }

@@ -4,9 +4,11 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import com.kings.http.HttpResponseMessage;
 import com.kings.model.Game;
 import com.kings.model.User;
 import com.kings.networking.lobby.exceptions.GameLobbyAlreadyFullException;
+import com.kings.util.Utils;
 
 /**
  * Holds a set of players who are paired up to play against each other, may be waiting
@@ -15,12 +17,16 @@ import com.kings.networking.lobby.exceptions.GameLobbyAlreadyFullException;
  *
  */
 public class GameLobby {
+	private String gameLobbyId;
 	private Set<UserWaiting> users;
 	private int numberOfPlayersWanted;
 	private Game game;
+	private boolean isPrivate;
+	private User host;
 	
 	public GameLobby() {
 		users = new HashSet<UserWaiting>();
+		setGameLobbyId(Utils.generateRandomId());
 	}
 	
 	public Set<UserWaiting> getUsers() {
@@ -50,13 +56,16 @@ public class GameLobby {
 	 * @param user
 	 */
 	public void unregisterUser(User user) {
-		Iterator<UserWaiting> it = getUsers().iterator();
-		while(it.hasNext()) {
-			UserWaiting uw = it.next();
-			User userAlreadyInLobby = uw.getUser();
-			if(user.equals(userAlreadyInLobby)) {
-				it.remove();
+		synchronized (users) {
+			Iterator<UserWaiting> it = getUsers().iterator();
+			while(it.hasNext()) {
+				UserWaiting uw = it.next();
+				User userAlreadyInLobby = uw.getUser();
+				if(user.equals(userAlreadyInLobby)) {
+					it.remove();
+				}
 			}
+			informUsersOfNewLobbyState();
 		}
 	}
 	
@@ -65,6 +74,21 @@ public class GameLobby {
 			throw new GameLobbyAlreadyFullException();
 		
 		getUsers().add(userWaiting);
+		informUsersOfNewLobbyState();
+	}
+	
+	public void informUsersOfNewLobbyState() {
+		synchronized (users) {
+			HttpResponseMessage message = new HttpResponseMessage();
+			message.setType("gameLobbyState");
+			message.addToData("lobby", this);
+			String json = message.toJson();
+			
+			for(UserWaiting userWaiting : users) {
+				User user = userWaiting.getUser();
+				user.sendJSONMessage(json);
+			}
+		}
 	}
 	
 	/**
@@ -75,6 +99,7 @@ public class GameLobby {
 	public Game becomeGame() {
 		//TODO any other game initializing
 		Game game = new Game();
+		game.setCreatedFromGameLobbyId(getGameLobbyId());
 		for(UserWaiting userWaiting : getUsers()) {
 			User user = userWaiting.getUser();
 			game.addUser(user);
@@ -90,5 +115,29 @@ public class GameLobby {
 
 	public void setGame(Game game) {
 		this.game = game;
+	}
+
+	public User getHost() {
+		return host;
+	}
+
+	public void setHost(User host) {
+		this.host = host;
+	}
+
+	public boolean isPrivate() {
+		return isPrivate;
+	}
+
+	public void setPrivate(boolean isPrivate) {
+		this.isPrivate = isPrivate;
+	}
+
+	public String getGameLobbyId() {
+		return gameLobbyId;
+	}
+
+	public void setGameLobbyId(String gameLobbyId) {
+		this.gameLobbyId = gameLobbyId;
 	}
 }

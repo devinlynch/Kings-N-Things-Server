@@ -11,10 +11,11 @@ public interface GenericKingsControllerInterface {
 	 * Called before each request
 	 * @param request
 	 * @param response
+	 * @throws Exception 
 	 */
 	public boolean preHandleRequest(
 			HttpServletRequest request,
-            HttpServletResponse response);
+            HttpServletResponse response) throws Exception;
 	
 	/**
 	 * Called after each request

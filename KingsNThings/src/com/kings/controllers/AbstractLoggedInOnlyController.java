@@ -3,10 +3,17 @@ package com.kings.controllers;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kings.controllers.account.NotLoggedInException;
+import com.kings.database.DataAccess;
+import com.kings.http.HttpResponseError.ResponseError;
+import com.kings.http.HttpResponseMessage;
 import com.kings.http.KingsAndThingsSession;
 import com.kings.model.User;
+import com.kings.util.Utils;
 
 /**
  * Any subclasses of this controller will be restricted to users who are logged in.  A intercepter is linked to this which
@@ -17,7 +24,7 @@ import com.kings.model.User;
 public class AbstractLoggedInOnlyController extends AbstractDatabaseController {
 	@Override
 	public boolean preHandleRequest(HttpServletRequest request,
-			HttpServletResponse response) {
+			HttpServletResponse response) throws Exception {
 		boolean isOk = super.preHandleRequest(request, response);
 		if(!isOk)
 			return false;
@@ -25,7 +32,24 @@ public class AbstractLoggedInOnlyController extends AbstractDatabaseController {
 		User user = getUser(request);
 		if(user == null) {
 			getDataAccess().rollback();
-			return false;
+			throw new NotLoggedInException();
+		} else{
+			String hostName = request.getParameter("hostName");
+			String portString = request.getParameter("port");
+			
+			Integer port = null;
+			try{
+				port=Integer.parseInt(portString);
+			} catch(NumberFormatException nfe) {
+			}
+			
+			if(port != null) {
+				user.setPort(port);
+			}
+			
+			if(hostName != null) {
+				user.setHostName(hostName);
+			}
 		}
 		
 		return true;
@@ -44,5 +68,27 @@ public class AbstractLoggedInOnlyController extends AbstractDatabaseController {
 			return getDataAccess().get(User.class, id);
 		}
 		return null;
+	}
+	
+	public User getUserForReal(HttpServletRequest request) {
+		User user = getUser(request);
+		return DataAccess.initializeAndUnproxy(user);
+	}
+	
+	@ExceptionHandler({NotLoggedInException.class})
+	public @ResponseBody String loggedInException(HttpServletRequest req, Exception exception) {
+		try{
+			DataAccess _access = getDataAccess();
+			if(_access != null && _access.isTransactionActive()) {
+				_access.rollback();
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		exception.printStackTrace();
+		
+		
+		HttpResponseMessage m = new HttpResponseMessage(ResponseError.NOT_LOGGED_IN);
+		return Utils.toJson(m.toJson());
 	}
 }

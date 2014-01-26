@@ -1,8 +1,8 @@
 package com.kings.http;
 
 import java.io.Serializable;
+import java.util.Date;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kings.util.Utils;
 
 public class HttpResponseMessage implements Serializable {
@@ -13,12 +13,16 @@ public class HttpResponseMessage implements Serializable {
 	private String name;
 	private String type;
 	private HttpResponseError error;
+	private Date createdDate;
+	private boolean dontHandleOnClient;
 	
 	public HttpResponseMessage() {
+		setCreatedDate(new Date());
 		data = new HttpResponseData();
 	}
 	
 	public HttpResponseMessage(HttpResponseError.ResponseError responseError) {
+		setCreatedDate(new Date());
 		setError(new HttpResponseError(responseError));
 	}
 	
@@ -79,5 +83,21 @@ public class HttpResponseMessage implements Serializable {
 		if(data == null)
 			data = new HttpResponseData();
 		data.put(key, val);
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public boolean isDontHandleOnClient() {
+		return dontHandleOnClient;
+	}
+
+	public void setDontHandleOnClient(boolean dontHandleOnClient) {
+		this.dontHandleOnClient = dontHandleOnClient;
 	}
 }

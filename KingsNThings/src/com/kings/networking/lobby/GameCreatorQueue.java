@@ -1,10 +1,12 @@
 package com.kings.networking.lobby;
 
 import java.util.ArrayDeque;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Queue;
 import java.util.Set;
 
+import com.kings.database.DataAccess;
 import com.kings.model.Game;
 
 /**
@@ -42,8 +44,12 @@ public class GameCreatorQueue extends Thread {
 	@Override
 	public void run() {
 		while( ! isStopped() ) {
-			runThroughPendingGameLobbies();
-			
+			try{
+				runThroughPendingGameLobbies();
+			} catch(Exception e) {
+				System.err.println("Error running through pending game lobbies in GameCreatorQueue");
+				e.printStackTrace();
+			}
 			try {
 				Thread.sleep(50);
 			} catch (InterruptedException e) {
@@ -55,7 +61,9 @@ public class GameCreatorQueue extends Thread {
 	
 	protected void runThroughPendingGameLobbies() {
 		Set<GameLobby> gameLobbies = GameMatcher.getInstance().getNonFullGameLobbies();
-		Iterator<GameLobby> it = gameLobbies.iterator();
+		Set<GameLobby> coppiedLobbies = new HashSet<GameLobby>(gameLobbies);
+		
+		Iterator<GameLobby> it = coppiedLobbies.iterator();
 		while( it.hasNext() ) {
 			GameLobby gameLobby = it.next();
 			
@@ -76,8 +84,29 @@ public class GameCreatorQueue extends Thread {
 		boolean isStillInQueue = GameMatcher.getInstance().removeGameLobby(gameLobby);
 		if( ! isStillInQueue )
 			return;
-		Game createdGame = gameLobby.becomeGame();
-		createdGame.start();
+		System.out.println("Removed game lobby " + gameLobby.toString() + " from queue, turning into game");
+		
+		DataAccess access = DataAccess.getInstance();
+		try{
+			access.beginTransaction();
+			
+			Game createdGame = gameLobby.becomeGame();
+			access.save(createdGame);
+			createdGame.start();
+			access.commit();
+		} catch(Exception e) {
+			try{
+				if(access.isTransactionActive())
+					access.rollback();
+			} catch(Exception _e) {
+				_e.printStackTrace();
+			}
+			System.err.println("Error starting game!");
+			e.printStackTrace();
+			
+			//TODO: inform users that that the game was not created, force them to join new game
+		}
+
 	}
 	
 	public boolean isStopped() {

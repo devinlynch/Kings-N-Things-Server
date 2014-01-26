@@ -16,7 +16,11 @@ public class HttpResponseError {
 		ALREADY_LOGGED_IN,
 		ALREADY_REGISTERED,
 		GENERIC_ERROR,
-		NOT_LOGGED_IN
+		NOT_LOGGED_IN,
+		NO_LOBBY_AVAILABLE,
+		NO_OPEN_LOBBY_FOR_USER,
+		UNABLE_TO_HOST_LOBBY,
+		USER_ALREADY_IN_GAME
 	}
 
 	public ResponseError getResponseError() {

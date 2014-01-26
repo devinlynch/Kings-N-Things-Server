@@ -39,7 +39,7 @@ public class AbstractDatabaseController implements GenericKingsControllerInterfa
 
 	@Override
 	public boolean preHandleRequest(HttpServletRequest request,
-			HttpServletResponse response) {
+			HttpServletResponse response) throws Exception {
 		try{
 			DataAccess _access = getDataAccess();
 			if(_access != null && !_access.isTransactionActive()) {

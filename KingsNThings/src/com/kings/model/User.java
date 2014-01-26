@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kings.networking.UDPMessage;
 import com.kings.networking.UDPSenderQueue;
 import com.kings.networking.lobby.GameLobby;
+import com.kings.networking.lobby.GameMatcher;
 
 public class User {
 	
@@ -22,20 +23,9 @@ public class User {
 	private String password;
 	
 	// DB Relations
+	@JsonIgnore
 	private Set<Game> games;
 
-	// Cache only values
-	private GameLobby gameLobby;
-	
-	//TODO
-	private MatchmakingStatus matchmakingStatus;
-	public enum MatchmakingStatus{
-		SEARCHING_FOR_GAME,
-		IN_LOBBY_WAITING_FOR_MORE_PLAYERS,
-		GAME_STARTING,
-		IN_GAME
-	}
-	
 	public User() {
 	}
 	
@@ -85,12 +75,6 @@ public class User {
 	public void setLastUpdate(Date lastUpdate) {
 		this.lastUpdate = lastUpdate;
 	}
-	public GameLobby getGameLobby() {
-		return gameLobby;
-	}
-	public void setGameLobby(GameLobby gameLobby) {
-		this.gameLobby = gameLobby;
-	}
 	public Set<Game> getGames() {
 		return games;
 	}
@@ -114,9 +98,40 @@ public class User {
 		return thisId != null && thisId.equals(thatId);
 	}
 	
+	
 	public void sendJSONMessage(String message) {
+		Integer port = getPort();
+		String hostName = getHostName();
+		if(port == null || hostName == null) {
+			//TODO handle user who doesnt have these set...
+			return;
+		}
+		
 		UDPMessage udpMessage = new UDPMessage(getHostName(), getPort(), message);
 		UDPSenderQueue.addMessagesToQueue(udpMessage);
+	}
+	
+	/**
+	 * Gets the active game that the user is in
+	 * @return
+	 */
+	@JsonIgnore
+	public Game getGame(){
+		for(Game game : getGames()){
+			if(game.isActive())
+				return game;
+		}
+		return null;
+	}
+	
+	@JsonIgnore
+	public GameLobby getGameLobby() {
+		try{
+			return GameMatcher.getInstance().getUsersLobby(this);
+		} catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 }
