@@ -10,19 +10,48 @@ import com.kings.model.phases.Phase;
 import com.kings.model.phases.SetupPhase;
 
 public class GameState {
-	private Set<Player> players;
 	private String gameId;
-	private Set<GamePiece> gamePieces;
-	private Set<BoardLocation> boardLocations;
 	private Phase currentPhase;
 	private boolean isStarted;
 	private Set<SentMessage> sentMessages;
 	
+	
+	// In Game Shtuff
+	private PlayingCup playingCup;
+	private BoardLocation boardLocation;
+	private Bank bank;
+	private Set<GamePiece> gamePieces;
+	private Set<Player> players;
+
+	
+	public PlayingCup getPlayingCup() {
+		return playingCup;
+	}
+
+	public void setPlayingCup(PlayingCup playingCup) {
+		this.playingCup = playingCup;
+	}
+
+	public BoardLocation getBoardLocation() {
+		return boardLocation;
+	}
+
+	public void setBoardLocation(BoardLocation boardLocation) {
+		this.boardLocation = boardLocation;
+	}
+
+	public Bank getBank() {
+		return bank;
+	}
+
+	public void setBank(Bank bank) {
+		this.bank = bank;
+	}
+
 	public GameState() {
 		this.players = new HashSet<Player>();
 		this.setSentMessages(new HashSet<SentMessage>());
 		this.gamePieces = new HashSet<GamePiece>();
-		this.boardLocations = new HashSet<BoardLocation>();
 		setCurrentPhase(new SetupPhase(this));
 	}
 	
@@ -73,14 +102,6 @@ public class GameState {
 
 	public void setGamePieces(Set<GamePiece> gamePieces) {
 		this.gamePieces = gamePieces;
-	}
-
-	public Set<BoardLocation> getBoardLocations() {
-		return boardLocations;
-	}
-
-	public void setBoardLocations(Set<BoardLocation> boardLocations) {
-		this.boardLocations = boardLocations;
 	}
 
 	protected void addSentMessage(SentMessage sentMessage) {

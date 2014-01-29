@@ -5,19 +5,19 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.kings.http.SentMessage;
-import com.kings.util.Utils;
 
 public class Player {
 	private String playerId;
 	private String userId;
-	private Set<Rack> racks;
+	private Rack rack1;
+	private Rack rack2;
 	private Set<GamePiece> gamePieces;
 	private GameState gameState;
 	private Set<SentMessage> sentMessages;
+	private Integer gold;
 	
 	public Player(User user, GameState gameState, String playerId) {
 		this.playerId = playerId;
-		this.racks = new HashSet<Rack>();
 		this.gamePieces = new HashSet<GamePiece>();
 		this.gameState=gameState;
 		this.setUserId(user.getUserId());
@@ -30,12 +30,7 @@ public class Player {
 	public void setPlayerId(String playerId) {
 		this.playerId = playerId;
 	}
-	public Set<Rack> getRacks() {
-		return racks;
-	}
-	public void setRacks(Set<Rack> racks) {
-		this.racks = racks;
-	}
+	
 	public Set<GamePiece> getGamePieces() {
 		return gamePieces;
 	}
@@ -81,4 +76,29 @@ public class Player {
 	public void addSentMessages(Set<SentMessage> sentMessages) {
 		getSentMessages().addAll(sentMessages);
 	}
+
+	public Rack getRack1() {
+		return rack1;
+	}
+
+	public void setRack1(Rack rack1) {
+		this.rack1 = rack1;
+	}
+
+	public Rack getRack2() {
+		return rack2;
+	}
+
+	public void setRack2(Rack rack2) {
+		this.rack2 = rack2;
+	}
+
+	public Integer getGold() {
+		return gold;
+	}
+
+	public void setGold(Integer gold) {
+		this.gold = gold;
+	}
+	
 }

@@ -1,8 +1,15 @@
 package com.kings.model.phases;
 
+import java.util.List;
+
 import com.kings.model.GameState;
+import com.kings.model.Player;
 
 public abstract class Phase {
+	/**
+	 * Contains the list of players in their correct order, this should be updated to the correct order once phase starts
+	 */
+	private List<Player> playersInOrderOfTurn;
 	
 	public Phase(GameState gameState) {
 		this.gameState=gameState;
@@ -52,5 +59,13 @@ public abstract class Phase {
 
 	public void setNextPhase(Phase nextPhase) {
 		this.nextPhase = nextPhase;
+	}
+
+	public List<Player> getPlayersInOrderOfTurn() {
+		return playersInOrderOfTurn;
+	}
+
+	public void setPlayersInOrderOfTurn(List<Player> playersInOrderOfTurn) {
+		this.playersInOrderOfTurn = playersInOrderOfTurn;
 	}
 }
