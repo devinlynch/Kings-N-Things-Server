@@ -15,8 +15,8 @@ public class Player {
 	private GameState gameState;
 	private Set<SentMessage> sentMessages;
 	
-	public Player(User user, GameState gameState) {
-		this.playerId = Utils.generateRandomId("user");
+	public Player(User user, GameState gameState, String playerId) {
+		this.playerId = playerId;
 		this.racks = new HashSet<Rack>();
 		this.gamePieces = new HashSet<GamePiece>();
 		this.gameState=gameState;

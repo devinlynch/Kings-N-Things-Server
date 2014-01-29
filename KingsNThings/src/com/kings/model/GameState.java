@@ -30,9 +30,11 @@ public class GameState {
 		GameState gameState = new GameState();
 		gameState.setGameId(game.getGameId());
 		
+		int i=1;
 		for(User user : game.getUsers()) {
-			Player player = new Player(user, gameState);
+			Player player = new Player(user, gameState, "player"+i);
 			gameState.addPlayer(player);
+			i++;
 		}
 		
 		return gameState;
