@@ -2,7 +2,7 @@ package com.kings.model;
 
 public class GamePiece {
 	private String id;
-	private BoardContainer location;
+	private BoardLocation location;
 	private Player owner;
 	
 	public String getId() {
@@ -11,10 +11,10 @@ public class GamePiece {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public BoardContainer getLocation() {
+	public BoardLocation getLocation() {
 		return location;
 	}
-	public void setLocation(BoardContainer location) {
+	public void setLocation(BoardLocation location) {
 		this.location = location;
 	}
 	public Player getOwner() {

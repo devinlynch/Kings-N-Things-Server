@@ -1,13 +1,13 @@
 package com.kings.model;
 
 public class Counter extends GamePiece {
-	private CounterType counterType;
+	private String name;
 
-	public CounterType getCounterType() {
-		return counterType;
+	public String getName() {
+		return name;
 	}
 
-	public void setCounterType(CounterType counterType) {
-		this.counterType = counterType;
+	public void setName(String name) {
+		this.name = name;
 	}
 }

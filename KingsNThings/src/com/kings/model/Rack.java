@@ -1,6 +1,15 @@
 package com.kings.model;
 
-public class Rack extends BoardContainer {
+public class Rack extends BoardLocation {
+	//TODO: MAKE SURE CORRECT LIMIT
+	public static final int LIMIT = 10;
+	
+	public Rack(String id) {
+		super(id);
+		setName("Rack");
+		this.limit=LIMIT;
+	}
+
 	public int limit;
 
 	public int getLimit() {

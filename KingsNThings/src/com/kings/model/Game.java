@@ -33,6 +33,10 @@ public class Game {
 		// Right now it is being called from the GameCreatorQueue, so the users are all assigned to this game and now all logic of creating a game
 		// and sending messages to the client needs to happen here
 		
+		GameState gameState = GameState.createGameStateFromGame(this);
+		setGameState(gameState);
+		
+		
 		setStartedDate(new Date());
 		setActive(true);
 		

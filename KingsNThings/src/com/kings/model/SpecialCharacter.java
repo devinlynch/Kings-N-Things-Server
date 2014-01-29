@@ -1,6 +1,6 @@
 package com.kings.model;
 
-public class SpecialCharacter extends CounterType {
+public class SpecialCharacter extends Counter {
 	private SpecialCharacter otherSide;
 	private SpecialAbility specialAbility;
 	

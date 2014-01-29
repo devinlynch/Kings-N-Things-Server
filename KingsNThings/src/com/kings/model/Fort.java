@@ -1,6 +1,6 @@
 package com.kings.model;
 
-public class Fort extends CounterType {
+public class Fort extends Counter {
 	private int levelNum;
 	private int cost;
 	private CombatType combatType;
