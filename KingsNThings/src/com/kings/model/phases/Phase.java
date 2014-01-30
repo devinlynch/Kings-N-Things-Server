@@ -1,5 +1,6 @@
 package com.kings.model.phases;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.kings.model.GameState;
@@ -7,12 +8,14 @@ import com.kings.model.Player;
 
 public abstract class Phase {
 	/**
-	 * Contains the list of players in their correct order, this should be updated to the correct order once phase starts
+	 * Contains the list of players in their correct order, this should be updated to the correct order once the sequence 
+	 * of phases is over
 	 */
 	private List<Player> playersInOrderOfTurn;
 	
-	public Phase(GameState gameState) {
+	public Phase(GameState gameState, List<Player> playersInOrderOfTurn) {
 		this.gameState=gameState;
+		this.playersInOrderOfTurn=playersInOrderOfTurn;
 	}
 	
 	private GameState gameState;
@@ -68,4 +71,16 @@ public abstract class Phase {
 	public void setPlayersInOrderOfTurn(List<Player> playersInOrderOfTurn) {
 		this.playersInOrderOfTurn = playersInOrderOfTurn;
 	}
+	
+	/**
+	 * Given a order of players, returns the new order of the players for the next sequence of phases.
+	 * <b> This should only be called at the end of sequence of phases</b>
+	 * @param players
+	 * @return
+	 */
+	public static List<Player> recalculateOrder(List<Player> players) {
+		players.add(players.remove(0));
+		return players;
+	}
+	
 }

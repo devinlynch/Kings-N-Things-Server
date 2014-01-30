@@ -1,11 +1,14 @@
 package com.kings.model.phases;
 
+import java.util.List;
+
 import com.kings.model.GameState;
+import com.kings.model.Player;
 
 public class PlacementPhase extends Phase {
 
-	public PlacementPhase(GameState gameState) {
-		super(gameState);
+	public PlacementPhase(GameState gameState, List<Player> playersInOrderOfTurn) {
+		super(gameState, playersInOrderOfTurn);
 		// TODO Auto-generated constructor stub
 	}
 
