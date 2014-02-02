@@ -8,6 +8,7 @@ import com.kings.http.SentMessage;
 
 public class Player {
 	private String playerId;
+	private String username;
 	private String userId;
 	private Rack rack1;
 	private Rack rack2;
@@ -20,6 +21,7 @@ public class Player {
 		this.playerId = playerId;
 		this.gamePieces = new HashSet<GamePiece>();
 		this.gameState=gameState;
+		this.setUsername(user.getUsername());
 		this.setUserId(user.getUserId());
 		this.setSentMessages(new HashSet<SentMessage>());
 	}
@@ -42,14 +44,6 @@ public class Player {
 	}
 	public void setGameState(GameState gameState) {
 		this.gameState = gameState;
-	}
-
-	public String getUserId() {
-		return userId;
-	}
-
-	public void setUserId(String userId) {
-		this.userId = userId;
 	}
 
 	public Set<SentMessage> getSentMessages() {
@@ -99,6 +93,22 @@ public class Player {
 
 	public void setGold(Integer gold) {
 		this.gold = gold;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 	
 }

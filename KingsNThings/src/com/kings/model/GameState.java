@@ -1,11 +1,14 @@
 package com.kings.model;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import com.kings.http.GameMessage;
 import com.kings.http.SentMessage;
+import com.kings.model.factory.GameStateFactory;
 import com.kings.model.phases.Phase;
 import com.kings.model.phases.SetupPhase;
 
@@ -22,6 +25,7 @@ public class GameState {
 	private Bank bank;
 	private Set<GamePiece> gamePieces;
 	private Set<Player> players;
+	private List<HexLocation> hexlocations;
 
 	
 	public PlayingCup getPlayingCup() {
@@ -52,10 +56,9 @@ public class GameState {
 		this.players = new HashSet<Player>();
 		this.setSentMessages(new HashSet<SentMessage>());
 		this.gamePieces = new HashSet<GamePiece>();
-		setCurrentPhase(new SetupPhase(this));
 	}
 	
-	public static GameState createGameStateFromGame(Game game) {
+	public static GameState createGameStateFromGame(Game game) throws Exception {
 		GameState gameState = new GameState();
 		gameState.setGameId(game.getGameId());
 		
@@ -66,7 +69,20 @@ public class GameState {
 			i++;
 		}
 		
-		return gameState;
+		gameState.setCurrentPhase(new SetupPhase(gameState, new ArrayList<Player>(gameState.getPlayers())));
+		GameStateFactory.makeGameState(gameState, gameState.getPlayers().size());
+		
+ 		return gameState;
+	}
+	
+	public Set<HexLocation> getHexLocationsOwnedByPlayer(String playerId) {
+		Iterator<HexLocation> it = getHexlocations().iterator();
+		Set<HexLocation> locations = new HashSet<HexLocation>();
+		while(it.hasNext()){
+			HexLocation loc = it.next();
+			locations.add(loc);
+		}
+		return locations;
 	}
 	
 	public void startGame() {
@@ -165,5 +181,13 @@ public class GameState {
 
 	public void setSentMessages(Set<SentMessage> sentMessages) {
 		this.sentMessages = sentMessages;
+	}
+
+	public List<HexLocation> getHexlocations() {
+		return hexlocations;
+	}
+
+	public void setHexlocations(List<HexLocation> hexlocations) {
+		this.hexlocations = hexlocations;
 	}
 }

@@ -27,7 +27,7 @@ public class Game {
 		getUsers().add(player);
 	}
 	
-	public void start() {
+	public void start() throws Exception {
 		//TODO
 		// This is going to handle actually starting the game
 		// Right now it is being called from the GameCreatorQueue, so the users are all assigned to this game and now all logic of creating a game
@@ -35,10 +35,9 @@ public class Game {
 		
 		GameState gameState = GameState.createGameStateFromGame(this);
 		setGameState(gameState);
-		
-		
 		setStartedDate(new Date());
 		setActive(true);
+		gameState.startGame();
 		
 		for(User user : users) {
 			sendGameStartedMessageToUser(user);

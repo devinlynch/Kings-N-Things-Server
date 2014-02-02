@@ -1,6 +1,5 @@
 package com.kings.model.phases;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.kings.model.GameState;

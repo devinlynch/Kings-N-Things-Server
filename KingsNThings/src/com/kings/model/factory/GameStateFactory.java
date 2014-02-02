@@ -20,15 +20,15 @@ public class GameStateFactory {
 			throw new Exception("Number of players must be between 2 and 4");
 		
 		switch(numberOfPlayers){
-		case 2: {
-			
-		}
-		case 3: {
-			
-		}
-		case 4: {
-			
-		}
+			case 2: {
+				
+			}
+			case 3: {
+				
+			}
+			case 4: {
+				
+			}
 		}
 		
 		return gameState;

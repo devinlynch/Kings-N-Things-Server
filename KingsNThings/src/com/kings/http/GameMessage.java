@@ -21,11 +21,13 @@ import com.kings.util.Utils;
 public class GameMessage {
 	private String type;
 	private HttpResponseData data;
+	private Map<String, HttpResponseData> userSpecificData;
 	@JsonIgnore private Set<Player> playersToSendTo;
 	
 	public GameMessage(String type) {
 		setPlayersToSendTo(new HashSet<Player>());
 		this.type=type;
+		this.userSpecificData = new HashMap<String, HttpResponseData>();
 		data = new HttpResponseData();
 	}
 	
@@ -62,19 +64,29 @@ public class GameMessage {
 		this.data = data;
 	}
 	
-	public String toJson() {
-		return Utils.toJson(this);
+	public String toJson(String playerId) {
+		Map<Object,Object> thisAsMap = new HashMap<Object, Object>();
+		thisAsMap.put("type", getType());
+		HttpResponseData data = getUserSpecificData().get(playerId);
+		Map<Object, Object> dataMap = new HashMap<Object, Object>();
+		if(data != null)
+			dataMap.putAll(data.getMap());
+		dataMap.putAll(getData().getMap());
+		thisAsMap.put("data", dataMap);
+		
+		return Utils.toJson(thisAsMap);
 	}
 	
 	/**
 	 * Sends this game message to all users in the players set, and returns set of {@link SentMessage}'s
 	 */
 	public Set<SentMessage> send(){
-		String json = this.toJson();
+		
 		
 		Set<SentMessage> sentMessages = new HashSet<SentMessage>();
 		for(Player player : getPlayersToSendTo()) {
 			try{
+				String json = this.toJson(player.getPlayerId());
 				String userId = player.getUserId();
 				sentMessages.add(new SentMessage(getType(), json, userId));
 				DataAccess.getInstance().beginTransaction();
@@ -88,10 +100,27 @@ public class GameMessage {
 					UDPSenderQueue.addMessagesToQueue(message);
 				}
 			} catch(Exception e) {
-				System.out.println("Error sending game message to player with UserId="+ player.getUserId());
+				System.out.println("Error sending game message to player with Username="+ player.getUsername());
 				e.printStackTrace();
 			}
 		}
 		return sentMessages;
+	}
+
+	@JsonIgnore
+	public Map<String, HttpResponseData> getUserSpecificData() {
+		return userSpecificData;
+	}
+
+	public void setUserSpecificData(Map<String, HttpResponseData> userSpecificData) {
+		this.userSpecificData = userSpecificData;
+	}
+	
+	public void addUserSpecificData(String playerId, String key, Object value) {
+		HttpResponseData userData = getUserSpecificData().get("playerId");
+		if(userData==null){
+			getUserSpecificData().put("playerId", userData);
+		}
+		userData.put(key, value);
 	}
 }
