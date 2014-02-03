@@ -11,6 +11,8 @@ public class RandomEvent extends Thing {
 	@Override
 	public HashMap<String, GamePiece> getMapOfInstances() {
 		// TODO GABE
+		HashMap<String, GamePiece> map = new HashMap<String, GamePiece>();
+		map.put("desertTile", new HexTile("desert-tile", "desertTile",Terrain.DESERT_TERRAIN));
 		return null;
 	}
 

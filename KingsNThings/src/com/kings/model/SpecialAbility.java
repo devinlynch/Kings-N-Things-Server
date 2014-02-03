@@ -5,7 +5,16 @@ import java.util.HashMap;
 public class SpecialAbility {
 	private String name;
 	private String id;
-	
+	/*
+	public final static SpecialAbility AssassinPrimus = new CombatType("Melee", "CT_Melee");
+	public final static SpecialAbility MELEE = new CombatType("Melee", "CT_Melee");
+	public final static SpecialAbility MELEE = new CombatType("Melee", "CT_Melee");
+	public final static SpecialAbility MELEE = new CombatType("Melee", "CT_Melee");
+	public final static SpecialAbility MELEE = new CombatType("Melee", "CT_Melee");
+	public final static SpecialAbility MELEE = new CombatType("Melee", "CT_Melee");
+	public final static SpecialAbility MELEE = new CombatType("Melee", "CT_Melee");
+	public final static SpecialAbility MELEE = new CombatType("Melee", "CT_Melee");
+*/
 	public String getName() {
 		return name;
 	}
@@ -19,17 +28,5 @@ public class SpecialAbility {
 		this.id = id;
 	}
 	
-	public HashMap<String, SpecialAbility> getMapOfInstances(){
-		// TODO GABE
-		return null;
-	}
 	
-	/**
-	 * Given an id, returns a new instance of the corresponding GamePiece class
-	 * @param id
-	 * @return
-	 */
-	public SpecialAbility getInstanceForId(String id) {
-		return getMapOfInstances().get(id);
-	}
 }

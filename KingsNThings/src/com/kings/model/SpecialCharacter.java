@@ -27,6 +27,8 @@ public class SpecialCharacter extends Counter {
 	@Override
 	public HashMap<String, GamePiece> getMapOfInstances() {
 		// TODO GABE
+		HashMap<String, GamePiece> map = new HashMap<String, GamePiece>();
+		map.put("Meisterschütze", new SpecialCharacter("specialcharacter_01", "Meisterschütze",SpecialAbility.this));
 		return null;
 	}
 }

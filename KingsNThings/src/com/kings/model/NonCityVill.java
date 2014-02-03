@@ -21,6 +21,8 @@ public class NonCityVill extends SpecialIncomeCounter {
 	@Override
 	public HashMap<String, GamePiece> getMapOfInstances() {
 		// TODO GABE
+		HashMap<String, GamePiece> map = new HashMap<String, GamePiece>();
+		map.put("noncityvill", new NonCityVill("noncityvill_01", "noncityvill",1,Terrain.DESERT_TERRAIN));
 		return null;
 	}
 }
