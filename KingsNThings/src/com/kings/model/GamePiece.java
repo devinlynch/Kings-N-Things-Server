@@ -1,9 +1,38 @@
 package com.kings.model;
 
-public class GamePiece {
+import java.util.HashMap;
+
+public abstract class GamePiece {
 	private String id;
 	private BoardLocation location;
 	private Player owner;
+	private String name;
+	
+	public GamePiece(String id, String name) {
+		this.id=id;
+		this.name=name;
+	}
+	
+	/**
+	 * Every actual game piece type needs to implement this.  This retusn a HashMap
+	 * containing the keys of game piece ID's mapped to the instances of the piece.
+	 * <br /><br/>
+	 * For example, the fort class would implement this method returning a HashMap of size
+	 * 4 containing the IDs of the 4 different fort types mapped to a instance of a {@link Fort}.  
+	 *
+	 * @return
+	 */
+	public abstract HashMap<String, GamePiece> getMapOfInstances();
+	
+	/**
+	 * Given an id, returns a new instance of the corresponding GamePiece class
+	 * @param id
+	 * @return
+	 */
+	public GamePiece getInstanceForId(String id) {
+		return getMapOfInstances().get(id);
+	}
+	
 	
 	public String getId() {
 		return id;
@@ -22,5 +51,13 @@ public class GamePiece {
 	}
 	public void setOwner(Player owner) {
 		this.owner = owner;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }

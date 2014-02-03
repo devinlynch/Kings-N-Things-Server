@@ -1,9 +1,18 @@
 package com.kings.model;
 
+import java.util.HashMap;
+
 public class Fort extends Counter {
 	private int levelNum;
 	private int cost;
 	private CombatType combatType;
+	
+	public Fort(String id, String name, int levelNum, int cost, CombatType combatType) {
+		super(id, name);
+		this.levelNum=levelNum;
+		this.combatType=combatType;
+		this.cost=cost;
+	}
 	
 	public int getLevelNum() {
 		return levelNum;
@@ -22,5 +31,11 @@ public class Fort extends Counter {
 	}
 	public void setCombatType(CombatType combatType) {
 		this.combatType = combatType;
+	}
+	
+	@Override
+	public HashMap<String, GamePiece> getMapOfInstances() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

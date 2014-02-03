@@ -1,14 +1,17 @@
 package com.kings.model.phases;
 
+import java.util.List;
+
 import com.kings.http.GameMessage;
 import com.kings.model.Game;
 import com.kings.model.GameState;
+import com.kings.model.Player;
 import com.kings.networking.UDPSenderQueue;
 
 public class GoldCollectionPhase extends Phase {
 
-	public GoldCollectionPhase(GameState gameState) {
-		super(gameState);
+	public GoldCollectionPhase(GameState gameState, List<Player> playersInOrderOfTurn) {
+		super(gameState, playersInOrderOfTurn);
 		// TODO Auto-generated constructor stub
 	}
 

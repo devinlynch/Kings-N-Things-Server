@@ -8,9 +8,10 @@ public class BoardLocation {
     private String name;
     private Set<GamePiece> gamePieces;
     
-    public BoardLocation(String id) {
+    public BoardLocation(String id, String name) {
     	this.gamePieces = new HashSet<GamePiece>();
     	this.id=id;
+    	this.name=name;
     }
     
 	public String getId() {

@@ -7,20 +7,9 @@ public class Creature extends Thing {
 	private CombatType combatType;
 	private Terrain terrainType;
 	
-	
-	public HashMap<String, Creature> getCreatureHashMap(String name) {
-		HashMap<String, Creature> map = new HashMap<String, Creature>();
-		
-		
-		//EXAMPLE NO FOR USE
-		Creature c = new Creature();
-		c.setName("Jungle Dinasaur");
-		c.setId("t0001");
-		c.setTerrainType(Terrain.JUNGLE_TERRAIN);
-		c.setCombatValue(2);
-		map.put(c.getId(), c);
-		
-		return map;
+	public Creature(String id, String name, Terrain terrainType) {
+		super(id, name);
+		this.terrainType=terrainType;
 	}
 	
 	public int getCombatValue() {
@@ -40,5 +29,16 @@ public class Creature extends Thing {
 	}
 	public void setTerrainType(Terrain terrainType) {
 		this.terrainType = terrainType;
+	}
+
+	@Override
+	public HashMap<String, GamePiece> getMapOfInstances() {
+		// TODO GABE
+		
+		//EXAMPLE FOR GABE:
+		HashMap<String, GamePiece> map = new HashMap<String, GamePiece>();
+		map.put("c01", new Creature("c01", "Test Creature", Terrain.JUNGLE_TERRAIN));
+		
+		return map;
 	}
 }

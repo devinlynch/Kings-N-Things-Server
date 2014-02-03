@@ -5,7 +5,7 @@ public class HexLocation extends BoardLocation {
 	private Player owner;
 	
 	public HexLocation(String id) {
-		super(id);
+		super(id, "Hex Location");
 		setName("Hex Location");
 	}
 

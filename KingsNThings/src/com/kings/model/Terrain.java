@@ -4,7 +4,9 @@ public class Terrain {
 	private String name;
 	private String id;
 	public final static Terrain JUNGLE_TERRAIN = new Terrain("Jungle", "TerrainJungle");
-
+	//TODO GABE : add all terrain types
+	
+	
 	public Terrain(String name, String id) {
 		this.id=id;
 		this.name=name;

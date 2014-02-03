@@ -1,13 +1,8 @@
 package com.kings.model;
 
-public class Counter extends GamePiece {
-	private String name;
+public abstract class Counter extends GamePiece {
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
+	public Counter(String id, String name) {
+		super(id, name);
 	}
 }

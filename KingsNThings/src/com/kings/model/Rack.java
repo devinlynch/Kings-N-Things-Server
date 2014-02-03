@@ -5,7 +5,7 @@ public class Rack extends BoardLocation {
 	public static final int LIMIT = 10;
 	
 	public Rack(String id) {
-		super(id);
+		super(id, "Rack");
 		setName("Rack");
 		this.limit=LIMIT;
 	}
