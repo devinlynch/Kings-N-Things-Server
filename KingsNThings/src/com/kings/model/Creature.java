@@ -171,31 +171,31 @@ public class Creature extends Thing {
 		map.put("Zigeuner2", new Creature("T_Plains_033-01", "Zigeuner2",CombatType.MAGIC,2, Terrain.PLAINS_TERRAIN));
 
 		//Swamp
-		map.put("Basilisk", new Creature("T_Plains_065-01", "Basilisk",CombatType.MAGIC,3, Terrain.SWAMP_TERRAIN));
-		map.put("Ding", new Creature("T_Plains_066-01", "Ding",CombatType.MELEE,2, Terrain.SWAMP_TERRAIN));
-		map.put("Flugpiranha", new Creature("T_Plains_067-01", "Flugpiranha",CombatType.MELEE,3, Terrain.SWAMP_TERRAIN));
-		map.put("Geist", new Creature("T_Plains_068-01", "Geist",CombatType.MAGIC,2, Terrain.SWAMP_TERRAIN));
-		map.put("Gespenst", new Creature("T_Plains_069-01", "Gespenst",CombatType.MELEE,1, Terrain.SWAMP_TERRAIN));
-		map.put("Gespenst2", new Creature("T_Plains_069-02", "Gespenst2",CombatType.MELEE,1, Terrain.SWAMP_TERRAIN));
-		map.put("Gespenst3", new Creature("T_Plains_069-03", "Gespenst3",CombatType.MELEE,1, Terrain.SWAMP_TERRAIN));
-		map.put("Gespenst4", new Creature("T_Plains_069-04", "Gespenst4",CombatType.MELEE,1, Terrain.SWAMP_TERRAIN));
-		map.put("Giftfrosch", new Creature("T_Plains_070-01", "Giftfrosch",CombatType.MELEE,1, Terrain.SWAMP_TERRAIN));
-		map.put("Irrlicht", new Creature("T_Plains_071-01", "Irrlicht",CombatType.MAGIC,2, Terrain.SWAMP_TERRAIN));
-		map.put("Kobold", new Creature("T_Plains_072-01", "Kobold",CombatType.MAGIC,1, Terrain.SWAMP_TERRAIN));
-		map.put("Krokodile", new Creature("T_Plains_073-01", "Krokodile",CombatType.MELEE,2, Terrain.SWAMP_TERRAIN));
-		map.put("Piraten", new Creature("T_Plains_074-01", "Piraten",CombatType.MELEE,2,Terrain.SWAMP_TERRAIN));
-		map.put("Riesenblutegel", new Creature("T_Plains_075-01", "Riesenblutegel",CombatType.MELEE,2, Terrain.SWAMP_TERRAIN));
-		map.put("Riesenechse", new Creature("T_Plains_076-01", "Riesenechse",CombatType.MELEE,2, Terrain.SWAMP_TERRAIN));
-		map.put("Riesenechse2", new Creature("T_Plains_076-02", "Riesenechse2",CombatType.MELEE,2, Terrain.SWAMP_TERRAIN));
-		map.put("Riesenmoskito", new Creature("T_Plains_077-01", "Riesenmoskito",CombatType.MELEE,2, Terrain.SWAMP_TERRAIN));
-		map.put("Riesenschlange", new Creature("T_Plains_078-01", "Riesenschlange",CombatType.MELEE,3, Terrain.SWAMP_TERRAIN));
-		map.put("Schleimbestie", new Creature("T_Plains_079-01", "Schleimbestie",CombatType.MELEE,3, Terrain.SWAMP_TERRAIN));
-		map.put("SchwartzeRitter", new Creature("T_Plains_080-01", "SchwartzeRitter",CombatType.MELEE,3, Terrain.SWAMP_TERRAIN));
-		map.put("Schwarzmagier", new Creature("T_Plains_081-01", "Schwarzmagier",CombatType.MAGIC,1, Terrain.SWAMP_TERRAIN));
-		map.put("Sumpfgas", new Creature("T_Plains_082-01", "Sumpfgas",CombatType.MELEE,1, Terrain.SWAMP_TERRAIN));
-		map.put("Sumpfratte", new Creature("T_Plains_083-01", "Sumpfratte",CombatType.MELEE,1, Terrain.SWAMP_TERRAIN));
-		map.put("Vampirfledermaus", new Creature("T_Plains_084-01", "Vampirfledermaus",CombatType.MELEE,4, Terrain.SWAMP_TERRAIN));
-		map.put("Wasserschlange", new Creature("T_Plains_085-01", "Wasserschlange",CombatType.MELEE,1, Terrain.SWAMP_TERRAIN));
+		map.put("Basilisk", new Creature("T_Swamp_065-01", "Basilisk",CombatType.MAGIC,3, Terrain.SWAMP_TERRAIN));
+		map.put("Ding", new Creature("T_Swamp_066-01", "Ding",CombatType.MELEE,2, Terrain.SWAMP_TERRAIN));
+		map.put("Flugpiranha", new Creature("T_Swamp_067-01", "Flugpiranha",CombatType.MELEE,3, Terrain.SWAMP_TERRAIN));
+		map.put("Geist", new Creature("T_Swamp_068-01", "Geist",CombatType.MAGIC,2, Terrain.SWAMP_TERRAIN));
+		map.put("Gespenst", new Creature("T_Swamp_069-01", "Gespenst",CombatType.MELEE,1, Terrain.SWAMP_TERRAIN));
+		map.put("Gespenst2", new Creature("T_Swamp_069-02", "Gespenst2",CombatType.MELEE,1, Terrain.SWAMP_TERRAIN));
+		map.put("Gespenst3", new Creature("T_Swamp_069-03", "Gespenst3",CombatType.MELEE,1, Terrain.SWAMP_TERRAIN));
+		map.put("Gespenst4", new Creature("T_Swamp_069-04", "Gespenst4",CombatType.MELEE,1, Terrain.SWAMP_TERRAIN));
+		map.put("Giftfrosch", new Creature("T_Swamp_070-01", "Giftfrosch",CombatType.MELEE,1, Terrain.SWAMP_TERRAIN));
+		map.put("Irrlicht", new Creature("T_Swamp_071-01", "Irrlicht",CombatType.MAGIC,2, Terrain.SWAMP_TERRAIN));
+		map.put("Kobold", new Creature("T_Swamp_072-01", "Kobold",CombatType.MAGIC,1, Terrain.SWAMP_TERRAIN));
+		map.put("Krokodile", new Creature("T_Swamp_073-01", "Krokodile",CombatType.MELEE,2, Terrain.SWAMP_TERRAIN));
+		map.put("Piraten", new Creature("T_Swamp_074-01", "Piraten",CombatType.MELEE,2,Terrain.SWAMP_TERRAIN));
+		map.put("Riesenblutegel", new Creature("T_Swamp_075-01", "Riesenblutegel",CombatType.MELEE,2, Terrain.SWAMP_TERRAIN));
+		map.put("Riesenechse", new Creature("T_Swamp_076-01", "Riesenechse",CombatType.MELEE,2, Terrain.SWAMP_TERRAIN));
+		map.put("Riesenechse2", new Creature("T_Swamp_076-02", "Riesenechse2",CombatType.MELEE,2, Terrain.SWAMP_TERRAIN));
+		map.put("Riesenmoskito", new Creature("T_Swamp_077-01", "Riesenmoskito",CombatType.MELEE,2, Terrain.SWAMP_TERRAIN));
+		map.put("Riesenschlange", new Creature("T_Swamp_078-01", "Riesenschlange",CombatType.MELEE,3, Terrain.SWAMP_TERRAIN));
+		map.put("Schleimbestie", new Creature("T_Swamp_079-01", "Schleimbestie",CombatType.MELEE,3, Terrain.SWAMP_TERRAIN));
+		map.put("SchwartzeRitter", new Creature("T_Swamp_080-01", "SchwartzeRitter",CombatType.MELEE,3, Terrain.SWAMP_TERRAIN));
+		map.put("Schwarzmagier", new Creature("T_Swamp_081-01", "Schwarzmagier",CombatType.MAGIC,1, Terrain.SWAMP_TERRAIN));
+		map.put("Sumpfgas", new Creature("T_Swamp_082-01", "Sumpfgas",CombatType.MELEE,1, Terrain.SWAMP_TERRAIN));
+		map.put("Sumpfratte", new Creature("T_Swamp_083-01", "Sumpfratte",CombatType.MELEE,1, Terrain.SWAMP_TERRAIN));
+		map.put("Vampirfledermaus", new Creature("T_Swamp_084-01", "Vampirfledermaus",CombatType.MELEE,4, Terrain.SWAMP_TERRAIN));
+		map.put("Wasserschlange", new Creature("T_Swamp_085-01", "Wasserschlange",CombatType.MELEE,1, Terrain.SWAMP_TERRAIN));
 		
 		return map;
 	}

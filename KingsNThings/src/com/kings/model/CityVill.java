@@ -6,7 +6,7 @@ public class CityVill extends SpecialIncomeCounter {
 	private int combatValue;
 	
 	public CityVill(String id, String name, int goldValue, int combatValue) {
-		super(id, name, goldValue);
+		super(id, name, goldValue,null);
 		this.combatValue=combatValue;
 	}
 

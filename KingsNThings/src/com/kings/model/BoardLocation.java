@@ -1,9 +1,12 @@
 package com.kings.model;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
-public class BoardLocation {
+public class BoardLocation extends AbstractSerializedObject {
 	private String id;
     private String name;
     private Set<GamePiece> gamePieces;
@@ -31,5 +34,22 @@ public class BoardLocation {
 	}
 	public void setGamePieces(Set<GamePiece> gamePieces) {
 		this.gamePieces = gamePieces;
+	}
+
+	@Override
+	public Map<String, Object> toSerializedFormat() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("locationId", id);
+		Set<Map<String, Object>> pieces = new HashSet<Map<String, Object>>();
+		Iterator<GamePiece> it = getGamePieces().iterator();
+		while(it.hasNext()) {
+			GamePiece piece = it.next();
+			pieces.add(piece.toSerializedFormat());
+		}
+		map.put("gamePieces", pieces);
+		
+		
+		return map;
 	}
 }
