@@ -81,19 +81,23 @@ public class GameMessage {
 	 * Sends this game message to all users in the players set, and returns set of {@link SentMessage}'s
 	 */
 	public Set<SentMessage> send(){
-		
-		
 		Set<SentMessage> sentMessages = new HashSet<SentMessage>();
 		for(Player player : getPlayersToSendTo()) {
 			try{
 				String json = this.toJson(player.getPlayerId());
 				String userId = player.getUserId();
 				sentMessages.add(new SentMessage(getType(), json, userId));
-				DataAccess.getInstance().beginTransaction();
-				User user = DataAccess.getInstance().get(User.class, userId);
+				boolean didJustStartTransaction=false;
+				DataAccess access = new DataAccess();
+				if(!access.isTransactionActive()){
+					access.beginTransaction();
+					didJustStartTransaction=true;
+				}
+				User user = access.get(User.class, userId);
 				Integer port = user.getPort();
 				String host = user.getHostName();
-				DataAccess.getInstance().commit();
+				if(didJustStartTransaction)
+					access.commit();
 				
 				if(port != null && host != null) {
 					UDPMessage message = new UDPMessage(host, port, json);
@@ -119,6 +123,7 @@ public class GameMessage {
 	public void addUserSpecificData(String playerId, String key, Object value) {
 		HttpResponseData userData = getUserSpecificData().get("playerId");
 		if(userData==null){
+			userData = new HttpResponseData();
 			getUserSpecificData().put("playerId", userData);
 		}
 		userData.put(key, value);

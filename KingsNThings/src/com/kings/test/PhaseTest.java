@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.kings.database.DataAccess;
 import com.kings.model.Player;
 import com.kings.model.User;
 import com.kings.model.phases.Phase;
@@ -35,4 +36,5 @@ public class PhaseTest {
 		assertEquals("p3", players.get(0).getPlayerId());
 
 	}
+	
 }

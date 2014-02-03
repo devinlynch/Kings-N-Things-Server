@@ -6,6 +6,7 @@ import com.kings.model.GameState;
 import com.kings.model.Player;
 
 public abstract class Phase {
+	private boolean over;
 	/**
 	 * Contains the list of players in their correct order, this should be updated to the correct order once the sequence 
 	 * of phases is over
@@ -29,6 +30,7 @@ public abstract class Phase {
 	public abstract void setupNextPhase();
 	
 	public void end() {
+		setOver(true);
 		setupNextPhase();
 		handlePhaseOver();
 		gameState.setCurrentPhase(nextPhase);
@@ -80,6 +82,14 @@ public abstract class Phase {
 	public static List<Player> recalculateOrder(List<Player> players) {
 		players.add(players.remove(0));
 		return players;
+	}
+
+	public synchronized boolean isOver() {
+		return over;
+	}
+
+	public void setOver(boolean over) {
+		this.over = over;
 	}
 	
 }

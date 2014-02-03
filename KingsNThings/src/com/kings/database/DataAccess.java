@@ -10,36 +10,24 @@ import com.kings.model.Game;
 import com.kings.model.User;
 
 public class DataAccess {
-	private static Session session;
 	private static SessionFactory sessionFactory;
 	private static Configuration config;
-	private static DataAccess instance = null;
-	
-	public static DataAccess getInstance() {
-		if(instance==null)
-			instance = new DataAccess();
-		return instance;
-	}
 	
 	@SuppressWarnings("deprecation")
 	public static void configure() {
-		if(config == null) {
-			config = new Configuration().configure(); 
-			addClassMappings();
-		}
-		
-		if(sessionFactory == null) {
+		if(sessionFactory== null) {
+			if(config == null) {
+				config = new Configuration().configure(); 
+				addClassMappings();
+			}
+			
 			sessionFactory = config.buildSessionFactory();
-		}
-		
-		if(session == null) {
-			session = sessionFactory.openSession();
 		}
 	}
 	
 	public Session getSession() {
 		configure();
-		return session;
+		return sessionFactory.getCurrentSession();
 	}
 	
 	public static void addClassMappings() {
@@ -68,6 +56,10 @@ public class DataAccess {
 	}
 	
 	public static void main(String[] args) {
+		DataAccess access = new DataAccess();
+		access.beginTransaction();
+		
+		access.commit();
 	}
 	
 	@SuppressWarnings("unchecked")

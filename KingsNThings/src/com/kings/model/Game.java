@@ -37,11 +37,12 @@ public class Game {
 		setGameState(gameState);
 		setStartedDate(new Date());
 		setActive(true);
-		gameState.startGame();
 		
 		for(User user : users) {
 			sendGameStartedMessageToUser(user);
 		}
+		
+		gameState.startGame();
 	}
 
 	public void sendGameStartedMessageToUser(User user) {

@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kings.http.SentMessage;
 
 public class Player {
@@ -13,6 +14,7 @@ public class Player {
 	private Rack rack1;
 	private Rack rack2;
 	private Set<GamePiece> gamePieces;
+	@JsonIgnore
 	private GameState gameState;
 	private Set<SentMessage> sentMessages;
 	private Integer gold;
@@ -39,6 +41,8 @@ public class Player {
 	public void setGamePieces(Set<GamePiece> gamePieces) {
 		this.gamePieces = gamePieces;
 	}
+	
+	@JsonIgnore
 	public GameState getGameState() {
 		return gameState;
 	}

@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kings.http.GameMessage;
 import com.kings.http.SentMessage;
 import com.kings.model.factory.GameStateFactory;
@@ -14,14 +15,13 @@ import com.kings.model.phases.SetupPhase;
 
 public class GameState {
 	private String gameId;
-	private Phase currentPhase;
+
+	@JsonIgnore private Phase currentPhase;
 	private boolean isStarted;
 	private Set<SentMessage> sentMessages;
 	
-	
 	// In Game Shtuff
 	private PlayingCup playingCup;
-	private BoardLocation boardLocation;
 	private Bank bank;
 	private Set<GamePiece> gamePieces;
 	private Set<Player> players;
@@ -34,14 +34,6 @@ public class GameState {
 
 	public void setPlayingCup(PlayingCup playingCup) {
 		this.playingCup = playingCup;
-	}
-
-	public BoardLocation getBoardLocation() {
-		return boardLocation;
-	}
-
-	public void setBoardLocation(BoardLocation boardLocation) {
-		this.boardLocation = boardLocation;
 	}
 
 	public Bank getBank() {
@@ -158,7 +150,7 @@ public class GameState {
 		return null;
 	}
 
-
+	@JsonIgnore
 	public Phase getCurrentPhase() {
 		return currentPhase;
 	}
