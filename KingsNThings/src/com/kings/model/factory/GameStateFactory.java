@@ -2,6 +2,7 @@ package com.kings.model.factory;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -15,6 +16,7 @@ import com.kings.model.HexLocation;
 import com.kings.model.HexTile;
 import com.kings.model.MagicItem;
 import com.kings.model.NonCityVill;
+import com.kings.model.Player;
 import com.kings.model.PlayingCup;
 import com.kings.model.RandomEvent;
 import com.kings.model.SideLocation;
@@ -30,8 +32,6 @@ import com.kings.model.Treasure;
  */
 public class GameStateFactory {
 	
-	//TODO implement
-	
 	public static GameState makeGameState(GameState gameState, int numberOfPlayers) throws Exception {
 		if(numberOfPlayers < 2 || numberOfPlayers > 4)
 			throw new Exception("Number of players must be between 2 and 4");
@@ -44,7 +44,8 @@ public class GameStateFactory {
 		}
 		
 		addPiecesToDefaultLocations(gameState);
-		
+		assignDefaultGamePiecesAndGoldToPlayers(gameState);
+		setHexTilesOnLocationsForDemo(gameState);
 		
 		switch(numberOfPlayers){
 			case 2: {
@@ -59,6 +60,64 @@ public class GameStateFactory {
 		return gameState;
 	}
 	
+	public static void setHexTilesOnLocationsForDemo(GameState gameState) {
+		// TODO
+		gameState.getHexlocations().get(0).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-01"));
+		gameState.getHexlocations().get(1).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-01"));
+		gameState.getHexlocations().get(2).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-01"));
+		gameState.getHexlocations().get(3).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-01"));
+		gameState.getHexlocations().get(4).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-01"));
+		gameState.getHexlocations().get(5).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-01"));
+		gameState.getHexlocations().get(6).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-01"));
+		gameState.getHexlocations().get(7).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-01"));
+		gameState.getHexlocations().get(8).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-01"));
+		gameState.getHexlocations().get(9).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-01"));
+		gameState.getHexlocations().get(10).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-01"));
+		gameState.getHexlocations().get(11).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-01"));
+		gameState.getHexlocations().get(12).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-01"));
+		gameState.getHexlocations().get(13).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-01"));
+		gameState.getHexlocations().get(14).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-01"));
+		gameState.getHexlocations().get(15).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-01"));
+		gameState.getHexlocations().get(16).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-01"));
+		gameState.getHexlocations().get(17).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-01"));
+		gameState.getHexlocations().get(18).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-01"));
+		gameState.getHexlocations().get(19).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-01"));
+		gameState.getHexlocations().get(20).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-01"));
+		gameState.getHexlocations().get(21).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-01"));
+		gameState.getHexlocations().get(22).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-01"));
+		gameState.getHexlocations().get(23).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-01"));
+		gameState.getHexlocations().get(24).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-01"));
+		gameState.getHexlocations().get(25).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-01"));
+		gameState.getHexlocations().get(26).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-01"));
+		gameState.getHexlocations().get(27).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-01"));
+		gameState.getHexlocations().get(28).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-01"));
+		gameState.getHexlocations().get(29).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-01"));
+		gameState.getHexlocations().get(30).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-01"));
+		gameState.getHexlocations().get(31).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-01"));
+		gameState.getHexlocations().get(32).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-01"));
+		gameState.getHexlocations().get(33).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-01"));
+		gameState.getHexlocations().get(34).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-01"));
+		gameState.getHexlocations().get(35).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-01"));
+		gameState.getHexlocations().get(36).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-01"));
+	}
+	
+	public static void assignDefaultGamePiecesAndGoldToPlayers(GameState gameState) {
+		Iterator<Player> it = gameState.getPlayers().iterator();
+		int i =1;
+		while(it.hasNext()){
+			// Give fort
+			Player player = it.next();
+			String fortId="Fort_01-0"+i;
+			GamePiece fort = gameState.getGamePiece(fortId);
+			player.assignGamePieceToPlayerRack(fort);
+			
+			// Give gold
+			gameState.getBank().payoutGoldToPlayer(10, player);
+			
+			i++;
+		}
+	}
+	
 	public static void addHexLocations(GameState gameState, int numHexes){
 		for(int i=0; i<numHexes; i++) {
 			HexLocation hex = new HexLocation("hexLocation_"+i);
@@ -67,24 +126,24 @@ public class GameStateFactory {
 	}
 	
 	public static void addPiecesToDefaultLocations(GameState gameState) {
-		Set<GamePiece> allGamePieces = new HashSet<GamePiece>();
+		Map<String,GamePiece> allGamePieces = new HashMap<String,GamePiece>();
 		SideLocation side = gameState.getSideLocation();
 		PlayingCup cup = gameState.getPlayingCup();
 		
 		// Counters defaulted to playing cup
-		Set<GamePiece> countersForPlayingCup = getCountersDefaultedToPlayingCup();
-		allGamePieces.addAll(countersForPlayingCup);
-		cup.addGamePiecesToLocation(countersForPlayingCup);
+		Map<String,GamePiece> playingCupPieces = getCountersDefaultedToPlayingCup();
+		allGamePieces.putAll(playingCupPieces);
+		cup.addGamePiecesToLocation(new HashSet<GamePiece>(playingCupPieces.values()));
+		
+		// Special Chars
+		Map<String,SpecialCharacter> specialChars = getSpecialCharacterMap();
+		allGamePieces.putAll(specialChars);
+		side.addGamePiecesToLocation(new HashSet<GamePiece>(specialChars.values()));
 		
 		// Hex Tiles
-		Set<GamePiece> hexTiles = getHexTiles();
-		allGamePieces.addAll(hexTiles);
-		side.addGamePiecesToLocation(hexTiles);
-		
-		// Special Characters
-		Set<GamePiece> spChars = getSpecialCharacters();
-		allGamePieces.addAll(spChars);
-		side.addGamePiecesToLocation(spChars);
+		Map<String,SpecialCharacter> hexTiles = getSpecialCharacterMap();
+		allGamePieces.putAll(hexTiles);
+		side.addGamePiecesToLocation(new HashSet<GamePiece>(hexTiles.values()));
 		
 		gameState.setGamePieces(allGamePieces);
 	}
@@ -101,16 +160,16 @@ public class GameStateFactory {
 		return tiles;
 	}
 	
-	public static Set<GamePiece> getCountersDefaultedToPlayingCup() {
-		Set<GamePiece> counters = new HashSet<GamePiece>();
+	public static Map<String, GamePiece> getCountersDefaultedToPlayingCup() {
+		Map<String,GamePiece> counters = new HashMap<String,GamePiece>();
 		
-		counters.addAll(getFortMap().values());
-		counters.addAll(getCreatureMap().values());
-		counters.addAll(getTreasureMap().values());
-		counters.addAll(getMagicItemMap().values());
-		counters.addAll(getNonCityVillMap().values());
-		counters.addAll(getCityVillMap().values());
-		counters.addAll(getRandomEventMap().values());
+		counters.putAll(getFortMap());
+		counters.putAll(getCreatureMap());
+		counters.putAll(getTreasureMap());
+		counters.putAll(getMagicItemMap());
+		counters.putAll(getNonCityVillMap());
+		counters.putAll(getCityVillMap());
+		counters.putAll(getRandomEventMap());
 		
 		return counters;
 	}
@@ -119,41 +178,41 @@ public class GameStateFactory {
 	public static Map<String, Fort> getFortMap() {
 		//To get a citadel it costs 5 gold but you must have a castle and you have more than 20 gold
 		HashMap<String, Fort> map = new HashMap<String, Fort>();
-		map.put("Fort_01-01", new Fort("Fort_01-01", "Fort",1,5,CombatType.MELEE));
-		map.put("Fort_01-02", new Fort("Fort_01-02", "Fort",1,5,CombatType.MELEE));
-		map.put("Fort_01-03", new Fort("Fort_01-03", "Fort",1,5,CombatType.MELEE));
-		map.put("Fort_01-04", new Fort("Fort_01-04", "Fort",1,5,CombatType.MELEE));
-		map.put("Fort_01-05", new Fort("Fort_01-05", "Fort",1,5,CombatType.MELEE));
-		map.put("Fort_01-06", new Fort("Fort_01-06", "Fort",1,5,CombatType.MELEE));
-		map.put("Fort_01-07", new Fort("Fort_01-07", "Fort",1,5,CombatType.MELEE));
-		map.put("Fort_01-08", new Fort("Fort_01-08", "Fort",1,5,CombatType.MELEE));
-		map.put("Fort_01-09", new Fort("Fort_01-09", "Fort",1,5,CombatType.MELEE));
-		map.put("Fort_01-10", new Fort("Fort_01-10", "Fort",1,5,CombatType.MELEE));
+		map.put("Fort_01-01", new Fort("Fort_01-01", "Tower",1,5,CombatType.MELEE));
+		map.put("Fort_01-02", new Fort("Fort_01-02", "Tower",1,5,CombatType.MELEE));
+		map.put("Fort_01-03", new Fort("Fort_01-03", "Tower",1,5,CombatType.MELEE));
+		map.put("Fort_01-04", new Fort("Fort_01-04", "Tower",1,5,CombatType.MELEE));
+		map.put("Fort_01-05", new Fort("Fort_01-05", "Tower",1,5,CombatType.MELEE));
+		map.put("Fort_01-06", new Fort("Fort_01-06", "Tower",1,5,CombatType.MELEE));
+		map.put("Fort_01-07", new Fort("Fort_01-07", "Tower",1,5,CombatType.MELEE));
+		map.put("Fort_01-08", new Fort("Fort_01-08", "Tower",1,5,CombatType.MELEE));
+		map.put("Fort_01-09", new Fort("Fort_01-09", "Tower",1,5,CombatType.MELEE));
+		map.put("Fort_01-10", new Fort("Fort_01-10", "Tower",1,5,CombatType.MELEE));
 
-		map.put("Fort_02-01", new Fort("Fort_02-01", "Fort",2,5,CombatType.MELEE));
-		map.put("Fort_02-02", new Fort("Fort_02-02", "Fort",2,5,CombatType.MELEE));
-		map.put("Fort_02-03", new Fort("Fort_02-03", "Fort",2,5,CombatType.MELEE));
-		map.put("Fort_02-04", new Fort("Fort_02-04", "Fort",2,5,CombatType.MELEE));
-		map.put("Fort_02-05", new Fort("Fort_02-05", "Fort",2,5,CombatType.MELEE));
-		map.put("Fort_02-06", new Fort("Fort_02-06", "Fort",2,5,CombatType.MELEE));
-		map.put("Fort_02-07", new Fort("Fort_02-07", "Fort",2,5,CombatType.MELEE));
-		map.put("Fort_02-08", new Fort("Fort_02-08", "Fort",2,5,CombatType.MELEE));
+		map.put("Fort_02-01", new Fort("Fort_02-01", "Keep",2,5,CombatType.MELEE));
+		map.put("Fort_02-02", new Fort("Fort_02-02", "Keep",2,5,CombatType.MELEE));
+		map.put("Fort_02-03", new Fort("Fort_02-03", "Keep",2,5,CombatType.MELEE));
+		map.put("Fort_02-04", new Fort("Fort_02-04", "Keep",2,5,CombatType.MELEE));
+		map.put("Fort_02-05", new Fort("Fort_02-05", "Keep",2,5,CombatType.MELEE));
+		map.put("Fort_02-06", new Fort("Fort_02-06", "Keep",2,5,CombatType.MELEE));
+		map.put("Fort_02-07", new Fort("Fort_02-07", "Keep",2,5,CombatType.MELEE));
+		map.put("Fort_02-08", new Fort("Fort_02-08", "Keep",2,5,CombatType.MELEE));
 		
-		map.put("Fort_03-01", new Fort("Fort_03-01", "Fort",3,5,CombatType.RANGE));
-		map.put("Fort_03-02", new Fort("Fort_03-02", "Fort",3,5,CombatType.RANGE));
-		map.put("Fort_03-03", new Fort("Fort_03-03", "Fort",3,5,CombatType.RANGE));
-		map.put("Fort_03-04", new Fort("Fort_03-04", "Fort",3,5,CombatType.RANGE));
-		map.put("Fort_03-05", new Fort("Fort_03-05", "Fort",3,5,CombatType.RANGE));
-		map.put("Fort_03-06", new Fort("Fort_03-06", "Fort",3,5,CombatType.RANGE));
-		map.put("Fort_03-07", new Fort("Fort_03-07", "Fort",3,5,CombatType.RANGE));
-		map.put("Fort_03-08", new Fort("Fort_03-08", "Fort",3,5,CombatType.RANGE));
+		map.put("Fort_03-01", new Fort("Fort_03-01", "Castle",3,5,CombatType.RANGE));
+		map.put("Fort_03-02", new Fort("Fort_03-02", "Castle",3,5,CombatType.RANGE));
+		map.put("Fort_03-03", new Fort("Fort_03-03", "Castle",3,5,CombatType.RANGE));
+		map.put("Fort_03-04", new Fort("Fort_03-04", "Castle",3,5,CombatType.RANGE));
+		map.put("Fort_03-05", new Fort("Fort_03-05", "Castle",3,5,CombatType.RANGE));
+		map.put("Fort_03-06", new Fort("Fort_03-06", "Castle",3,5,CombatType.RANGE));
+		map.put("Fort_03-07", new Fort("Fort_03-07", "Castle",3,5,CombatType.RANGE));
+		map.put("Fort_03-08", new Fort("Fort_03-08", "Castle",3,5,CombatType.RANGE));
 		
-		map.put("Fort_04-01", new Fort("Fort_04-01", "Fort",4,5,CombatType.MAGIC));
-		map.put("Fort_04-02", new Fort("Fort_04-02", "Fort",4,5,CombatType.MAGIC));
-		map.put("Fort_04-03", new Fort("Fort_04-03", "Fort",4,5,CombatType.MAGIC));
-		map.put("Fort_04-04", new Fort("Fort_04-04", "Fort",4,5,CombatType.MAGIC));
-		map.put("Fort_04-05", new Fort("Fort_04-05", "Fort",4,5,CombatType.MAGIC));
-		map.put("Fort_04-06", new Fort("Fort_04-06", "Fort",4,5,CombatType.MAGIC));
+		map.put("Fort_04-01", new Fort("Fort_04-01", "Citadel",4,5,CombatType.MAGIC));
+		map.put("Fort_04-02", new Fort("Fort_04-02", "Citadel",4,5,CombatType.MAGIC));
+		map.put("Fort_04-03", new Fort("Fort_04-03", "Citadel",4,5,CombatType.MAGIC));
+		map.put("Fort_04-04", new Fort("Fort_04-04", "Citadel",4,5,CombatType.MAGIC));
+		map.put("Fort_04-05", new Fort("Fort_04-05", "Citadel",4,5,CombatType.MAGIC));
+		map.put("Fort_04-06", new Fort("Fort_04-06", "Citadel",4,5,CombatType.MAGIC));
 		return map;
 	}
 	

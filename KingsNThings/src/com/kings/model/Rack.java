@@ -37,4 +37,8 @@ public class Rack extends BoardLocation {
 	public void setOwner(Player owner) {
 		this.owner = owner;
 	}
+	
+	public boolean isFull() {
+		return getGamePieces().size() >= getLimit();
+	}
 }

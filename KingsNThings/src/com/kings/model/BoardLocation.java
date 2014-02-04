@@ -41,8 +41,15 @@ public class BoardLocation extends AbstractSerializedObject {
 	 * @param piece
 	 */
 	public void addGamePieceToLocation(GamePiece piece) {
+		BoardLocation previousLocation = piece.getLocation();
+		if(previousLocation != null)
+			previousLocation.removeGamePieceFromLocation(piece);
 		gamePieces.add(piece);
 		piece.setLocation(this);
+	}
+	
+	protected void removeGamePieceFromLocation(GamePiece piece) {
+		gamePieces.remove(piece);
 	}
 	
 	/**

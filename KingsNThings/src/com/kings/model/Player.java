@@ -21,6 +21,7 @@ public class Player extends AbstractSerializedObject {
 	private GameState gameState;
 	private Set<SentMessage> sentMessages;
 	private Integer gold;
+	private Set<HexLocation> ownedLocations;
 	
 	public Player(User user, GameState gameState, String playerId) {
 		this.playerId = playerId;
@@ -29,6 +30,9 @@ public class Player extends AbstractSerializedObject {
 		this.setUsername(user.getUsername());
 		this.setUserId(user.getUserId());
 		this.setSentMessages(new HashSet<SentMessage>());
+		rack1 = new Rack(playerId+"_rack1");
+		rack2 = new Rack(playerId+"_rack2");
+		gold=0;
 	}
 	
 	public String getPlayerId() {
@@ -138,6 +142,42 @@ public class Player extends AbstractSerializedObject {
 		map.put("rack2", rack2.toSerializedFormat());
 		map.put("gamePieces", getGamePiecesInSerializedFormat());
 		return map;
+	}
+	
+	public void assignGamePieceToPlayer(GamePiece gamePiece) {
+		Player previousOwner = gamePiece.getOwner();
+		if(previousOwner != null) {
+			previousOwner.removeGamePiece(gamePiece);
+		}
+		gamePiece.setOwner(this);
+		getGamePieces().add(gamePiece);
+	}
+	
+	public void removeGamePiece(GamePiece gamePiece) {
+		getGamePieces().remove(gamePiece);
+	}
+	
+	public void assignGamePieceToPlayerRack(GamePiece gamePiece) {
+		assignGamePieceToPlayer(gamePiece);
+		if(!rack1.isFull()) {
+			rack1.addGamePieceToLocation(gamePiece);
+		} else if(!rack2.isFull()) {
+			rack2.addGamePieceToLocation(gamePiece);
+		} else{
+			//TODO HANDLE FULL RACKS
+		}
+	}
+	
+	public void addGold(int gold) {
+		this.gold = this.gold+gold;
+	}
+
+	public Set<HexLocation> getOwnedLocations() {
+		return ownedLocations;
+	}
+
+	public void setOwnedLocations(Set<HexLocation> ownedLocations) {
+		this.ownedLocations = ownedLocations;
 	}
 
 }

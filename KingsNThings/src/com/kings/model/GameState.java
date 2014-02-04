@@ -25,7 +25,7 @@ public class GameState extends AbstractSerializedObject {
 	// In Game Shtuff
 	private PlayingCup playingCup;
 	private Bank bank;
-	private Set<GamePiece> gamePieces;
+	private Map<String,GamePiece> gamePieces;
 	private Set<Player> players;
 	private List<HexLocation> hexlocations;
 	private SideLocation sideLocation;
@@ -50,10 +50,10 @@ public class GameState extends AbstractSerializedObject {
 	public GameState() {
 		this.players = new HashSet<Player>();
 		this.setSentMessages(new HashSet<SentMessage>());
-		this.gamePieces = new HashSet<GamePiece>();
+		this.setGamePieces(new HashMap<String,GamePiece>());
 		this.hexlocations = new ArrayList<HexLocation>();
 		this.playingCup = new PlayingCup("playingCup");
-		this.bank = new Bank("bank");
+		this.bank = new Bank("bank", 9999999);
 		this.sideLocation= new SideLocation("side", "Side");
 	}
 	
@@ -109,14 +109,6 @@ public class GameState extends AbstractSerializedObject {
 
 	public void setGameId(String gameId) {
 		this.gameId = gameId;
-	}
-
-	public Set<GamePiece> getGamePieces() {
-		return gamePieces;
-	}
-
-	public void setGamePieces(Set<GamePiece> gamePieces) {
-		this.gamePieces = gamePieces;
 	}
 
 	protected void addSentMessage(SentMessage sentMessage) {
@@ -199,7 +191,7 @@ public class GameState extends AbstractSerializedObject {
 	}
 	
 	public List<Map<String, Object>> getGamePiecesInSerializedFormat(){
-		Iterator<GamePiece> it = getGamePieces().iterator();
+		Iterator<GamePiece> it = getGamePieces().values().iterator();
 		List<Map<String, Object>> set = new ArrayList<Map<String, Object>>();
 		while(it.hasNext()) {
 			set.add(it.next().toSerializedFormat());
@@ -235,6 +227,18 @@ public class GameState extends AbstractSerializedObject {
 
 	public void setSideLocation(SideLocation sideLocation) {
 		this.sideLocation = sideLocation;
+	}
+
+	public Map<String,GamePiece> getGamePieces() {
+		return gamePieces;
+	}
+
+	public void setGamePieces(Map<String,GamePiece> gamePieces) {
+		this.gamePieces = gamePieces;
+	}
+	
+	public GamePiece getGamePiece(String gamePieceId) {
+		return getGamePieces().get(gamePieceId);
 	}
 	
 }
