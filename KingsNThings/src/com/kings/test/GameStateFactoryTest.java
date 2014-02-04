@@ -30,7 +30,7 @@ public class GameStateFactoryTest {
 		gs.addPlayer(p3);
 		gs.addPlayer(p4);
 		gs.setCurrentPhase(new SetupPhase(gs, players));
-		GameStateFactory.makeGameState(gs, 3);
+		GameStateFactory.makeGameState(gs, 4);
 		Map<String,Object> map = gs.toSerializedFormat();
 		System.out.println(Utils.toJson(map));
 	}

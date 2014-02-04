@@ -20,6 +20,11 @@ public class HexLocation extends BoardLocation {
 	}
 
 	public void setHexTile(HexTile hexTile) {
+		if(hexTile==null){
+			this.hexTile=null;
+			return;
+		}
+		
 		BoardLocation previousLocation = hexTile.getLocation();
 		if(previousLocation!=null) {
 			if(previousLocation instanceof HexLocation) {

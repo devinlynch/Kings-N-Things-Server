@@ -141,7 +141,7 @@ public class GameStateFactory {
 		side.addGamePiecesToLocation(new HashSet<GamePiece>(specialChars.values()));
 		
 		// Hex Tiles
-		Map<String,SpecialCharacter> hexTiles = getSpecialCharacterMap();
+		Map<String,HexTile> hexTiles = getHexTileMap();
 		allGamePieces.putAll(hexTiles);
 		side.addGamePiecesToLocation(new HashSet<GamePiece>(hexTiles.values()));
 		

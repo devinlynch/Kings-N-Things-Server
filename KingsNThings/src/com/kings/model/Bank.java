@@ -1,11 +1,11 @@
 package com.kings.model;
 
+import java.util.HashMap;
 import java.util.Map;
 
-public class Bank extends BoardLocation {
+public class Bank {
 	private int gold;
 	public Bank(String id, int initialGold){
-		super(id, "Bank");
 		setGold(initialGold);
 	}
 	public int getGold() {
@@ -20,10 +20,9 @@ public class Bank extends BoardLocation {
 		p.addGold(gold);
 	}
 	
-	@Override
 	public Map<String, Object> toSerializedFormat() {
-		Map<String, Object> map = super.toSerializedFormat();
-		map.put("gold", gold);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("currentTotal", gold);
 		return map;
 	}
 }
