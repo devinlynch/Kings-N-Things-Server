@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.junit.Test;
 
+import com.kings.http.GameMessage;
 import com.kings.model.GameState;
 import com.kings.model.Player;
 import com.kings.model.User;
@@ -32,6 +33,9 @@ public class GameStateFactoryTest {
 		gs.setCurrentPhase(new SetupPhase(gs, players));
 		GameStateFactory.makeGameState(gs, 4);
 		Map<String,Object> map = gs.toSerializedFormat();
-		System.out.println(Utils.toJson(map));
+		//System.out.println(Utils.toJson(map));
+		
+		GameMessage gm = ((SetupPhase)gs.getCurrentPhase()).generateSetupGameMessage();
+		System.out.println(gm.toJson("1"));
 	}
 }

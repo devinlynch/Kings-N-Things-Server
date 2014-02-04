@@ -29,19 +29,16 @@ public class SetupPhase extends Phase {
 			^ Ids of game pieces assigned to players at beginning (gold and tower)
 		*/
 		
-		//TODO initialize game state with players owning certain locations, pieves, gold and initialize land on hexes
 		GameMessage message = generateSetupGameMessage();
 		getGameState().queueUpGameMessageToSendToAllPlayers(message);
 	}
 	
-	protected GameMessage generateSetupGameMessage() {
+	public GameMessage generateSetupGameMessage() {
 		GameMessage message = new GameMessage("setupGame");
 		message.setPlayersToSendTo(getGameState().getPlayers());		
-		message.addToData("hexes", getGameState().getHexlocations());
+		message.addToData("gameState", getGameState().toSerializedFormat());
 		
-		message.addToData("playersInGame", getPlayersInOrderOfTurn());
-		
-		for(Player p : getGameState().getPlayers()) {
+		/*for(Player p : getGameState().getPlayers()) {
 			Set<String> myGamePieceIds = new HashSet<String>();
 			for(GamePiece piece : p.getGamePieces()) {
 				myGamePieceIds.add(piece.getId());
@@ -49,7 +46,7 @@ public class SetupPhase extends Phase {
 			message.addUserSpecificData(p.getPlayerId(), "myself", p.getGamePieces());
 			message.addUserSpecificData(p.getPlayerId(), "myGold", p.getGold());
 			message.addUserSpecificData(p.getPlayerId(), "myPlayerState", p);
-		}
+		}*/
 		
 		return message;
 	}
