@@ -23,7 +23,7 @@ public class MagicItem extends Thing {
 		map.put("Talisman", new MagicItem("magic_09", "Talisman"));
 		map.put("Zauberbogen", new MagicItem("magic_10", "Zauberbogen"));
 		map.put("Zauberschwert", new MagicItem("magic_11", "Zauberschwert"));
-		return null;
+		return map;
 	}
 
 }

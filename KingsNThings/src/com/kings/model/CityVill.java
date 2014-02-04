@@ -22,9 +22,9 @@ public class CityVill extends SpecialIncomeCounter {
 	public HashMap<String, GamePiece> getMapOfInstances() {
 		// TODO GABE
 		HashMap<String, GamePiece> map = new HashMap<String, GamePiece>();
-		map.put("city", new CityVill("city_01", "city",2,2));
-		map.put("village", new CityVill("village_01", "village",1,1));
+		map.put("city_01", new CityVill("city_01", "city",2,2));
+		map.put("village_01", new CityVill("village_01", "village",1,1));
 		
-		return null;
+		return map;
 	}
 }

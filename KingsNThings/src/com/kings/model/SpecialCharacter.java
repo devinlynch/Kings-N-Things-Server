@@ -29,17 +29,17 @@ public class SpecialCharacter extends Counter {
 		// TODO GABE
 		// Will add later specifics later
 		HashMap<String, GamePiece> map = new HashMap<String, GamePiece>();
-		map.put("Marksman", new SpecialCharacter("specialcharacter_01", "Marksman",SpecialAbility.markmanCounter));
-		map.put("SirLanceALot", new SpecialCharacter("specialcharacter_02", "SirLanceALot",SpecialAbility.markmanCounter));
-		map.put("ArchMage", new SpecialCharacter("specialcharacter_03", "ArchMage",SpecialAbility.markmanCounter));
-		map.put("DwarfKing", new SpecialCharacter("specialcharacter_04", "DwarfKing",SpecialAbility.markmanCounter));
-		map.put("AssassinPrimus", new SpecialCharacter("specialcharacter_05", "AssassinPrimus",SpecialAbility.eliminatecounterNocombat));
-		map.put("BaronMunchausen", new SpecialCharacter("specialcharacter_06", "BaronMunchausen",SpecialAbility.markmanCounter));
-		map.put("GrandDuke", new SpecialCharacter("specialcharacter_07", "GrandDuke",SpecialAbility.markmanCounter));
-		map.put("ElfLord", new SpecialCharacter("specialcharacter_08", "ElfLord",SpecialAbility.markmanCounter));
-		map.put("MasterThief", new SpecialCharacter("specialcharacter_09", "MasterThief",SpecialAbility.masterCounterTheft));
-		map.put("SwordMaster", new SpecialCharacter("specialcharacter_10", "SwordMaster",SpecialAbility.swordElimnator));
-		map.put("ArchCleric", new SpecialCharacter("specialcharacter_11", "ArchCleric",SpecialAbility.markmanCounter));
+		map.put("specialcharacter_01", new SpecialCharacter("specialcharacter_01", "Marksman",SpecialAbility.markmanCounter));
+		map.put("specialcharacter_02", new SpecialCharacter("specialcharacter_02", "SirLanceALot",SpecialAbility.markmanCounter));
+		map.put("specialcharacter_03", new SpecialCharacter("specialcharacter_03", "ArchMage",SpecialAbility.markmanCounter));
+		map.put("specialcharacter_04", new SpecialCharacter("specialcharacter_04", "DwarfKing",SpecialAbility.markmanCounter));
+		map.put("specialcharacter_05", new SpecialCharacter("specialcharacter_05", "AssassinPrimus",SpecialAbility.eliminatecounterNocombat));
+		map.put("specialcharacter_06", new SpecialCharacter("specialcharacter_06", "BaronMunchausen",SpecialAbility.markmanCounter));
+		map.put("specialcharacter_07", new SpecialCharacter("specialcharacter_07", "GrandDuke",SpecialAbility.markmanCounter));
+		map.put("specialcharacter_08", new SpecialCharacter("specialcharacter_08", "ElfLord",SpecialAbility.markmanCounter));
+		map.put("specialcharacter_09", new SpecialCharacter("specialcharacter_09", "MasterThief",SpecialAbility.masterCounterTheft));
+		map.put("specialcharacter_10", new SpecialCharacter("specialcharacter_10", "SwordMaster",SpecialAbility.swordElimnator));
+		map.put("specialcharacter_11", new SpecialCharacter("specialcharacter_11", "ArchCleric",SpecialAbility.markmanCounter));
 
 		return null;
 	}
