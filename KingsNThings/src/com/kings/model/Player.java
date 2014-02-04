@@ -1,13 +1,16 @@
 package com.kings.model;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kings.http.SentMessage;
 
-public class Player {
+public class Player extends AbstractSerializedObject {
 	private String playerId;
 	private String username;
 	private String userId;
@@ -115,4 +118,25 @@ public class Player {
 		this.userId = userId;
 	}
 	
+	public Set<String> getGamePieceIds(){
+		Iterator<GamePiece> it = getGamePieces().iterator();
+		Set<String> set = new HashSet<String>();
+		while(it.hasNext()) {
+			set.add(it.next().getId());
+		}
+		return set;
+	}
+
+	@Override
+	public Map<String, Object> toSerializedFormat() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("playerId", playerId);
+		map.put("username", username);
+		map.put("userId", userId);
+		map.put("gold", gold);
+		map.put("rack1", rack1.toSerializedFormat());
+		map.put("rack2", rack2.toSerializedFormat());
+		return map;
+	}
+
 }

@@ -182,4 +182,5 @@ public class GameState {
 	public void setHexlocations(List<HexLocation> hexlocations) {
 		this.hexlocations = hexlocations;
 	}
+	
 }

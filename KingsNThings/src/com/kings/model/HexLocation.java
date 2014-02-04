@@ -1,5 +1,7 @@
 package com.kings.model;
 
+import java.util.Map;
+
 public class HexLocation extends BoardLocation {
 	private HexTile hexTile;
 	private Player owner;
@@ -23,6 +25,13 @@ public class HexLocation extends BoardLocation {
 
 	public void setOwner(Player owner) {
 		this.owner = owner;
+	}
+	
+	@Override
+	public Map<String, Object> toSerializedFormat() {
+		Map<String, Object> map = super.toSerializedFormat();
+		map.put("ownerId", owner != null ? owner.getPlayerId() : null);
+		return map;
 	}
 
 }

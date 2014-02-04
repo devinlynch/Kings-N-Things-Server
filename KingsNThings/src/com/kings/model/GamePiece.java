@@ -1,8 +1,9 @@
 package com.kings.model;
 
 import java.util.HashMap;
+import java.util.Map;
 
-public abstract class GamePiece {
+public abstract class GamePiece extends AbstractSerializedObject {
 	private String id;
 	private BoardLocation location;
 	private Player owner;
@@ -59,5 +60,14 @@ public abstract class GamePiece {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	@Override
+	public Map<String,Object> toSerializedFormat() {
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("id", getId());
+		map.put("locationId", location!= null ? location.getId() : null);
+		map.put("ownerId", owner != null ? owner.getPlayerId() : null);
+		return map;
 	}
 }
