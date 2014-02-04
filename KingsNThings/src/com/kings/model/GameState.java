@@ -1,9 +1,11 @@
 package com.kings.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -13,7 +15,7 @@ import com.kings.model.factory.GameStateFactory;
 import com.kings.model.phases.Phase;
 import com.kings.model.phases.SetupPhase;
 
-public class GameState {
+public class GameState extends AbstractSerializedObject {
 	private String gameId;
 
 	@JsonIgnore private Phase currentPhase;
@@ -26,6 +28,7 @@ public class GameState {
 	private Set<GamePiece> gamePieces;
 	private Set<Player> players;
 	private List<HexLocation> hexlocations;
+	private SideLocation sideLocation;
 
 	
 	public PlayingCup getPlayingCup() {
@@ -48,6 +51,10 @@ public class GameState {
 		this.players = new HashSet<Player>();
 		this.setSentMessages(new HashSet<SentMessage>());
 		this.gamePieces = new HashSet<GamePiece>();
+		this.hexlocations = new ArrayList<HexLocation>();
+		this.playingCup = new PlayingCup("playingCup");
+		this.bank = new Bank("bank");
+		this.sideLocation= new SideLocation("side", "Side");
 	}
 	
 	public static GameState createGameStateFromGame(Game game) throws Exception {
@@ -181,6 +188,53 @@ public class GameState {
 
 	public void setHexlocations(List<HexLocation> hexlocations) {
 		this.hexlocations = hexlocations;
+	}
+	
+	public Set<Map<String,Object>> getPlayersInSerializedFormat() {
+		Set<Map<String,Object>> set = new HashSet<Map<String,Object>>();
+		
+		for(Player p: getPlayers())
+			set.add(p.toSerializedFormat());
+		return set;
+	}
+	
+	public List<Map<String, Object>> getGamePiecesInSerializedFormat(){
+		Iterator<GamePiece> it = getGamePieces().iterator();
+		List<Map<String, Object>> set = new ArrayList<Map<String, Object>>();
+		while(it.hasNext()) {
+			set.add(it.next().toSerializedFormat());
+		}
+		return set;
+	}
+	
+	public List<Map<String, Object>> getHexLocationsInSerializedFormat(){
+		Iterator<HexLocation> it = getHexlocations().iterator();
+		List<Map<String, Object>> set = new ArrayList<Map<String, Object>>();
+		while(it.hasNext()) {
+			set.add(it.next().toSerializedFormat());
+		}
+		return set;
+	}
+
+	@Override
+	public Map<String, Object> toSerializedFormat() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("players", getPlayersInSerializedFormat());
+		map.put("currentPhaseId", getCurrentPhase().getPhaseId());
+		map.put("gamePieces", getGamePiecesInSerializedFormat());
+		map.put("playingCup", getPlayingCup().toSerializedFormat());
+		map.put("bank", getBank().toSerializedFormat());
+		map.put("sideLocation", getSideLocation().toSerializedFormat());
+		map.put("hexLocations", getHexLocationsInSerializedFormat());
+		return map;
+	}
+
+	public SideLocation getSideLocation() {
+		return sideLocation;
+	}
+
+	public void setSideLocation(SideLocation sideLocation) {
+		this.sideLocation = sideLocation;
 	}
 	
 }

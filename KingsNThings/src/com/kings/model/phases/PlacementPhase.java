@@ -9,6 +9,7 @@ public class PlacementPhase extends Phase {
 
 	public PlacementPhase(GameState gameState, List<Player> playersInOrderOfTurn) {
 		super(gameState, playersInOrderOfTurn);
+		setPhaseId("placement");
 		// TODO Auto-generated constructor stub
 	}
 

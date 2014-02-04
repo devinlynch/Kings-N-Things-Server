@@ -12,6 +12,7 @@ public class GoldCollectionPhase extends Phase {
 
 	public GoldCollectionPhase(GameState gameState, List<Player> playersInOrderOfTurn) {
 		super(gameState, playersInOrderOfTurn);
+		setPhaseId("gold");
 		// TODO Auto-generated constructor stub
 	}
 

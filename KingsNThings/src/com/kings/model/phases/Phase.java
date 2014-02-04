@@ -1,11 +1,15 @@
 package com.kings.model.phases;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import com.kings.model.GameState;
 import com.kings.model.Player;
 
 public abstract class Phase {
+	private String phaseId;
 	private boolean over;
 	/**
 	 * Contains the list of players in their correct order, this should be updated to the correct order once the sequence 
@@ -90,6 +94,14 @@ public abstract class Phase {
 
 	public void setOver(boolean over) {
 		this.over = over;
+	}
+
+	public String getPhaseId() {
+		return phaseId;
+	}
+
+	public void setPhaseId(String phaseId) {
+		this.phaseId = phaseId;
 	}
 	
 }

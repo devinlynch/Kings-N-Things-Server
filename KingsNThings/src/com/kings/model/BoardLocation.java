@@ -35,6 +35,26 @@ public class BoardLocation extends AbstractSerializedObject {
 	public void setGamePieces(Set<GamePiece> gamePieces) {
 		this.gamePieces = gamePieces;
 	}
+	
+	/**
+	 * Adds the given piece to this location and updates the piece state
+	 * @param piece
+	 */
+	public void addGamePieceToLocation(GamePiece piece) {
+		gamePieces.add(piece);
+		piece.setLocation(this);
+	}
+	
+	/**
+	 * Adds the given pieces to this location and updates the pieces states
+	 * @param piece
+	 */
+	public void addGamePiecesToLocation(Set<GamePiece> pieces) {
+		Iterator<GamePiece> it = pieces.iterator();
+		while(it.hasNext()) {
+			addGamePieceToLocation(it.next());
+		}
+	}
 
 	@Override
 	public Map<String, Object> toSerializedFormat() {

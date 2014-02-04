@@ -16,6 +16,7 @@ public class SetupPhase extends Phase {
 	public SetupPhase(GameState gameState, List<Player>playersInOrderOfTurn) {
 		super(gameState, playersInOrderOfTurn);
 		playersReadyForPlacement = new HashSet<String>();
+		setPhaseId("setup");
 		// TODO Auto-generated constructor stub
 	}
 
@@ -38,15 +39,14 @@ public class SetupPhase extends Phase {
 		message.setPlayersToSendTo(getGameState().getPlayers());		
 		message.addToData("hexes", getGameState().getHexlocations());
 		
-		//TODO we need to send over certain data from a player to all other players, we need to somehow encapsulate certain data
-		message.addToData("playersInGame", getGameState().getPlayers());
+		message.addToData("playersInGame", getPlayersInOrderOfTurn());
 		
 		for(Player p : getGameState().getPlayers()) {
 			Set<String> myGamePieceIds = new HashSet<String>();
 			for(GamePiece piece : p.getGamePieces()) {
 				myGamePieceIds.add(piece.getId());
 			}
-			message.addUserSpecificData(p.getPlayerId(), "myGamePieces", p.getGamePieces());
+			message.addUserSpecificData(p.getPlayerId(), "myself", p.getGamePieces());
 			message.addUserSpecificData(p.getPlayerId(), "myGold", p.getGold());
 			message.addUserSpecificData(p.getPlayerId(), "myPlayerState", p);
 		}

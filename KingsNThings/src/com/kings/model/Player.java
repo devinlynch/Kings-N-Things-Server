@@ -118,11 +118,11 @@ public class Player extends AbstractSerializedObject {
 		this.userId = userId;
 	}
 	
-	public Set<String> getGamePieceIds(){
+	public Set<Map<String, Object>> getGamePiecesInSerializedFormat(){
 		Iterator<GamePiece> it = getGamePieces().iterator();
-		Set<String> set = new HashSet<String>();
+		Set<Map<String, Object>> set = new HashSet<Map<String, Object>>();
 		while(it.hasNext()) {
-			set.add(it.next().getId());
+			set.add(it.next().toSerializedFormat());
 		}
 		return set;
 	}
@@ -136,6 +136,7 @@ public class Player extends AbstractSerializedObject {
 		map.put("gold", gold);
 		map.put("rack1", rack1.toSerializedFormat());
 		map.put("rack2", rack2.toSerializedFormat());
+		map.put("gamePieces", getGamePiecesInSerializedFormat());
 		return map;
 	}
 
