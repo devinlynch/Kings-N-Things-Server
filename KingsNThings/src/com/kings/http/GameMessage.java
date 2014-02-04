@@ -121,10 +121,10 @@ public class GameMessage {
 	}
 	
 	public void addUserSpecificData(String playerId, String key, Object value) {
-		HttpResponseData userData = getUserSpecificData().get("playerId");
+		HttpResponseData userData = getUserSpecificData().get(playerId);
 		if(userData==null){
 			userData = new HttpResponseData();
-			getUserSpecificData().put("playerId", userData);
+			getUserSpecificData().put(playerId, userData);
 		}
 		userData.put(key, value);
 	}

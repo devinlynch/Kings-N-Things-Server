@@ -32,7 +32,7 @@ public class PlacementPhaseController extends PhaseController {
 		Player player = state.getPlayerByUserId(user.getUserId());
 		Phase p = state.getCurrentPhase();
 		PlacementPhase placementPhase = (PlacementPhase) p;
-		placementPhase.didPlaceFort(player.getPlayerId(), placedOnHexId);
+		//placementPhase.didPlaceFort(player.getPlayerId(), placedOnHexId);
 		
 		return null;
 	}

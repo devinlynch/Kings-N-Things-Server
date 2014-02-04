@@ -36,6 +36,20 @@ public class HexLocation extends BoardLocation {
 		hexTile.setLocation(this);
 		this.hexTile = hexTile;
 	}
+	
+	/**
+	 * Handles the given player capturing this hex location
+	 * @param player
+	 */
+	public void capture(Player player){
+		Player previousOwner = getOwner();
+		if(previousOwner != null) {
+			previousOwner.getOwnedLocations().remove(this);
+		}
+		
+		player.getOwnedLocations().add(this);
+		this.setOwner(player);
+	}
 
 	public Player getOwner() {
 		return owner;
@@ -58,6 +72,7 @@ public class HexLocation extends BoardLocation {
 		Map<String, Object> map = super.toSerializedFormat();
 		map.put("ownerId", owner != null ? owner.getPlayerId() : null);
 		map.put("stacks", getStacksInSerializedFormat());
+		map.put("hexTile", hexTile != null ? hexTile.toSerializedFormat() : null);
 		return map;
 	}
 

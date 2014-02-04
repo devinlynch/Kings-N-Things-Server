@@ -36,6 +36,6 @@ public class GameStateFactoryTest {
 		//System.out.println(Utils.toJson(map));
 		
 		GameMessage gm = ((SetupPhase)gs.getCurrentPhase()).generateSetupGameMessage();
-		System.out.println(gm.toJson("1"));
+		System.out.println(gm.toJson("2"));
 	}
 }

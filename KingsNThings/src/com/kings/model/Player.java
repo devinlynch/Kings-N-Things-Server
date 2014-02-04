@@ -16,16 +16,17 @@ public class Player extends AbstractSerializedObject {
 	private String userId;
 	private Rack rack1;
 	private Rack rack2;
-	private Set<GamePiece> gamePieces;
+	private Map<String,GamePiece> gamePieces;
 	@JsonIgnore
 	private GameState gameState;
 	private Set<SentMessage> sentMessages;
 	private Integer gold;
+
 	private Set<HexLocation> ownedLocations;
 	
 	public Player(User user, GameState gameState, String playerId) {
 		this.playerId = playerId;
-		this.gamePieces = new HashSet<GamePiece>();
+		this.gamePieces = new HashMap<String,GamePiece>();
 		this.gameState=gameState;
 		this.setUsername(user.getUsername());
 		this.setUserId(user.getUserId());
@@ -33,6 +34,7 @@ public class Player extends AbstractSerializedObject {
 		rack1 = new Rack(playerId+"_rack1");
 		rack2 = new Rack(playerId+"_rack2");
 		gold=0;
+		this.ownedLocations = new HashSet<HexLocation>();
 	}
 	
 	public String getPlayerId() {
@@ -40,13 +42,6 @@ public class Player extends AbstractSerializedObject {
 	}
 	public void setPlayerId(String playerId) {
 		this.playerId = playerId;
-	}
-	
-	public Set<GamePiece> getGamePieces() {
-		return gamePieces;
-	}
-	public void setGamePieces(Set<GamePiece> gamePieces) {
-		this.gamePieces = gamePieces;
 	}
 	
 	@JsonIgnore
@@ -123,10 +118,19 @@ public class Player extends AbstractSerializedObject {
 	}
 	
 	public Set<Map<String, Object>> getGamePiecesInSerializedFormat(){
-		Iterator<GamePiece> it = getGamePieces().iterator();
+		Iterator<GamePiece> it = getGamePieces().values().iterator();
 		Set<Map<String, Object>> set = new HashSet<Map<String, Object>>();
 		while(it.hasNext()) {
 			set.add(it.next().toSerializedFormat());
+		}
+		return set;
+	}
+	
+	public Set<String> getOwnedHexesInSerializedFormat(){
+		Iterator<HexLocation> it = getOwnedLocations().iterator();
+		Set<String> set = new HashSet<String>();
+		while(it.hasNext()) {
+			set.add(it.next().getId());
 		}
 		return set;
 	}
@@ -141,20 +145,21 @@ public class Player extends AbstractSerializedObject {
 		map.put("rack1", rack1.toSerializedFormat());
 		map.put("rack2", rack2.toSerializedFormat());
 		map.put("gamePieces", getGamePiecesInSerializedFormat());
+		map.put("ownedHexIds", getOwnedHexesInSerializedFormat());
 		return map;
 	}
 	
 	public void assignGamePieceToPlayer(GamePiece gamePiece) {
 		Player previousOwner = gamePiece.getOwner();
 		if(previousOwner != null) {
-			previousOwner.removeGamePiece(gamePiece);
+			previousOwner.removeGamePiece(gamePiece.getId());
 		}
 		gamePiece.setOwner(this);
-		getGamePieces().add(gamePiece);
+		getGamePieces().put(gamePiece.getId(), gamePiece);
 	}
 	
-	public void removeGamePiece(GamePiece gamePiece) {
-		getGamePieces().remove(gamePiece);
+	public void removeGamePiece(String gamePieceId) {
+		getGamePieces().remove(gamePieceId);
 	}
 	
 	public void assignGamePieceToPlayerRack(GamePiece gamePiece) {
@@ -178,6 +183,18 @@ public class Player extends AbstractSerializedObject {
 
 	public void setOwnedLocations(Set<HexLocation> ownedLocations) {
 		this.ownedLocations = ownedLocations;
+	}
+	
+	public Map<String, GamePiece> getGamePieces() {
+		return gamePieces;
+	}
+
+	public void setGamePieces(Map<String, GamePiece> gamePieces) {
+		this.gamePieces = gamePieces;
+	}
+	
+	public GamePiece getGamePieceById(String id) {
+		return getGamePieces().get(id);
 	}
 
 }

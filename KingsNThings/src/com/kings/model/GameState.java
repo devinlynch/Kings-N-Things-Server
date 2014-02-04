@@ -20,7 +20,7 @@ public class GameState extends AbstractSerializedObject {
 
 	@JsonIgnore private Phase currentPhase;
 	private boolean isStarted;
-	private Set<SentMessage> sentMessages;
+	private List<SentMessage> sentMessages;
 	
 	// In Game Shtuff
 	private PlayingCup playingCup;
@@ -49,7 +49,7 @@ public class GameState extends AbstractSerializedObject {
 
 	public GameState() {
 		this.players = new HashSet<Player>();
-		this.setSentMessages(new HashSet<SentMessage>());
+		this.setSentMessages(new ArrayList<SentMessage>());
 		this.setGamePieces(new HashMap<String,GamePiece>());
 		this.hexlocations = new ArrayList<HexLocation>();
 		this.playingCup = new PlayingCup("playingCup");
@@ -62,13 +62,15 @@ public class GameState extends AbstractSerializedObject {
 		gameState.setGameId(game.getGameId());
 		
 		int i=1;
+		List<Player> playersInOrder = new ArrayList<Player>();
 		for(User user : game.getUsers()) {
 			Player player = new Player(user, gameState, "player"+i);
 			gameState.addPlayer(player);
+			playersInOrder.add(player);
 			i++;
 		}
 		
-		gameState.setCurrentPhase(new SetupPhase(gameState, new ArrayList<Player>(gameState.getPlayers())));
+		gameState.setCurrentPhase(new SetupPhase(gameState, playersInOrder));
 		GameStateFactory.makeGameState(gameState, gameState.getPlayers().size());
 		
  		return gameState;
@@ -82,6 +84,16 @@ public class GameState extends AbstractSerializedObject {
 			locations.add(loc);
 		}
 		return locations;
+	}
+	
+	public HexLocation getHexLocationsById(String hexLocationId) {
+		Iterator<HexLocation> it = getHexlocations().iterator();
+		while(it.hasNext()){
+			HexLocation loc = it.next();
+			if(loc.getId().equals(hexLocationId))
+				return loc;
+		}
+		return null;
 	}
 	
 	public void startGame() {
@@ -133,7 +145,7 @@ public class GameState extends AbstractSerializedObject {
 		Iterator<Player> it = getPlayers().iterator();
 		while(it.hasNext()) {
 			Player p = it.next();
-			if(p.getUserId().equals(userId));
+			if(p.getUserId().equals(userId))
 				return p;
 		}
 		return null;
@@ -143,7 +155,7 @@ public class GameState extends AbstractSerializedObject {
 		Iterator<Player> it = getPlayers().iterator();
 		while(it.hasNext()) {
 			Player p = it.next();
-			if(p.getPlayerId().equals(playerId));
+			if(p.getPlayerId().equals(playerId))
 				return p;
 		}
 		return null;
@@ -166,11 +178,11 @@ public class GameState extends AbstractSerializedObject {
 		this.isStarted = isStarted;
 	}
 
-	public Set<SentMessage> getSentMessages() {
+	public List<SentMessage> getSentMessages() {
 		return sentMessages;
 	}
 
-	public void setSentMessages(Set<SentMessage> sentMessages) {
+	public void setSentMessages(List<SentMessage> sentMessages) {
 		this.sentMessages = sentMessages;
 	}
 

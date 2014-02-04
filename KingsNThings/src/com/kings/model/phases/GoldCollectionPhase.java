@@ -22,8 +22,8 @@ public class GoldCollectionPhase extends Phase {
 		
 		// to some sort of algorithm
 		
-		gameMessage.addToData("player1gold", 1);
-		getGameState().queueUpGameMessageToSendToAllPlayers(gameMessage);
+		//gameMessage.addToData("player1gold", 1);
+		//getGameState().queueUpGameMessageToSendToAllPlayers(gameMessage);
 		
 		// TODO Auto-generated method stub
 

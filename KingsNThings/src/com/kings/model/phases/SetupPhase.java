@@ -6,7 +6,6 @@ import java.util.Set;
 
 import com.kings.controllers.phases.SetupPhaseController;
 import com.kings.http.GameMessage;
-import com.kings.model.GamePiece;
 import com.kings.model.GameState;
 import com.kings.model.Player;
 
@@ -38,15 +37,9 @@ public class SetupPhase extends Phase {
 		message.setPlayersToSendTo(getGameState().getPlayers());		
 		message.addToData("gameState", getGameState().toSerializedFormat());
 		
-		/*for(Player p : getGameState().getPlayers()) {
-			Set<String> myGamePieceIds = new HashSet<String>();
-			for(GamePiece piece : p.getGamePieces()) {
-				myGamePieceIds.add(piece.getId());
-			}
-			message.addUserSpecificData(p.getPlayerId(), "myself", p.getGamePieces());
-			message.addUserSpecificData(p.getPlayerId(), "myGold", p.getGold());
-			message.addUserSpecificData(p.getPlayerId(), "myPlayerState", p);
-		}*/
+		for(Player p : getGameState().getPlayers()) {
+			message.addUserSpecificData(p.getPlayerId(), "myPlayerId", p.getPlayerId());
+		}
 		
 		return message;
 	}
