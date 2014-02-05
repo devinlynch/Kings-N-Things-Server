@@ -30,12 +30,13 @@ public class GoldCollectionPhase extends Phase {
 			map.put("income", income);
 			map.put("totalGold", p.getGold());
 			gameMessage.addToData(p.getPlayerId(), map);
+			gameMessage.addPlayerToSendTo(p);
 		}
 		
 		getGameState().queueUpGameMessageToSendToAllPlayers(gameMessage);
 	}
 	
-	public synchronized void playerIsReadyFornextPhase(String playerId) {
+	public synchronized void playerIsReadyForNextPhase(String playerId) {
 		if(isOver())
 			return;
 		playersReadyForNextPhase.add(playerId);

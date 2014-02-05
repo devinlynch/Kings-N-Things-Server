@@ -108,11 +108,11 @@ public class RunThroughPhasesTest {
 		
 		GoldCollectionPhase cPhase = (GoldCollectionPhase) gs.getCurrentPhase();
 		
-		cPhase.playerIsReadyFornextPhase("player1");
-		cPhase.playerIsReadyFornextPhase("player2");
-		cPhase.playerIsReadyFornextPhase("player3");
+		cPhase.playerIsReadyForNextPhase("player1");
+		cPhase.playerIsReadyForNextPhase("player2");
+		cPhase.playerIsReadyForNextPhase("player3");
 		assertEquals("gold", gs.getCurrentPhase().getPhaseId());
-		cPhase.playerIsReadyFornextPhase("player4");
+		cPhase.playerIsReadyForNextPhase("player4");
 		assertEquals("recruitThings", gs.getCurrentPhase().getPhaseId());
 		
 		for(SentMessage msg : gs.getSentMessages()){

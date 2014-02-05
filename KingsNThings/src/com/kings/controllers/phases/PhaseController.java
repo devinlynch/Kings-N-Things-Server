@@ -6,8 +6,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kings.controllers.AbstractLoggedInOnlyController;
-import com.kings.controllers.account.NotLoggedInException;
-import com.kings.database.DataAccess;
 import com.kings.database.GameStateCache;
 import com.kings.http.HttpResponseError.ResponseError;
 import com.kings.http.HttpResponseMessage;
@@ -17,7 +15,6 @@ import com.kings.model.Player;
 import com.kings.model.User;
 import com.kings.model.phases.exceptions.MoveNotValidException;
 import com.kings.model.phases.exceptions.NotYourTurnException;
-import com.kings.util.Utils;
 
 public class PhaseController extends AbstractLoggedInOnlyController {
 	public GameState getGameState(HttpServletRequest req) {
