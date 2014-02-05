@@ -28,7 +28,7 @@ public class AbstractDatabaseController implements GenericKingsControllerInterfa
 	 */
 	public DataAccess getDataAccess() {
 		if(dataAccess == null)
-			dataAccess = DataAccess.getInstance();
+			dataAccess = new DataAccess();
 		
 		return dataAccess;
 	}
@@ -42,9 +42,7 @@ public class AbstractDatabaseController implements GenericKingsControllerInterfa
 			HttpServletResponse response) throws Exception {
 		try{
 			DataAccess _access = getDataAccess();
-			if(_access != null && !_access.isTransactionActive()) {
-				_access.beginTransaction();
-			}
+			_access.beginTransaction();
 			return true;
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -65,8 +63,7 @@ public class AbstractDatabaseController implements GenericKingsControllerInterfa
 		}
 	}
 	
-	@ExceptionHandler({Exception.class})
-	public @ResponseBody String databaseError(HttpServletRequest req, Exception exception) {
+	public void handleRollback() {
 		try{
 			DataAccess _access = getDataAccess();
 			if(_access != null && _access.isTransactionActive()) {
@@ -75,6 +72,11 @@ public class AbstractDatabaseController implements GenericKingsControllerInterfa
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@ExceptionHandler({Exception.class})
+	public @ResponseBody String databaseError(HttpServletRequest req, Exception exception) {
+		handleRollback();
 		exception.printStackTrace();
 		
 		return Utils.toJson(genericError());

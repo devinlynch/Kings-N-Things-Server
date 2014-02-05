@@ -1,6 +1,7 @@
 package com.kings.model;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -27,9 +28,11 @@ public class User {
 	private Set<Game> games;
 
 	public User() {
+		setGames(new HashSet<Game>());
 	}
 	
 	public User(String userId) {
+		setGames(new HashSet<Game>());
 		this.setUserId(userId);
 	}
 	

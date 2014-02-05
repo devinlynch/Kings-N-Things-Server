@@ -1,0 +1,21 @@
+{
+   "data":{
+      "player1":{
+         "income":4,
+         "totalGold":14
+      },
+      "player2":{
+         "income":4,
+         "totalGold":14
+      },
+      "player3":{
+         "income":4,
+         "totalGold":14
+      },
+      "player4":{
+         "income":4,
+         "totalGold":14
+      }
+   },
+   "type":"goldCollection"
+}

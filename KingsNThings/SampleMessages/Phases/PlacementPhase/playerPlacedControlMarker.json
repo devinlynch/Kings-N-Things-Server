@@ -1,0 +1,11 @@
+{
+	"data":{
+		"playerId":"player1",
+		"playerHexes":[
+		               "hexLocation_1",
+		               "hexLocation_2",
+		               "hexLocation_3"
+		               ]
+	},
+	"type":"playerPlacedControlMarker"
+}

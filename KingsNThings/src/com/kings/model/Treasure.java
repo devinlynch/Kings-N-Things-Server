@@ -1,8 +1,14 @@
 package com.kings.model;
 
+
 public class Treasure extends Thing {
 	public int goldValue;
 
+	public Treasure(String id, String name, int goldValue) {
+		super(id, name);
+		this.goldValue=goldValue;
+	}
+	
 	public int getGoldValue() {
 		return goldValue;
 	}

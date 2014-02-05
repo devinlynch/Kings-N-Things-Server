@@ -7,6 +7,7 @@ import java.util.Queue;
 import java.util.Set;
 
 import com.kings.database.DataAccess;
+import com.kings.database.GameStateCache;
 import com.kings.model.Game;
 
 /**
@@ -18,9 +19,11 @@ public class GameCreatorQueue extends Thread {
 	private Queue<GameLobby> gameLobbies;
 	private static GameCreatorQueue instance = null;
 	private boolean stopped;
+	private DataAccess dataAccess;
 
 	public GameCreatorQueue() {
 		super();
+		setDataAccess(new DataAccess());
 		gameLobbies = new ArrayDeque<GameLobby>();
 	}
 	
@@ -86,13 +89,14 @@ public class GameCreatorQueue extends Thread {
 			return;
 		System.out.println("Removed game lobby " + gameLobby.toString() + " from queue, turning into game");
 		
-		DataAccess access = DataAccess.getInstance();
+		DataAccess access = getDataAccess();
 		try{
 			access.beginTransaction();
 			
 			Game createdGame = gameLobby.becomeGame();
 			access.save(createdGame);
 			createdGame.start();
+			GameStateCache.getInstance().addGameState(createdGame.getGameId(), createdGame.getGameState());
 			access.commit();
 		} catch(Exception e) {
 			try{
@@ -115,5 +119,13 @@ public class GameCreatorQueue extends Thread {
 	
 	public void setStopped(boolean stopped) {
 		this.stopped = stopped;
+	}
+
+	public DataAccess getDataAccess() {
+		return dataAccess;
+	}
+
+	public void setDataAccess(DataAccess dataAccess) {
+		this.dataAccess = dataAccess;
 	}
 }

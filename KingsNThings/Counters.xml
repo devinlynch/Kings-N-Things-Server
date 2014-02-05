@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Counters>
+<SpecialCharacters>
+	<id>SpecialCharacterId</id>
+	<name>NameOfCharacter</name>
+	<otherSide>OtherSpecialCharacterId</otherSide>
+	<specialAbility>SAID</specialAbility>
+	<imageName>ImageName</imageName>
+</SpecialCharacters>
+
+</Counters>

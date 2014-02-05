@@ -77,14 +77,7 @@ public class AbstractLoggedInOnlyController extends AbstractDatabaseController {
 	
 	@ExceptionHandler({NotLoggedInException.class})
 	public @ResponseBody String loggedInException(HttpServletRequest req, Exception exception) {
-		try{
-			DataAccess _access = getDataAccess();
-			if(_access != null && _access.isTransactionActive()) {
-				_access.rollback();
-			}
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
+		handleRollback();
 		exception.printStackTrace();
 		
 		

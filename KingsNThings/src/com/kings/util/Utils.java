@@ -60,4 +60,13 @@ public class Utils {
 		id += randomString(randInt(10, 20));
 		return id;
 	}
+	
+	/**
+	 * Generates a random id with the given string in the start
+	 * @param start
+	 * @return
+	 */
+	public synchronized static String generateRandomId(String start) {
+		return start+generateRandomId();
+	}
 }

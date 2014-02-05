@@ -81,14 +81,15 @@ public class TestClientReactor {
 	
 	@Test
 	public void test3() {
-		DataAccess.getInstance().beginTransaction();
-		User user = DataAccess.getInstance().get(User.class, "10");
+		DataAccess access = new DataAccess();
+		access.beginTransaction();
+		User user = access.get(User.class, "10");
 		System.out.println(user.getGames());
 		
 		Game game = new Game();
 		game.addUser(user);
-		DataAccess.getInstance().save(game);
-		DataAccess.getInstance().commit();
+		access.save(game);
+		access.commit();
 	}
 
 }
