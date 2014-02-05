@@ -14,8 +14,10 @@ import com.kings.model.GamePiece;
 import com.kings.model.GameState;
 import com.kings.model.Player;
 import com.kings.model.User;
+import com.kings.model.phases.GoldCollectionPhase;
 import com.kings.model.phases.PlacementPhase;
 import com.kings.model.phases.SetupPhase;
+import com.kings.model.phases.exceptions.NotYourTurnException;
 
 public class RunThroughPhasesTest {
 	
@@ -41,6 +43,7 @@ public class RunThroughPhasesTest {
 		
 		assertEquals("setup", gs.getCurrentPhase().getPhaseId());
 		
+		// Go through setup phase
 		SetupPhase sPhase = (SetupPhase)gs.getCurrentPhase();
 		sPhase.playerIsReadyForPlacement("1");
 		sPhase.playerIsReadyForPlacement("3");
@@ -50,6 +53,7 @@ public class RunThroughPhasesTest {
 		sPhase.playerIsReadyForPlacement("2");
 		assertEquals("placement", gs.getCurrentPhase().getPhaseId());
 		
+		// Now do placement phase
 		PlacementPhase pPhase = (PlacementPhase) gs.getCurrentPhase();
 		pPhase.didPlaceControlMarkers("player1", "hexLocation_1", "hexLocation_2", "hexLocation_3");
 		pPhase.didPlaceControlMarkers("player2", "hexLocation_4", "hexLocation_5", "hexLocation_6");
@@ -66,6 +70,15 @@ public class RunThroughPhasesTest {
 		assertEquals("Tower", fort1.getName());
 		pPhase.didPlaceFort("player1", fort1.getId(), "hexLocation_1");
 		assertEquals("hexLocation_1", fort1.getLocation().getId());
+		
+		// Try placing fort out of order
+		boolean didGetNotTurnException = false;
+		try{
+			pPhase.didPlaceFort("player3", "", "");
+		} catch(NotYourTurnException e) {
+			didGetNotTurnException = true;
+		}
+		assertTrue(didGetNotTurnException);
 		
 		Player p2 = gs.getPlayerByPlayerId("player2");
 		GamePiece fort2 = (GamePiece) p2.getGamePieces().values().toArray()[0];
@@ -85,7 +98,22 @@ public class RunThroughPhasesTest {
 		pPhase.didPlaceFort("player4", fort4.getId(), "hexLocation_10");
 		assertEquals("hexLocation_10", fort4.getLocation().getId());
 		
+		// Gold phase should be started and handled automatically, players should now have gold assigned
 		assertEquals("gold", gs.getCurrentPhase().getPhaseId());
+		
+		assertEquals(new Integer(14), p1.getGold());
+		assertEquals(new Integer(14), p2.getGold());
+		assertEquals(new Integer(14), p3.getGold());
+		assertEquals(new Integer(14), p4.getGold());
+		
+		GoldCollectionPhase cPhase = (GoldCollectionPhase) gs.getCurrentPhase();
+		
+		cPhase.playerIsReadyFornextPhase("player1");
+		cPhase.playerIsReadyFornextPhase("player2");
+		cPhase.playerIsReadyFornextPhase("player3");
+		assertEquals("gold", gs.getCurrentPhase().getPhaseId());
+		cPhase.playerIsReadyFornextPhase("player4");
+		assertEquals("recruitThings", gs.getCurrentPhase().getPhaseId());
 		
 		for(SentMessage msg : gs.getSentMessages()){
 			System.out.println(msg.getJson());

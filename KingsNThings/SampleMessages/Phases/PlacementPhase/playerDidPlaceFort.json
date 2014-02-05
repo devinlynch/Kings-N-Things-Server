@@ -1,0 +1,8 @@
+{
+	"data":{
+		"fortId":"Fort_01-03",
+		"playerId":"player1",
+		"hexLocationId":"hexLocation_1"
+	},
+	"type":"playerDidPlaceFort"
+}

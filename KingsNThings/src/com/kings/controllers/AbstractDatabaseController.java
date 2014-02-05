@@ -63,8 +63,7 @@ public class AbstractDatabaseController implements GenericKingsControllerInterfa
 		}
 	}
 	
-	@ExceptionHandler({Exception.class})
-	public @ResponseBody String databaseError(HttpServletRequest req, Exception exception) {
+	public void handleRollback() {
 		try{
 			DataAccess _access = getDataAccess();
 			if(_access != null && _access.isTransactionActive()) {
@@ -73,6 +72,11 @@ public class AbstractDatabaseController implements GenericKingsControllerInterfa
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@ExceptionHandler({Exception.class})
+	public @ResponseBody String databaseError(HttpServletRequest req, Exception exception) {
+		handleRollback();
 		exception.printStackTrace();
 		
 		return Utils.toJson(genericError());

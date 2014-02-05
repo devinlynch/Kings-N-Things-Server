@@ -2,6 +2,7 @@ package com.kings.model.phases;
 
 import java.util.List;
 
+import com.kings.http.GameMessage;
 import com.kings.model.GameState;
 import com.kings.model.Player;
 
@@ -13,24 +14,27 @@ public abstract class Phase {
 	 * of phases is over
 	 */
 	private List<Player> playersInOrderOfTurn;
+	private GameState gameState;
+	private Phase nextPhase;
+	
+	public abstract void handleStart();
+	public abstract void setupNextPhase();
+	public abstract GameMessage getPhaseOverMessage();
+	public abstract GameMessage getPhaseStartedMessage();
 	
 	public Phase(GameState gameState, List<Player> playersInOrderOfTurn) {
 		this.gameState=gameState;
 		this.playersInOrderOfTurn=playersInOrderOfTurn;
 	}
 	
-	private GameState gameState;
-	private Phase nextPhase;
-	
 	public void start() {
 		sendPhaseStartedMessage();
 		handleStart();
 	}
 	
-	public abstract void handleStart();
-	public abstract void setupNextPhase();
-	
 	public void end() {
+		sendPhaseOverMessage();
+		
 		setOver(true);
 		setupNextPhase();
 		handlePhaseOver();
@@ -38,17 +42,22 @@ public abstract class Phase {
 		nextPhase.handleStart();
 	}
 	
+	public void sendPhaseOverMessage() {
+		GameMessage msg = getPhaseOverMessage();
+		if(msg != null){
+			getGameState().queueUpGameMessageToSendToAllPlayers(msg);
+		}
+	}
+	
 	public void handlePhaseOver(){
-		// TODO
 	}
 	
 	public void sendPhaseStartedMessage() {
-		// TODO
+		GameMessage msg = getPhaseStartedMessage();
+		if(msg != null){
+			getGameState().queueUpGameMessageToSendToAllPlayers(msg);
+		}
 	}
-	
-	public abstract String getPhaseOverMessage();
-	public abstract String getPhaseStartedMessage();
-
 	
 	public GameState getGameState() {
 		return gameState;

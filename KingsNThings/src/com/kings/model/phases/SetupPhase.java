@@ -59,9 +59,10 @@ public class SetupPhase extends Phase {
 	}
 
 	@Override
-	public String getPhaseOverMessage() {
-		//TODO
-		return null;
+	public GameMessage getPhaseOverMessage() {
+		GameMessage message = new GameMessage("setupPhaseOver");
+		message.setPlayersToSendTo(new HashSet<Player>(getPlayersInOrderOfTurn()));
+		return message;
 	}
 
 	@Override
@@ -70,7 +71,7 @@ public class SetupPhase extends Phase {
 	}
 
 	@Override
-	public String getPhaseStartedMessage() {
+	public GameMessage getPhaseStartedMessage() {
 		// TODO Auto-generated method stub
 		return null;
 	}

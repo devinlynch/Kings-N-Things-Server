@@ -196,5 +196,72 @@ public class Player extends AbstractSerializedObject {
 	public GamePiece getGamePieceById(String id) {
 		return getGamePieces().get(id);
 	}
+	
+	public Set<SpecialCharacter> getSpecialCharacterPieces() {
+		Set<SpecialCharacter> set = new HashSet<SpecialCharacter>();
+		Iterator<GamePiece> it = getGamePieces().values().iterator();
+		while(it.hasNext()) {
+			GamePiece gp = it.next();
+			if(gp instanceof SpecialCharacter)
+				set.add((SpecialCharacter)gp);
+		}
+		return set;
+	}
+	
+	public Set<Fort> getFortPieces() {
+		Set<Fort> set = new HashSet<Fort>();
+		Iterator<GamePiece> it = getGamePieces().values().iterator();
+		while(it.hasNext()) {
+			GamePiece gp = it.next();
+			if(gp instanceof Fort)
+				set.add((Fort)gp);
+		}
+		return set;
+	}
+	
+	public Set<SpecialIncomeCounter> getSpecialIncomeCounterPieces() {
+		Set<SpecialIncomeCounter> set = new HashSet<SpecialIncomeCounter>();
+		Iterator<GamePiece> it = getGamePieces().values().iterator();
+		while(it.hasNext()) {
+			GamePiece gp = it.next();
+			if(gp instanceof SpecialIncomeCounter)
+				set.add((SpecialIncomeCounter)gp);
+		}
+		return set;
+	}
 
+	/**
+	 * Income is calculated as follows:
+	 * <ul>
+	 * 	<li>one gold piece for each land hex you control</li>
+	 *	<li>one gold piece for each special character you control</li>
+	 *	<li>as many gold pieces as the combat value of each fort you control</li>
+	 *	<li>as many gold pieces as the printed value of each special income counter you control</li>
+	 *</ul>
+	 * @return
+	 */
+	public int getIncome() {
+		int income=0;
+		
+		int numberOfLandHexes = getOwnedLocations().size();
+		int numberOfSpecialChars = getSpecialCharacterPieces().size();
+		
+		Iterator<Fort> fortIt = getFortPieces().iterator();
+		int goldForForts=0;
+		while(fortIt.hasNext()) {
+			Fort f = fortIt.next();
+			goldForForts += f.getLevelNum();
+		}
+		
+		Iterator<SpecialIncomeCounter> sicIt = getSpecialIncomeCounterPieces().iterator();
+		int goldForSICs=0;
+		while(sicIt.hasNext()) {
+			SpecialIncomeCounter sic = sicIt.next();
+			goldForSICs += sic.getGoldValue();
+		}
+		
+		income = numberOfLandHexes + numberOfSpecialChars + goldForForts + goldForSICs;
+		
+		return income;
+	}
 }

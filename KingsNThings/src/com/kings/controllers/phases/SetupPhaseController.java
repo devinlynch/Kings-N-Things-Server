@@ -16,7 +16,7 @@ import com.kings.model.phases.SetupPhase;
 public class SetupPhaseController extends PhaseController {
 
 	@RequestMapping(value="readyForPlacement")
-	public @ResponseBody String joinLobby(
+	public @ResponseBody String readyForPlacement(
 		HttpServletRequest req,
 		HttpServletResponse res) throws NotLoggedInException{
 

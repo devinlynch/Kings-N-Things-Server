@@ -14,15 +14,14 @@ import com.kings.model.phases.exceptions.NotYourTurnException;
 
 public class PlacementPhase extends Phase {
 	private int nextPlayerToPlaceControlMarkers;
-	private Set<String> playersThatHavePlacedForts;
+	private int nextPlayerToPlaceFort;
 	boolean isTimeToPlaceForts;
 	
 	public PlacementPhase(GameState gameState, List<Player> playersInOrderOfTurn) {
 		super(gameState, playersInOrderOfTurn);
 		setPhaseId("placement");
-		playersThatHavePlacedForts= new HashSet<String>();
+		nextPlayerToPlaceFort= 0;
 		nextPlayerToPlaceControlMarkers = 0;
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -61,8 +60,11 @@ public class PlacementPhase extends Phase {
 	 * @param hexLocation3
 	 * @throws NotYourTurnException 
 	 */
-	public void didPlaceControlMarkers(String playerId, String hexLocation1, String hexLocation2, String hexLocation3) throws NotYourTurnException{
+	public synchronized void didPlaceControlMarkers(String playerId, String hexLocation1, String hexLocation2, String hexLocation3) throws NotYourTurnException{
 		// TODO some error checking really needs to take place here
+		
+		if(isOver())
+			return;
 		
 		if( ! getPlayersInOrderOfTurn().get(nextPlayerToPlaceControlMarkers).getPlayerId().equals(playerId) ){
 			throw new NotYourTurnException();
@@ -93,30 +95,70 @@ public class PlacementPhase extends Phase {
 		GameMessage message = new GameMessage("timeToPlaceFort");
 		message.setPlayersToSendTo(new HashSet<Player>(getPlayersInOrderOfTurn()));
 		getGameState().queueUpGameMessageToSendToAllPlayers(message);
+		
+		tellPlayerItsTheirTurnToPlaceFort();
 	}
 	
-	public void didPlaceFort(String playerId, String fortId, String hexLocation) throws MoveNotValidException {
+	public void tellPlayerItsTheirTurnToPlaceFort(){
+		GameMessage message = new GameMessage("yourTurnToPlaceFort");
+		Player currentPlayer = getPlayersInOrderOfTurn().get(nextPlayerToPlaceFort);
+		message.addPlayerToSendTo(currentPlayer);
+		getGameState().queueUpGameMessageToSendToAllPlayers(message);
+	}
+	
+	/**
+	 * Call this when a player places their fort on a hex
+	 * @param playerId
+	 * @param fortId
+	 * @param hexLocation
+	 * @throws MoveNotValidException
+	 * @throws NotYourTurnException 
+	 */
+	public synchronized void didPlaceFort(String playerId, String fortId, String hexLocation) throws MoveNotValidException, NotYourTurnException {
+		// TODO add some server side error checking
+		
+		if(isOver())
+			return;
+		
 		if(!isTimeToPlaceForts){
 			throw new MoveNotValidException("It is not time to place forts!");
 		}
 		
-		playersThatHavePlacedForts.add(playerId);
+		if( ! getPlayersInOrderOfTurn().get(nextPlayerToPlaceFort).getPlayerId().equals(playerId) ){
+			throw new NotYourTurnException();
+		}
+		
 		Player player = getGameState().getPlayerByPlayerId(playerId);
 		GamePiece fort = player.getGamePieceById(fortId);
 		HexLocation loc = getGameState().getHexLocationsById(hexLocation);
 		loc.addGamePieceToLocation(fort);
 		
+		
+		Set<Player> otherPlayers = new HashSet<Player>(getPlayersInOrderOfTurn());
+		otherPlayers.remove(player);
+		GameMessage message = new GameMessage("playerDidPlaceFort");
+		message.addToData("playerId", playerId);
+		message.addToData("fortId", fortId);
+		message.addToData("hexLocationId", hexLocation);
+		message.setPlayersToSendTo(otherPlayers);
+		getGameState().queueUpGameMessageToSendToAllPlayers(message);
+		
 		// TODO inform all players of fort placement
 		
-		if(playersThatHavePlacedForts.size() >= getPlayersInOrderOfTurn().size()) {
+		nextPlayerToPlaceFort++;
+		if(nextPlayerToPlaceFort > getPlayersInOrderOfTurn().size()-1) {
 			end();
+		} else{
+			tellPlayerItsTheirTurnToPlaceFort();
 		}
 	}
 
 	@Override
-	public String getPhaseOverMessage() {
-		// TODO Auto-generated method stub
-		return null;
+	public GameMessage getPhaseOverMessage() {
+		GameMessage message = new GameMessage("placementPhaseOver");
+		message.setPlayersToSendTo(new HashSet<Player>(getPlayersInOrderOfTurn()));
+		message.addToData("hexLocations", getGameState().getHexLocationsInSerializedFormat());
+		return message;
 	}
 
 	@Override
@@ -125,7 +167,7 @@ public class PlacementPhase extends Phase {
 	}
 
 	@Override
-	public String getPhaseStartedMessage() {
+	public GameMessage getPhaseStartedMessage() {
 		// TODO Auto-generated method stub
 		return null;
 	}
