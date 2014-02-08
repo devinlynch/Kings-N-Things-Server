@@ -225,7 +225,7 @@ public class GameState extends AbstractSerializedObject {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("players", getPlayersInSerializedFormat());
 		map.put("currentPhaseId", getCurrentPhase().getPhaseId());
-		map.put("gamePieces", getGamePiecesInSerializedFormat());
+		//map.put("gamePieces", getGamePiecesInSerializedFormat());  // I dont think this is needed since they should all have a location - Devin Feb 8th 2014
 		map.put("playingCup", getPlayingCup().toSerializedFormat());
 		map.put("bank", getBank().toSerializedFormat());
 		map.put("sideLocation", getSideLocation().toSerializedFormat());
@@ -254,7 +254,10 @@ public class GameState extends AbstractSerializedObject {
 	}
 	
 	public HashMap<Player, List<Thing>> getPossibleThingsToRecruitForPlayers() {
-		// TODO
+		Set<GamePiece> playingCupPieces = getPlayingCup().getGamePieces();
+		
+		
+		
 		return null;
 	}
 	
