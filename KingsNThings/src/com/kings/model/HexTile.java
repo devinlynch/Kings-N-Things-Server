@@ -1,5 +1,8 @@
 package com.kings.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class HexTile extends GamePiece {
 	private Terrain terrain;
@@ -15,5 +18,12 @@ public class HexTile extends GamePiece {
 
 	public void setTerrain(Terrain terrain) {
 		this.terrain = terrain;
+	}
+	
+	@Override
+	public Map<String,Object> toSerializedFormat() {
+		Map<String,Object> map = super.toSerializedFormat();
+		map.put("terrainId", terrain.getId());
+		return map;
 	}
 }
