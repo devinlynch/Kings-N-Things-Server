@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -253,10 +254,45 @@ public class GameState extends AbstractSerializedObject {
 		return getGamePieces().get(gamePieceId);
 	}
 	
+	
 	public HashMap<Player, List<Thing>> getPossibleThingsToRecruitForPlayers() {
-		Set<GamePiece> playingCupPieces = getPlayingCup().getGamePieces();
+		List<GamePiece> playingCupPieces = new ArrayList<GamePiece>(getPlayingCup().getGamePieces());
+		// Max Free Recruits: 2
+		// Max Trades: 5
+		// Max Buys: 5
 		
+		int totalFreeRecruitsPerPlayer = 2;
+		int maxNumberOfTrades = 5;
+		int maxNumberOfBuys = 5;
 		
+		int costOfBuyingPiece=5;
+		
+		for(Player p: getPlayers()) {
+			int numberOfThingsInPlayersRacks = p.getAllThingsInRacks().size();
+			
+			int thisPlayersMaxNumebrOfTrades = maxNumberOfTrades;
+			if(numberOfThingsInPlayersRacks < 5) {
+				thisPlayersMaxNumebrOfTrades = numberOfThingsInPlayersRacks;
+			}
+			
+			int thisPlayersMaxNumberOfBuys = maxNumberOfBuys;
+			int playersGold = p.getGold();
+			int totalPossibleBuys = playersGold/costOfBuyingPiece;
+			if(totalPossibleBuys < maxNumberOfBuys) {
+				thisPlayersMaxNumberOfBuys = totalPossibleBuys;
+			}
+			
+			int thisPlayersTotalNumberOfRecruitmentThings =  thisPlayersMaxNumberOfBuys + thisPlayersMaxNumebrOfTrades + totalFreeRecruitsPerPlayer;
+			
+			if(playingCupPieces.size() < thisPlayersTotalNumberOfRecruitmentThings) {
+				thisPlayersTotalNumberOfRecruitmentThings = playingCupPieces.size();
+			}
+			for(int i = 0; i < thisPlayersTotalNumberOfRecruitmentThings; i++) {
+				GamePiece piece = playingCupPieces.get(new Random().nextInt(playingCupPieces.size()));
+				playingCupPieces.remove(piece);
+				
+			}
+		}
 		
 		return null;
 	}

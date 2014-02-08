@@ -8,9 +8,11 @@ import com.kings.model.HexTile;
 public class TestFile {
 	public static void main(String[] args) {
 		//t1();
-		for(int i=0; i<37; i++) {
-			System.out.println("gameState.getHexlocations().get("+i+").setHexTile((HexTile)gameState.getGamePiece(\"frozen-tile-01\"));");
-		}
+		//for(int i=0; i<37; i++) {
+		//	System.out.println("gameState.getHexlocations().get("+i+").setHexTile((HexTile)gameState.getGamePiece(\"frozen-tile-01\"));");
+		//}
+		
+		System.out.println(14/5);
 	}
 	
 	public static void t1() {

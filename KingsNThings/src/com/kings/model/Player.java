@@ -264,4 +264,17 @@ public class Player extends AbstractSerializedObject {
 		
 		return income;
 	}
+	
+	public Set<Thing> getAllThingsInRacks() {
+		Set<Thing> things = new HashSet<Thing>();
+		for(GamePiece gp: rack1.getGamePieces()){
+			if(gp instanceof Thing)
+				things.add((Thing)gp);
+		}
+		for(GamePiece gp: rack2.getGamePieces()){
+			if(gp instanceof Thing)
+				things.add((Thing)gp);
+		}
+		return things;
+	}
 }
