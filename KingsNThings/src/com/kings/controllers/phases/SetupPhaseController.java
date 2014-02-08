@@ -33,4 +33,9 @@ public class SetupPhaseController extends PhaseController {
 			return wrongPhaseMessage().toJson();
 		}
 	}
+	
+	public static void main(String[] args) {
+		// testing threads
+		Thread t1 = new Thread();
+	}
 }

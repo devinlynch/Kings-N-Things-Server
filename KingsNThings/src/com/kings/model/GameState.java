@@ -253,4 +253,9 @@ public class GameState extends AbstractSerializedObject {
 		return getGamePieces().get(gamePieceId);
 	}
 	
+	public HashMap<Player, List<Thing>> getPossibleThingsToRecruitForPlayers() {
+		// TODO
+		return null;
+	}
+	
 }
