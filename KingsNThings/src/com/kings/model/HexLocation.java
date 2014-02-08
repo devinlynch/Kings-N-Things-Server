@@ -8,11 +8,13 @@ public class HexLocation extends BoardLocation {
 	private HexTile hexTile;
 	private Player owner;
 	private Set<Stack> stacks;
+	private int hexNumber;
 	
-	public HexLocation(String id) {
+	public HexLocation(String id, int hexNumber) {
 		super(id, "Hex Location");
 		setName("Hex Location");
 		stacks = new HashSet<Stack>();
+		this.setHexNumber(hexNumber);
 	}
 
 	public HexTile getHexTile() {
@@ -73,6 +75,7 @@ public class HexLocation extends BoardLocation {
 		map.put("ownerId", owner != null ? owner.getPlayerId() : null);
 		map.put("stacks", getStacksInSerializedFormat());
 		map.put("hexTile", hexTile != null ? hexTile.toSerializedFormat() : null);
+		map.put("hexNumber", getHexNumber());
 		return map;
 	}
 
@@ -82,6 +85,14 @@ public class HexLocation extends BoardLocation {
 
 	public void setStacks(Set<Stack> stacks) {
 		this.stacks = stacks;
+	}
+
+	public int getHexNumber() {
+		return hexNumber;
+	}
+
+	public void setHexNumber(int hexNumber) {
+		this.hexNumber = hexNumber;
 	}
 
 }

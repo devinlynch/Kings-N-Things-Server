@@ -119,7 +119,7 @@ public class GameStateFactory {
 	
 	public static void addHexLocations(GameState gameState, int numHexes){
 		for(int i=1; i<=numHexes; i++) {
-			HexLocation hex = new HexLocation("hexLocation_"+i);
+			HexLocation hex = new HexLocation("hexLocation_"+i, i);
 			gameState.getHexlocations().add(hex);
 		}
 	}
