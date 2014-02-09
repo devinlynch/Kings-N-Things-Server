@@ -110,4 +110,10 @@ public abstract class Phase {
 		this.phaseId = phaseId;
 	}
 	
+	public GameMessage newGameMessageForAllPlayers(String type) {
+		GameMessage msg = new GameMessage(type);
+		msg.addPlayersToSendTo(getPlayersInOrderOfTurn());
+		return msg;
+	}
+	
 }

@@ -1,0 +1,11 @@
+{
+   "data":{
+      "possibleRecruitments":[
+         "T_Forest_097-01",
+         "specialIncomeCounter_02",
+         "village_01",
+         "T_Plains_014-02"
+      ]
+   },
+   "type":"didStartRecruitThingsPhase"
+}

@@ -14,6 +14,7 @@ public class Game {
 	private GameState gameState;
 	private String createdFromGameLobbyId;
 	private boolean active;
+	private boolean isDemo;
 	
 	public Game() {
 		setUsers(new HashSet<User>());
@@ -33,7 +34,12 @@ public class Game {
 		// Right now it is being called from the GameCreatorQueue, so the users are all assigned to this game and now all logic of creating a game
 		// and sending messages to the client needs to happen here
 		
-		GameState gameState = GameState.createGameStateFromGame(this);
+		GameState gameState;
+		if(isDemo()){
+			gameState = DemoGameState.createGameStateFromGame(this);
+		} else{
+			gameState = GameState.createGameStateFromGame(this);
+		}
 		setGameState(gameState);
 		setStartedDate(new Date());
 		setActive(true);
@@ -104,5 +110,13 @@ public class Game {
 
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+
+	public boolean isDemo() {
+		return isDemo;
+	}
+
+	public void setDemo(boolean isDemo) {
+		this.isDemo = isDemo;
 	}
 }

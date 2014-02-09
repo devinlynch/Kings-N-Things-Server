@@ -30,7 +30,9 @@ public class GameState extends AbstractSerializedObject {
 	private Set<Player> players;
 	private List<HexLocation> hexlocations;
 	private SideLocation sideLocation;
-
+	private Map<String, BoardLocation> boardLocations;
+	private int phaseTurn;
+	
 	
 	public PlayingCup getPlayingCup() {
 		return playingCup;
@@ -56,10 +58,19 @@ public class GameState extends AbstractSerializedObject {
 		this.playingCup = new PlayingCup("playingCup");
 		this.bank = new Bank("bank", 9999999);
 		this.sideLocation= new SideLocation("side", "Side");
+		this.boardLocations = new HashMap<String, BoardLocation>();
+		addBoardLocation("playingCup", playingCup);
+		addBoardLocation(sideLocation.getId(), sideLocation);
+		phaseTurn=1;
 	}
 	
 	public static GameState createGameStateFromGame(Game game) throws Exception {
 		GameState gameState = new GameState();
+		initializeNewGameState(gameState, game);
+ 		return gameState;
+	}
+	
+	protected static void initializeNewGameState(GameState gameState, Game game) throws Exception {
 		gameState.setGameId(game.getGameId());
 		
 		int i=1;
@@ -73,8 +84,6 @@ public class GameState extends AbstractSerializedObject {
 		
 		gameState.setCurrentPhase(new SetupPhase(gameState, playersInOrder));
 		GameStateFactory.makeGameState(gameState, gameState.getPlayers().size());
-		
- 		return gameState;
 	}
 	
 	public Set<HexLocation> getHexLocationsOwnedByPlayer(String playerId) {
@@ -254,9 +263,13 @@ public class GameState extends AbstractSerializedObject {
 		return getGamePieces().get(gamePieceId);
 	}
 	
-	
-	public HashMap<Player, List<Thing>> getPossibleThingsToRecruitForPlayers() {
-		List<GamePiece> playingCupPieces = new ArrayList<GamePiece>(getPlayingCup().getGamePieces());
+	/**
+	 * Returns a map of the players in the game mapped to a list of ids of things they are aloud to recruit.  The number of things they can recruit
+	 * is dependent on how much gold they have / how many things are in their rack to trade.
+	 * @return
+	 */
+	public HashMap<Player, List<String>> getPossibleThingsToRecruitForPlayers() {
+		List<Thing> playingCupPieces = new ArrayList<Thing>(getPlayingCup().getThings());
 		// Max Free Recruits: 2
 		// Max Trades: 5
 		// Max Buys: 5
@@ -267,6 +280,7 @@ public class GameState extends AbstractSerializedObject {
 		
 		int costOfBuyingPiece=5;
 		
+		HashMap<Player, List<String>> map = new HashMap<Player, List<String>>();
 		for(Player p: getPlayers()) {
 			int numberOfThingsInPlayersRacks = p.getAllThingsInRacks().size();
 			
@@ -287,14 +301,41 @@ public class GameState extends AbstractSerializedObject {
 			if(playingCupPieces.size() < thisPlayersTotalNumberOfRecruitmentThings) {
 				thisPlayersTotalNumberOfRecruitmentThings = playingCupPieces.size();
 			}
+			
+			List<String> thisPlayersThingsToRecruit = new ArrayList<String>();
 			for(int i = 0; i < thisPlayersTotalNumberOfRecruitmentThings; i++) {
-				GamePiece piece = playingCupPieces.get(new Random().nextInt(playingCupPieces.size()));
-				playingCupPieces.remove(piece);
-				
+				Thing thing = playingCupPieces.get(new Random().nextInt(playingCupPieces.size()));
+				playingCupPieces.remove(thing);
+				thisPlayersThingsToRecruit.add(thing.getId());
 			}
+			map.put(p, thisPlayersThingsToRecruit);
 		}
 		
-		return null;
+		return map;
+	}
+
+	public Map<String, BoardLocation> getBoardLocations() {
+		return boardLocations;
+	}
+
+	public void setBoardLocations(Map<String, BoardLocation> boardLocations) {
+		this.boardLocations = boardLocations;
+	}
+	
+	public void addBoardLocation(String id, BoardLocation location) {
+		getBoardLocations().put(id, location);
+	}
+	
+	public BoardLocation getBoardLocation(String id) {
+		return getBoardLocations().get(id);
+	}
+
+	public int getPhaseTurn() {
+		return phaseTurn;
+	}
+
+	public void setPhaseTurn(int phaseTurn) {
+		this.phaseTurn = phaseTurn;
 	}
 	
 }

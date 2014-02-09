@@ -10,7 +10,7 @@ public class MovementPhase extends Phase {
 
 	public MovementPhase(GameState gameState, List<Player> playersInOrderOfTurn) {
 		super(gameState, playersInOrderOfTurn);
-		// TODO Auto-generated constructor stub
+		setPhaseId("movement");
 	}
 
 	@Override

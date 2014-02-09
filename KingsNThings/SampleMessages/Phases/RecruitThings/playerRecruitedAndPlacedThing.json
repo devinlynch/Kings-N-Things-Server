@@ -1,0 +1,8 @@
+{
+   "data":{
+      "playerId":"player1",
+      "locationId":"player1_rack1",
+      "thingId":"T_Mountains_050-01"
+   },
+   "type":"playerRecruitedAndPlacedThing"
+}
