@@ -1,5 +1,6 @@
 package com.kings.http;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -24,12 +25,14 @@ public class GameMessage {
 	private HttpResponseData data;
 	private Map<String, HttpResponseData> userSpecificData;
 	@JsonIgnore private Set<Player> playersToSendTo;
+	private Date createdDate;
 	
 	public GameMessage(String type) {
 		setPlayersToSendTo(new HashSet<Player>());
 		this.type=type;
 		this.userSpecificData = new HashMap<String, HttpResponseData>();
 		data = new HttpResponseData();
+		createdDate = new Date();
 	}
 	
 	public void addToData(String key, Object val) {
@@ -78,6 +81,7 @@ public class GameMessage {
 			dataMap.putAll(data.getMap());
 		dataMap.putAll(getData().getMap());
 		thisAsMap.put("data", dataMap);
+		thisAsMap.put("createdDate", getCreatedDate());
 		
 		return Utils.toJson(thisAsMap);
 	}
@@ -132,5 +136,13 @@ public class GameMessage {
 			getUserSpecificData().put(playerId, userData);
 		}
 		userData.put(key, value);
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
 	}
 }
