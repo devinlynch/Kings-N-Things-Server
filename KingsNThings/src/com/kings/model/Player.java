@@ -35,6 +35,8 @@ public class Player extends AbstractSerializedObject {
 		rack2 = new Rack(playerId+"_rack2");
 		gold=0;
 		this.ownedLocations = new HashSet<HexLocation>();
+		gameState.addBoardLocation(rack1.getId(), rack1);
+		gameState.addBoardLocation(rack2.getId(), rack2);
 	}
 	
 	public String getPlayerId() {
@@ -176,6 +178,10 @@ public class Player extends AbstractSerializedObject {
 	public void addGold(int gold) {
 		this.gold = this.gold+gold;
 	}
+	
+	public void removeGold(int gold) {
+		this.gold = this.gold-gold;
+	}
 
 	public Set<HexLocation> getOwnedLocations() {
 		return ownedLocations;
@@ -263,5 +269,18 @@ public class Player extends AbstractSerializedObject {
 		income = numberOfLandHexes + numberOfSpecialChars + goldForForts + goldForSICs;
 		
 		return income;
+	}
+	
+	public Set<Thing> getAllThingsInRacks() {
+		Set<Thing> things = new HashSet<Thing>();
+		for(GamePiece gp: rack1.getGamePieces()){
+			if(gp instanceof Thing)
+				things.add((Thing)gp);
+		}
+		for(GamePiece gp: rack2.getGamePieces()){
+			if(gp instanceof Thing)
+				things.add((Thing)gp);
+		}
+		return things;
 	}
 }

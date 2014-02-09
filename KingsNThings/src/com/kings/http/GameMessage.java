@@ -2,6 +2,7 @@ package com.kings.http;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -47,7 +48,11 @@ public class GameMessage {
 	public void addPlayerToSendTo(Player player) {
 		getPlayersToSendTo().add(player);
 	}
-
+	
+	public void addPlayersToSendTo(List<Player> players) {
+		getPlayersToSendTo().addAll(players);
+	}
+	
 	public String getType() {
 		return type;
 	}

@@ -16,6 +16,7 @@ import com.kings.model.Player;
 import com.kings.model.User;
 import com.kings.model.phases.GoldCollectionPhase;
 import com.kings.model.phases.PlacementPhase;
+import com.kings.model.phases.RecruitThingsPhase;
 import com.kings.model.phases.SetupPhase;
 import com.kings.model.phases.exceptions.NotYourTurnException;
 
@@ -23,6 +24,7 @@ public class RunThroughPhasesTest {
 	
 	public GameState getNewGameState() throws Exception{
 		Game game = new Game();
+		game.setDemo(true);
 		game.setActive(true);
 		game.setGameId("1");
 		game.setStartedDate(new Date());
@@ -114,6 +116,20 @@ public class RunThroughPhasesTest {
 		assertEquals("gold", gs.getCurrentPhase().getPhaseId());
 		cPhase.playerIsReadyForNextPhase("player4");
 		assertEquals("recruitThings", gs.getCurrentPhase().getPhaseId());
+		
+		RecruitThingsPhase rtPhase = (RecruitThingsPhase)gs.getCurrentPhase(); 
+		rtPhase.didRecruitAndPlaceThing("player1", "T_Mountains_050-01", "player1_rack1", true);
+		rtPhase.didRecruitAndPlaceThing("player1", "T_Mountains_034-01", "player1_rack2", false);
+		rtPhase.didRecruitAndPlaceThing("player1", "T_Mountains_038-01", "player1_rack2", false);
+		assertEquals(1, p1.getRack1().getGamePieces().size());
+		assertEquals(2, p1.getRack2().getGamePieces().size());
+		assertEquals(9, (int)p1.getGold());
+		
+		rtPhase.playerIsReadyForNextPhase("player1");
+		rtPhase.playerIsReadyForNextPhase("player3");
+		rtPhase.playerIsReadyForNextPhase("player4");
+		rtPhase.playerIsReadyForNextPhase("player2");
+		assertEquals("movement", gs.getCurrentPhase().getPhaseId());
 		
 		for(SentMessage msg : gs.getSentMessages()){
 			System.out.println(msg.getJson());

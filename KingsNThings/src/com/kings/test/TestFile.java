@@ -1,6 +1,8 @@
 package com.kings.test;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.kings.model.HexTile;
@@ -8,9 +10,15 @@ import com.kings.model.HexTile;
 public class TestFile {
 	public static void main(String[] args) {
 		//t1();
-		for(int i=0; i<37; i++) {
-			System.out.println("gameState.getHexlocations().get("+i+").setHexTile((HexTile)gameState.getGamePiece(\"frozen-tile-01\"));");
-		}
+		//for(int i=0; i<37; i++) {
+		//	System.out.println("gameState.getHexlocations().get("+i+").setHexTile((HexTile)gameState.getGamePiece(\"frozen-tile-01\"));");
+		//}
+		
+		List<String> list = new ArrayList<String>();
+		list.add("test");
+		System.out.println(list.size());
+		list.remove("test");
+		System.out.println(list.size());
 	}
 	
 	public static void t1() {

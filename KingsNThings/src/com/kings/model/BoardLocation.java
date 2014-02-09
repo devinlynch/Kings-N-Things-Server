@@ -79,4 +79,18 @@ public class BoardLocation extends AbstractSerializedObject {
 		
 		return map;
 	}
+	
+	/**
+	 * Gets all thing pieces contained in this location
+	 * @return
+	 */
+	public Set<Thing> getThings() {
+		Set<Thing> things = new HashSet<Thing>();
+		for(GamePiece p: getGamePieces()) {
+			if(p instanceof Thing) {
+				things.add((Thing)p);
+			}
+		}
+		return things;
+	}
 }
