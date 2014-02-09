@@ -143,9 +143,27 @@ public class GameStateFactory {
 			gameState.getGamePiece("T_Jungle_003-01");
 			gameState.getGamePiece("T_Forest_086-01");
 		} else if(player.getPlayerId().equals("player3")){
-			
+			gameState.getGamePiece("T_Plains_031-01");
+			gameState.getGamePiece("T_Desert_113-01");
+			gameState.getGamePiece("T_Plains_014-01");
+			gameState.getGamePiece("T_Plains_014-02");
+			gameState.getGamePiece("T_Desert_109-01");
+			gameState.getGamePiece("T_Desert_118-02");
+			gameState.getGamePiece("T_Jungle_008-01");
+			gameState.getGamePiece("T_Plains_021-01");
+			gameState.getGamePiece("T_Desert_114-01");
+			gameState.getGamePiece("T_Jungle_006-01");
 		} else if(player.getPlayerId().equals("player4")){
-			
+			gameState.getGamePiece("T_Plains_027-01");
+			gameState.getGamePiece("T_Swamp_076-01");
+			gameState.getGamePiece("T_Plains_015-01");
+			gameState.getGamePiece("T_Swamp_084-01");
+			gameState.getGamePiece("T_Jungle_005-01");
+			gameState.getGamePiece("T_Plains_027-02");
+			gameState.getGamePiece("T_Forest_088-01");
+			gameState.getGamePiece("T_Swamp_080-01");
+			gameState.getGamePiece("T_Jungle_009-01");
+			gameState.getGamePiece("T_Plains_016-01");
 		}
 		
 	}
