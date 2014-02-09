@@ -35,10 +35,16 @@ public class RunThroughPhasesTest {
 		game.setGameId("1");
 		game.setStartedDate(new Date());
 		Set<User> users = new HashSet<User>();
-		users.add(new User("1"));
-		users.add(new User("2"));
-		users.add(new User("3"));
-		users.add(new User("4"));
+		User u1=new User("1");
+		u1.setPort(3004);
+		u1.setHostName("localhost");
+		User u2=new User("2");
+		User u3=new User("3");
+		User u4=new User("4");
+		users.add(u1);
+		users.add(u2);
+		users.add(u3);
+		users.add(u4);
 		game.setUsers(users);
 		game.start();
 		

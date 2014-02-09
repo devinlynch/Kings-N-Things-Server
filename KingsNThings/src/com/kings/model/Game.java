@@ -11,6 +11,7 @@ public class Game {
 	private String gameId;
 	private Set<User> users;
 	private Date startedDate;
+	@JsonIgnore
 	private GameState gameState;
 	private String createdFromGameLobbyId;
 	private boolean active;
@@ -88,6 +89,7 @@ public class Game {
 		this.startedDate = startedDate;
 	}
 
+	@JsonIgnore
 	public GameState getGameState() {
 		return gameState;
 	}
