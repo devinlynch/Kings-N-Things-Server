@@ -141,7 +141,7 @@ public class GameStateFactory {
 			gameState.getGamePiece("T_Forest_088-01");
 			gameState.getGamePiece("T_Forest_098-01");
 			gameState.getGamePiece("T_Jungle_003-01");
-			gameState.getGamePiece("");
+			gameState.getGamePiece("T_Forest_086-01");
 		} else if(player.getPlayerId().equals("player3")){
 			
 		} else if(player.getPlayerId().equals("player4")){
