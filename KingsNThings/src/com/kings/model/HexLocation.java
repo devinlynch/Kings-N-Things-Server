@@ -1,5 +1,6 @@
 package com.kings.model;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -112,6 +113,24 @@ public class HexLocation extends BoardLocation {
 
 	public void setHexNumber(int hexNumber) {
 		this.hexNumber = hexNumber;
+	}
+	
+	public List<Player> getPlayersWhoAreOnMe() {
+		List<Player> players = new ArrayList<Player>();
+		for(GamePiece gp: getGamePieces()) {
+			Player p = gp.getOwner();
+			if(!players.contains(p)) {
+				players.add(p);
+			}
+		}
+		
+		for(Stack stack: getStacks()) {
+			Player p = stack.getOwner();
+			if(!players.contains(p)) {
+				players.add(p);
+			}
+		}
+		return players;
 	}
 
 }
