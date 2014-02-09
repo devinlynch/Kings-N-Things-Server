@@ -119,6 +119,32 @@ public class GameMessage {
 		}
 		return sentMessages;
 	}
+	
+	/**
+	 * NOT FOR PRODUCTION USE!
+	 * @return
+	 */
+	public Set<SentMessage> testSend(){
+		Set<SentMessage> sentMessages = new HashSet<SentMessage>();
+		for(Player player : getPlayersToSendTo()) {
+			try{
+				String json = this.toJson(player.getPlayerId());
+				String userId = player.getUserId();
+				sentMessages.add(new SentMessage(getType(), json, userId));
+				Integer port = 3004;
+				String host = "localhost";
+				
+				if(port != null && host != null) {
+					UDPMessage message = new UDPMessage(host, port, json);
+					UDPSenderQueue.addMessagesToQueue(message);
+				}
+			} catch(Exception e) {
+				System.out.println("Error sending game message to player with Username="+ player.getUsername());
+				e.printStackTrace();
+			}
+		}
+		return sentMessages;
+	}
 
 	@JsonIgnore
 	public Map<String, HttpResponseData> getUserSpecificData() {

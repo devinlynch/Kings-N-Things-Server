@@ -32,6 +32,7 @@ public class GameState extends AbstractSerializedObject {
 	private SideLocation sideLocation;
 	private Map<String, BoardLocation> boardLocations;
 	private int phaseTurn;
+	private boolean isTestMode;
 	
 	
 	public PlayingCup getPlayingCup() {
@@ -142,7 +143,12 @@ public class GameState extends AbstractSerializedObject {
 	}
 	
 	public void queueUpGameMessageToSendToAllPlayers(GameMessage gameMessage) {
-		Set<SentMessage> sentMessages = gameMessage.send();
+		Set<SentMessage> sentMessages;
+		if( !isTestMode ) {
+			sentMessages = gameMessage.send();
+		} else {
+			sentMessages = gameMessage.testSend();
+		}
 		for(SentMessage msg : sentMessages) {
 			Player p = getPlayerByUserId(msg.getSentToUserId());
 			if(p != null)
@@ -349,6 +355,14 @@ public class GameState extends AbstractSerializedObject {
 			}
 		}
 		return null;
+	}
+
+	public boolean isTestMode() {
+		return isTestMode;
+	}
+
+	public void setTestMode(boolean isTestMode) {
+		this.isTestMode = isTestMode;
 	}
 	
 }
