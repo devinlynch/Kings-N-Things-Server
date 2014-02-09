@@ -30,8 +30,9 @@ public class MessageSender {
 
 		DatagramSocket socket = new DatagramSocket();
 		socket.send(packet);
+		
 		socket.close();
-		System.out.println("Sent " + udpMessage.toString());
+		System.out.println("Sent " + new String(packet.getData()));
 	}
 	
 }

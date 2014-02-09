@@ -39,6 +39,14 @@ public class HexLocation extends BoardLocation {
 		this.hexTile = hexTile;
 	}
 	
+	public void addStack(Stack stack) {
+		HexLocation previousLocation = stack.getHexLocation();
+		if (previousLocation != null)
+			previousLocation.getStacks().remove(stack);
+		getStacks().add(stack);
+		stack.setHexLocation(this);
+	}
+	
 	/**
 	 * Handles the given player capturing this hex location
 	 * @param player

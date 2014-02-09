@@ -117,6 +117,39 @@ public class GameStateFactory {
 		}
 	}
 	
+	public static void giveRandomPiecesToPlayer(Player player, int numPieces, GameState gameState) {
+		//TODO this is only for demo!   random creatures should be assigned
+		
+		if(player.getPlayerId().equals("player1")){
+			gameState.getGamePiece("T_Desert_105-01");
+			gameState.getGamePiece("T_Desert_115-01");
+			gameState.getGamePiece("T_Jungle_001-01");
+			gameState.getGamePiece("T_Mountains_037-01");
+			gameState.getGamePiece("T_Mountains_043-01");
+			gameState.getGamePiece("T_Mountains_047-01");
+			gameState.getGamePiece("T_Desert_118-01");
+			gameState.getGamePiece("T_Jungle_012-01");
+			gameState.getGamePiece("T_Mountains_038-02");
+			gameState.getGamePiece("T_Mountains_042-01");
+		} else if(player.getPlayerId().equals("player2")){
+			gameState.getGamePiece("T_Jungle_002-01");
+			gameState.getGamePiece("T_Desert_117-01");
+			gameState.getGamePiece("T_Forest_097-01");
+			gameState.getGamePiece("T_Desert_108-01");
+			gameState.getGamePiece("T_Jungle_005-01");
+			gameState.getGamePiece("T_Desert_114-01");
+			gameState.getGamePiece("T_Forest_088-01");
+			gameState.getGamePiece("T_Forest_098-01");
+			gameState.getGamePiece("T_Jungle_003-01");
+			gameState.getGamePiece("T_Forest_086-01");
+		} else if(player.getPlayerId().equals("player3")){
+			
+		} else if(player.getPlayerId().equals("player4")){
+			
+		}
+		
+	}
+	
 	public static void addHexLocations(GameState gameState, int numHexes){
 		for(int i=1; i<=numHexes; i++) {
 			HexLocation hex = new HexLocation("hexLocation_"+i, i);
@@ -371,13 +404,11 @@ public class GameStateFactory {
 	public static Map<String, Treasure> getTreasureMap() {
 		HashMap<String, Treasure> map = new HashMap<String, Treasure>();
 		map.put("treasure_01-01", new Treasure("treasure_01-01", "treasureChest",20));
-		map.put("treasure_02-1", new Treasure("treasure_02-1", "ruby",10));
+		map.put("treasure_02-01", new Treasure("treasure_02-01", "ruby",10));
 		map.put("treasure_03-01", new Treasure("treasure_03-01", "sapphire",5));
-		map.put("treasure_04-01", new Treasure("treasure_04-01", "sliverMine",2));
-		map.put("treasure_04-02", new Treasure("treasure_04-02", "sliverMine2",2));
-		map.put("treasure_06-01", new Treasure("treasure_06-01", "pearl",5));
-		map.put("treasure_07-01", new Treasure("treasure_07-01", "emerald",10)); 
-		map.put("treasure_08-01", new Treasure("treasure_08-01", "diamond",5)); 
+		map.put("treasure_04-01", new Treasure("treasure_04-01", "pearl",5));
+		map.put("treasure_05-01", new Treasure("treasure_05-01", "emerald",10)); 
+		map.put("treasure_06-01", new Treasure("treasure_06-01", "diamond",5)); 
 		return map;
 	}
 	
@@ -400,22 +431,33 @@ public class GameStateFactory {
 	public static Map<String, CityVill> getCityVillMap() {
 		HashMap<String, CityVill> map = new HashMap<String, CityVill>();
 		map.put("city_01", new CityVill("city_01", "city",2,2));
+		map.put("city_02", new CityVill("city_02", "city2",2,2));
+		map.put("city_03", new CityVill("city_03", "city3",2,2));
+		map.put("city_04", new CityVill("city_04", "city4",2,2));
+		map.put("city_05", new CityVill("city_05", "city5",2,2));
 		map.put("village_01", new CityVill("village_01", "village",1,1));
-		
+		map.put("village_02", new CityVill("village_02", "village2",1,1));
+		map.put("village_03", new CityVill("village_03", "village3",1,1));
+		map.put("village_04", new CityVill("village_04", "village4",1,1));
+		map.put("village_05", new CityVill("village_05", "village5",1,1));
 		return map;
 	}
 
 	public static Map<String, NonCityVill> getNonCityVillMap() {
 		HashMap<String, NonCityVill> map = new HashMap<String, NonCityVill>();
-		map.put("specialIncomeCounter_01", new NonCityVill("specialIncomeCounter_01", "timberland",1,Terrain.FOREST_TERRAIN));//must have forest to get gold logic later added
-		map.put("specialIncomeCounter_02", new NonCityVill("specialIncomeCounter_02", "oilField",3,Terrain.FROZEN_TERRAIN)); //only if you have frozen waste to get gold
-		map.put("specialIncomeCounter_03", new NonCityVill("specialIncomeCounter_03", "peatBog",1,Terrain.SWAMP_TERRAIN)); //swamp only
-		map.put("specialIncomeCounter_04", new NonCityVill("specialIncomeCounter_04", "farmlands",1,Terrain.PLAINS_TERRAIN)); //plains only
-		map.put("specialIncomeCounter_05", new NonCityVill("specialIncomeCounter_05", "goldMine",3,Terrain.MOUNTAIN_TERRAIN)); //mountain only
-		map.put("specialIncomeCounter_06", new NonCityVill("specialIncomeCounter_06", "elephantGraveyard",3,Terrain.JUNGLE_TERRAIN)); //jungle  only
-		map.put("specialIncomeCounter_07", new NonCityVill("specialIncomeCounter_07", "diamondField",1,Terrain.DESERT_TERRAIN)); //Desert Only
-		map.put("specialIncomeCounter_08", new NonCityVill("specialIncomeCounter_08", "copperMine",1,Terrain.MOUNTAIN_TERRAIN)); //Mountain Only
+		map.put("specialIncomeCounter_01-01", new NonCityVill("specialIncomeCounter_01-01", "timberland",1,Terrain.FOREST_TERRAIN));//must have forest to get gold logic later added
+		map.put("specialIncomeCounter_02-01", new NonCityVill("specialIncomeCounter_02-01", "oilField",3,Terrain.FROZEN_TERRAIN)); //only if you have frozen waste to get gold
+		map.put("specialIncomeCounter_03-01", new NonCityVill("specialIncomeCounter_03-01", "peatBog",1,Terrain.SWAMP_TERRAIN)); //swamp only
+		map.put("specialIncomeCounter_04-01", new NonCityVill("specialIncomeCounter_04-01", "farmlands",1,Terrain.PLAINS_TERRAIN)); //plains only
+		map.put("specialIncomeCounter_05-01", new NonCityVill("specialIncomeCounter_05-01", "goldMine",3,Terrain.MOUNTAIN_TERRAIN)); //mountain only
+		map.put("specialIncomeCounter_06-01", new NonCityVill("specialIncomeCounter_06-01", "elephantGraveyard",3,Terrain.JUNGLE_TERRAIN)); //jungle  only
+		map.put("specialIncomeCounter_07-01", new NonCityVill("specialIncomeCounter_07-01", "diamondField",1,Terrain.DESERT_TERRAIN)); //Desert Only
+		map.put("specialIncomeCounter_08-01", new NonCityVill("specialIncomeCounter_08-01", "copperMine",1,Terrain.MOUNTAIN_TERRAIN)); //Mountain Only
+		map.put("specialIncomeCounter_09-01", new NonCityVill("specialIncomeCounter_09-01", "sliverMine",2,Terrain.MOUNTAIN_TERRAIN));
+		map.put("specialIncomeCounter_09-02", new NonCityVill("specialIncomeCounter_09-02", "sliverMine2",2,Terrain.MOUNTAIN_TERRAIN));
+
 		return map;
+
 	}	
 	
 	public static Map<String, RandomEvent> getRandomEventMap() {
