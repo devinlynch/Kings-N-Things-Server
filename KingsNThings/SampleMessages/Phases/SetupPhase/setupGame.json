@@ -69,12 +69,17 @@
                   "locationId":"playingCup"
                },
                {
+                  "id":"RandomEvent_05",
+                  "ownerId":null,
+                  "locationId":"playingCup"
+               },
+               {
                   "id":"T_Forest_086-01",
                   "ownerId":null,
                   "locationId":"playingCup"
                },
                {
-                  "id":"RandomEvent_05",
+                  "id":"T_Mountains_043-01",
                   "ownerId":null,
                   "locationId":"playingCup"
                },
@@ -84,7 +89,7 @@
                   "locationId":"playingCup"
                },
                {
-                  "id":"T_Mountains_043-01",
+                  "id":"treasure_02-01",
                   "ownerId":null,
                   "locationId":"playingCup"
                },
@@ -199,17 +204,22 @@
                   "locationId":"playingCup"
                },
                {
-                  "id":"magic_06",
-                  "ownerId":null,
-                  "locationId":"playingCup"
-               },
-               {
                   "id":"T_Forest_093-01",
                   "ownerId":null,
                   "locationId":"playingCup"
                },
                {
+                  "id":"magic_06",
+                  "ownerId":null,
+                  "locationId":"playingCup"
+               },
+               {
                   "id":"magic_01",
+                  "ownerId":null,
+                  "locationId":"playingCup"
+               },
+               {
+                  "id":"specialIncomeCounter_01-01",
                   "ownerId":null,
                   "locationId":"playingCup"
                },
@@ -235,16 +245,6 @@
                },
                {
                   "id":"T_Frozen_Waste_051-01",
-                  "ownerId":null,
-                  "locationId":"playingCup"
-               },
-               {
-                  "id":"treasure_08-01",
-                  "ownerId":null,
-                  "locationId":"playingCup"
-               },
-               {
-                  "id":"treasure_02-1",
                   "ownerId":null,
                   "locationId":"playingCup"
                },
@@ -339,6 +339,11 @@
                   "locationId":"playingCup"
                },
                {
+                  "id":"specialIncomeCounter_04-01",
+                  "ownerId":null,
+                  "locationId":"playingCup"
+               },
+               {
                   "id":"Fort_04-05",
                   "ownerId":null,
                   "locationId":"playingCup"
@@ -364,12 +369,12 @@
                   "locationId":"playingCup"
                },
                {
-                  "id":"T_Forest_087-01",
+                  "id":"Fort_01-06",
                   "ownerId":null,
                   "locationId":"playingCup"
                },
                {
-                  "id":"Fort_01-06",
+                  "id":"T_Forest_087-01",
                   "ownerId":null,
                   "locationId":"playingCup"
                },
@@ -389,6 +394,11 @@
                   "locationId":"playingCup"
                },
                {
+                  "id":"specialIncomeCounter_05-01",
+                  "ownerId":null,
+                  "locationId":"playingCup"
+               },
+               {
                   "id":"Fort_01-05",
                   "ownerId":null,
                   "locationId":"playingCup"
@@ -400,11 +410,6 @@
                },
                {
                   "id":"T_Mountains_038-01",
-                  "ownerId":null,
-                  "locationId":"playingCup"
-               },
-               {
-                  "id":"treasure_07-01",
                   "ownerId":null,
                   "locationId":"playingCup"
                },
@@ -459,22 +464,22 @@
                   "locationId":"playingCup"
                },
                {
-                  "id":"Fort_03-01",
-                  "ownerId":null,
-                  "locationId":"playingCup"
-               },
-               {
                   "id":"T_Mountains_044-01",
                   "ownerId":null,
                   "locationId":"playingCup"
                },
                {
-                  "id":"T_Desert_107-01",
+                  "id":"Fort_03-01",
                   "ownerId":null,
                   "locationId":"playingCup"
                },
                {
                   "id":"T_Frozen_Waste_057-04",
+                  "ownerId":null,
+                  "locationId":"playingCup"
+               },
+               {
+                  "id":"T_Desert_107-01",
                   "ownerId":null,
                   "locationId":"playingCup"
                },
@@ -514,6 +519,11 @@
                   "locationId":"playingCup"
                },
                {
+                  "id":"specialIncomeCounter_03-01",
+                  "ownerId":null,
+                  "locationId":"playingCup"
+               },
+               {
                   "id":"T_Swamp_079-01",
                   "ownerId":null,
                   "locationId":"playingCup"
@@ -529,12 +539,12 @@
                   "locationId":"playingCup"
                },
                {
-                  "id":"T_Mountains_039-01",
+                  "id":"T_Forest_091-02",
                   "ownerId":null,
                   "locationId":"playingCup"
                },
                {
-                  "id":"T_Forest_091-02",
+                  "id":"T_Mountains_039-01",
                   "ownerId":null,
                   "locationId":"playingCup"
                },
@@ -549,12 +559,12 @@
                   "locationId":"playingCup"
                },
                {
-                  "id":"T_Swamp_074-01",
+                  "id":"RandomEvent_02",
                   "ownerId":null,
                   "locationId":"playingCup"
                },
                {
-                  "id":"RandomEvent_02",
+                  "id":"T_Swamp_074-01",
                   "ownerId":null,
                   "locationId":"playingCup"
                },
@@ -614,6 +624,16 @@
                   "locationId":"playingCup"
                },
                {
+                  "id":"specialIncomeCounter_06-01",
+                  "ownerId":null,
+                  "locationId":"playingCup"
+               },
+               {
+                  "id":"specialIncomeCounter_02-01",
+                  "ownerId":null,
+                  "locationId":"playingCup"
+               },
+               {
                   "id":"treasure_01-01",
                   "ownerId":null,
                   "locationId":"playingCup"
@@ -644,16 +664,6 @@
                   "locationId":"playingCup"
                },
                {
-                  "id":"specialIncomeCounter_06",
-                  "ownerId":null,
-                  "locationId":"playingCup"
-               },
-               {
-                  "id":"specialIncomeCounter_05",
-                  "ownerId":null,
-                  "locationId":"playingCup"
-               },
-               {
                   "id":"T_Plains_027-02",
                   "ownerId":null,
                   "locationId":"playingCup"
@@ -669,6 +679,11 @@
                   "locationId":"playingCup"
                },
                {
+                  "id":"Fort_01-09",
+                  "ownerId":null,
+                  "locationId":"playingCup"
+               },
+               {
                   "id":"T_Mountains_034-02",
                   "ownerId":null,
                   "locationId":"playingCup"
@@ -679,22 +694,17 @@
                   "locationId":"playingCup"
                },
                {
-                  "id":"Fort_01-09",
-                  "ownerId":null,
-                  "locationId":"playingCup"
-               },
-               {
                   "id":"Fort_02-04",
                   "ownerId":null,
                   "locationId":"playingCup"
                },
                {
-                  "id":"Fort_02-03",
+                  "id":"T_Mountains_042-01",
                   "ownerId":null,
                   "locationId":"playingCup"
                },
                {
-                  "id":"T_Mountains_042-01",
+                  "id":"Fort_02-03",
                   "ownerId":null,
                   "locationId":"playingCup"
                },
@@ -705,6 +715,11 @@
                },
                {
                   "id":"T_Mountains_034-01",
+                  "ownerId":null,
+                  "locationId":"playingCup"
+               },
+               {
+                  "id":"specialIncomeCounter_08-01",
                   "ownerId":null,
                   "locationId":"playingCup"
                },
@@ -774,12 +789,12 @@
                   "locationId":"playingCup"
                },
                {
-                  "id":"T_Plains_031-01",
+                  "id":"T_Jungle_009-01",
                   "ownerId":null,
                   "locationId":"playingCup"
                },
                {
-                  "id":"T_Jungle_009-01",
+                  "id":"T_Plains_031-01",
                   "ownerId":null,
                   "locationId":"playingCup"
                },
@@ -829,12 +844,12 @@
                   "locationId":"playingCup"
                },
                {
-                  "id":"Fort_01-10",
+                  "id":"T_Frozen_Waste_052-01",
                   "ownerId":null,
                   "locationId":"playingCup"
                },
                {
-                  "id":"T_Frozen_Waste_052-01",
+                  "id":"Fort_01-10",
                   "ownerId":null,
                   "locationId":"playingCup"
                },
@@ -844,32 +859,32 @@
                   "locationId":"playingCup"
                },
                {
-                  "id":"specialIncomeCounter_07",
+                  "id":"village_05",
                   "ownerId":null,
                   "locationId":"playingCup"
                },
                {
-                  "id":"specialIncomeCounter_08",
+                  "id":"village_03",
                   "ownerId":null,
                   "locationId":"playingCup"
                },
                {
-                  "id":"specialIncomeCounter_03",
-                  "ownerId":null,
-                  "locationId":"playingCup"
-               },
-               {
-                  "id":"specialIncomeCounter_04",
-                  "ownerId":null,
-                  "locationId":"playingCup"
-               },
-               {
-                  "id":"treasure_04-02",
+                  "id":"specialIncomeCounter_09-02",
                   "ownerId":null,
                   "locationId":"playingCup"
                },
                {
                   "id":"treasure_04-01",
+                  "ownerId":null,
+                  "locationId":"playingCup"
+               },
+               {
+                  "id":"specialIncomeCounter_09-01",
+                  "ownerId":null,
+                  "locationId":"playingCup"
+               },
+               {
+                  "id":"village_04",
                   "ownerId":null,
                   "locationId":"playingCup"
                },
@@ -884,12 +899,7 @@
                   "locationId":"playingCup"
                },
                {
-                  "id":"specialIncomeCounter_01",
-                  "ownerId":null,
-                  "locationId":"playingCup"
-               },
-               {
-                  "id":"specialIncomeCounter_02",
+                  "id":"village_02",
                   "ownerId":null,
                   "locationId":"playingCup"
                },
@@ -954,12 +964,12 @@
                   "locationId":"playingCup"
                },
                {
-                  "id":"T_Plains_023-01",
+                  "id":"T_Jungle_001-01",
                   "ownerId":null,
                   "locationId":"playingCup"
                },
                {
-                  "id":"T_Jungle_001-01",
+                  "id":"T_Plains_023-01",
                   "ownerId":null,
                   "locationId":"playingCup"
                },
@@ -979,6 +989,11 @@
                   "locationId":"playingCup"
                },
                {
+                  "id":"treasure_05-01",
+                  "ownerId":null,
+                  "locationId":"playingCup"
+               },
+               {
                   "id":"T_Frozen_Waste_056-01",
                   "ownerId":null,
                   "locationId":"playingCup"
@@ -990,6 +1005,11 @@
                },
                {
                   "id":"T_Swamp_070-01",
+                  "ownerId":null,
+                  "locationId":"playingCup"
+               },
+               {
+                  "id":"specialIncomeCounter_07-01",
                   "ownerId":null,
                   "locationId":"playingCup"
                },
@@ -1054,6 +1074,16 @@
                   "locationId":"playingCup"
                },
                {
+                  "id":"city_03",
+                  "ownerId":null,
+                  "locationId":"playingCup"
+               },
+               {
+                  "id":"city_02",
+                  "ownerId":null,
+                  "locationId":"playingCup"
+               },
+               {
                   "id":"T_Plains_030-01",
                   "ownerId":null,
                   "locationId":"playingCup"
@@ -1070,6 +1100,16 @@
                },
                {
                   "id":"T_Jungle_012-01",
+                  "ownerId":null,
+                  "locationId":"playingCup"
+               },
+               {
+                  "id":"city_05",
+                  "ownerId":null,
+                  "locationId":"playingCup"
+               },
+               {
+                  "id":"city_04",
                   "ownerId":null,
                   "locationId":"playingCup"
                }
@@ -1630,7 +1670,12 @@
                "stacks":[
 
                ],
-               "hexTile":null,
+               "hexTile":{
+                  "id":"forest-tile-06",
+                  "ownerId":null,
+                  "locationId":"hexLocation_33",
+                  "terrainId":"forest-tile"
+               },
                "hexNumber":33
             },
             {
@@ -1659,7 +1704,12 @@
                "stacks":[
 
                ],
-               "hexTile":null,
+               "hexTile":{
+                  "id":"forest-tile-06",
+                  "ownerId":null,
+                  "locationId":"hexLocation_35",
+                  "terrainId":"forest-tile"
+               },
                "hexNumber":35
             },
             {
@@ -1700,21 +1750,9 @@
          "sideLocation":{
             "gamePieces":[
                {
-                  "id":"sea-tile-08",
-                  "ownerId":null,
-                  "locationId":"side",
-                  "terrainId":"sea-tile"
-               },
-               {
                   "id":"specialcharacter_05",
                   "ownerId":null,
                   "locationId":"side"
-               },
-               {
-                  "id":"desert-tile-06",
-                  "ownerId":null,
-                  "locationId":"side",
-                  "terrainId":"desert-tile"
                },
                {
                   "id":"specialcharacter_08",
@@ -1735,6 +1773,54 @@
                   "id":"specialcharacter_07",
                   "ownerId":null,
                   "locationId":"side"
+               },
+               {
+                  "id":"jungle-tile-05",
+                  "ownerId":null,
+                  "locationId":"side",
+                  "terrainId":"jungle-tile"
+               },
+               {
+                  "id":"mountain-tile-06",
+                  "ownerId":null,
+                  "locationId":"side",
+                  "terrainId":"mountain-tile"
+               },
+               {
+                  "id":"jungle-tile-04",
+                  "ownerId":null,
+                  "locationId":"side",
+                  "terrainId":"jungle-tile"
+               },
+               {
+                  "id":"swamp-tile-06",
+                  "ownerId":null,
+                  "locationId":"side",
+                  "terrainId":"swamp-tile"
+               },
+               {
+                  "id":"plains-tile-06",
+                  "ownerId":null,
+                  "locationId":"side",
+                  "terrainId":"plains-tile"
+               },
+               {
+                  "id":"sea-tile-08",
+                  "ownerId":null,
+                  "locationId":"side",
+                  "terrainId":"sea-tile"
+               },
+               {
+                  "id":"desert-tile-06",
+                  "ownerId":null,
+                  "locationId":"side",
+                  "terrainId":"desert-tile"
+               },
+               {
+                  "id":"forest-tile-06",
+                  "ownerId":null,
+                  "locationId":"side",
+                  "terrainId":"forest-tile"
                },
                {
                   "id":"sea-tile-07",
@@ -1759,12 +1845,6 @@
                   "locationId":"side"
                },
                {
-                  "id":"jungle-tile-05",
-                  "ownerId":null,
-                  "locationId":"side",
-                  "terrainId":"jungle-tile"
-               },
-               {
                   "id":"sea-tile-04",
                   "ownerId":null,
                   "locationId":"side",
@@ -1783,33 +1863,15 @@
                   "terrainId":"sea-tile"
                },
                {
-                  "id":"mountain-tile-06",
-                  "ownerId":null,
-                  "locationId":"side",
-                  "terrainId":"mountain-tile"
-               },
-               {
                   "id":"sea-tile-03",
                   "ownerId":null,
                   "locationId":"side",
                   "terrainId":"sea-tile"
                },
                {
-                  "id":"jungle-tile-04",
-                  "ownerId":null,
-                  "locationId":"side",
-                  "terrainId":"jungle-tile"
-               },
-               {
                   "id":"specialcharacter_03",
                   "ownerId":null,
                   "locationId":"side"
-               },
-               {
-                  "id":"swamp-tile-06",
-                  "ownerId":null,
-                  "locationId":"side",
-                  "terrainId":"swamp-tile"
                },
                {
                   "id":"specialcharacter_02",
@@ -1825,12 +1887,6 @@
                   "id":"specialcharacter_09",
                   "ownerId":null,
                   "locationId":"side"
-               },
-               {
-                  "id":"plains-tile-06",
-                  "ownerId":null,
-                  "locationId":"side",
-                  "terrainId":"plains-tile"
                }
             ],
             "locationId":"side"
@@ -1843,47 +1899,13 @@
 
                   ],
                   "ownerId":null,
-                  "locationId":"player4_rack2"
-               },
-               "username":null,
-               "rack1":{
-                  "gamePieces":[
-                     {
-                        "id":"Fort_01-01",
-                        "ownerId":"player4",
-                        "locationId":"player4_rack1"
-                     }
-                  ],
-                  "ownerId":null,
-                  "locationId":"player4_rack1"
-               },
-               "gamePieces":[
-                  {
-                     "id":"Fort_01-01",
-                     "ownerId":"player4",
-                     "locationId":"player4_rack1"
-                  }
-               ],
-               "playerId":"player4",
-               "userId":"2",
-               "ownedHexIds":[
-
-               ],
-               "gold":10
-            },
-            {
-               "rack2":{
-                  "gamePieces":[
-
-                  ],
-                  "ownerId":null,
                   "locationId":"player1_rack2"
                },
                "username":null,
                "rack1":{
                   "gamePieces":[
                      {
-                        "id":"Fort_01-04",
+                        "id":"Fort_01-03",
                         "ownerId":"player1",
                         "locationId":"player1_rack1"
                      }
@@ -1893,7 +1915,7 @@
                },
                "gamePieces":[
                   {
-                     "id":"Fort_01-04",
+                     "id":"Fort_01-03",
                      "ownerId":"player1",
                      "locationId":"player1_rack1"
                   }
@@ -1911,13 +1933,47 @@
 
                   ],
                   "ownerId":null,
+                  "locationId":"player4_rack2"
+               },
+               "username":null,
+               "rack1":{
+                  "gamePieces":[
+                     {
+                        "id":"Fort_01-04",
+                        "ownerId":"player4",
+                        "locationId":"player4_rack1"
+                     }
+                  ],
+                  "ownerId":null,
+                  "locationId":"player4_rack1"
+               },
+               "gamePieces":[
+                  {
+                     "id":"Fort_01-04",
+                     "ownerId":"player4",
+                     "locationId":"player4_rack1"
+                  }
+               ],
+               "playerId":"player4",
+               "userId":"2",
+               "ownedHexIds":[
+
+               ],
+               "gold":10
+            },
+            {
+               "rack2":{
+                  "gamePieces":[
+
+                  ],
+                  "ownerId":null,
                   "locationId":"player3_rack2"
                },
                "username":null,
                "rack1":{
                   "gamePieces":[
                      {
-                        "id":"Fort_01-02",
+                        "id":"Fort_01-01",
                         "ownerId":"player3",
                         "locationId":"player3_rack1"
                      }
@@ -1927,7 +1983,7 @@
                },
                "gamePieces":[
                   {
-                     "id":"Fort_01-02",
+                     "id":"Fort_01-01",
                      "ownerId":"player3",
                      "locationId":"player3_rack1"
                   }
@@ -1951,7 +2007,7 @@
                "rack1":{
                   "gamePieces":[
                      {
-                        "id":"Fort_01-03",
+                        "id":"Fort_01-02",
                         "ownerId":"player2",
                         "locationId":"player2_rack1"
                      }
@@ -1961,7 +2017,7 @@
                },
                "gamePieces":[
                   {
-                     "id":"Fort_01-03",
+                     "id":"Fort_01-02",
                      "ownerId":"player2",
                      "locationId":"player2_rack1"
                   }
@@ -1978,7 +2034,7 @@
             "currentTotal":9999959
          }
       },
-      "myPlayerId":"player2"
+      "myPlayerId":"player3"
    },
    "type":"setupGame"
 }

@@ -338,7 +338,7 @@ public class GameState extends AbstractSerializedObject {
 		this.phaseTurn = phaseTurn;
 	}
 	
-	public Stack getStackLocationsById(String stackId) {
+	public Stack getStackById(String stackId) {
 		Iterator<HexLocation> it = getHexlocations().iterator();
 		while (it.hasNext()) {
 			HexLocation hexLoc = it.next();

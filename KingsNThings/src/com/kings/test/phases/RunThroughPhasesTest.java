@@ -2,8 +2,10 @@ package com.kings.test.phases;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.Test;
@@ -12,9 +14,12 @@ import com.kings.http.SentMessage;
 import com.kings.model.Game;
 import com.kings.model.GamePiece;
 import com.kings.model.GameState;
+import com.kings.model.HexLocation;
 import com.kings.model.Player;
+import com.kings.model.Stack;
 import com.kings.model.User;
 import com.kings.model.phases.GoldCollectionPhase;
+import com.kings.model.phases.MovementPhase;
 import com.kings.model.phases.PlacementPhase;
 import com.kings.model.phases.RecruitThingsPhase;
 import com.kings.model.phases.SetupPhase;
@@ -130,6 +135,29 @@ public class RunThroughPhasesTest {
 		rtPhase.playerIsReadyForNextPhase("player4");
 		rtPhase.playerIsReadyForNextPhase("player2");
 		assertEquals("movement", gs.getCurrentPhase().getPhaseId());
+		
+		MovementPhase mPhase = (MovementPhase)gs.getCurrentPhase();
+		HexLocation p1HexForMov1 = p1.getOwnedLocationsAsList().get(0);
+		mPhase.didMoveGamePiece(p1.getPlayerId(), p1HexForMov1.getId(), "T_Mountains_050-01");
+		assertEquals(p1HexForMov1.getId(), p1.getGamePieceById("T_Mountains_050-01").getLocation().getId());
+		mPhase.didMoveGamePiece(p1.getPlayerId(), p1.getRack1().getId(), "T_Mountains_050-01");
+		assertNotEquals(p1HexForMov1.getId(), p1.getGamePieceById("T_Mountains_050-01").getLocation().getId());
+		assertEquals(p1.getRack1().getId(), p1.getGamePieceById("T_Mountains_050-01").getLocation().getId());
+		
+		List<String> p1MoveStackCreateList = new ArrayList<String>();
+		p1MoveStackCreateList.add("T_Mountains_038-01");
+		mPhase.didCreateStack(p1.getPlayerId(),  p1HexForMov1.getId(), p1MoveStackCreateList);
+		assertEquals("Stack", p1.getGamePieceById("T_Mountains_038-01").getLocation().getName());
+		List<Stack> p1StacksHex1 = new ArrayList<Stack>(p1HexForMov1.getStacks());
+		assertEquals(1, p1StacksHex1.get(0).getGamePieces().size());
+		
+		
+		mPhase.playerIsDoneMakingMoves(p1.getPlayerId());
+		mPhase.playerIsDoneMakingMoves(p2.getPlayerId());
+		mPhase.playerIsDoneMakingMoves(p3.getPlayerId());
+		mPhase.playerIsDoneMakingMoves(p4.getPlayerId());
+		
+		
 		
 		for(SentMessage msg : gs.getSentMessages()){
 			System.out.println(msg.getJson());
