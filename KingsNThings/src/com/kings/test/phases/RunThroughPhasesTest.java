@@ -10,7 +10,6 @@ import java.util.Set;
 
 import org.junit.Test;
 
-import com.kings.controllers.phases.MovementPhaseController;
 import com.kings.http.SentMessage;
 import com.kings.model.Game;
 import com.kings.model.GamePiece;
@@ -46,7 +45,7 @@ public class RunThroughPhasesTest {
 		users.add(u3);
 		users.add(u4);
 		game.setUsers(users);
-		game.start();
+		game.startAsTest();
 		
 		return game.getGameState();
 	}

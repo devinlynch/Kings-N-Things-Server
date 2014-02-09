@@ -35,6 +35,14 @@ public class Game {
 		// Right now it is being called from the GameCreatorQueue, so the users are all assigned to this game and now all logic of creating a game
 		// and sending messages to the client needs to happen here
 		
+		handleStart(false);
+	}
+	
+	public void startAsTest() throws Exception {
+		handleStart(true);
+	}
+	
+	protected void handleStart(boolean isTest) throws Exception {
 		GameState gameState;
 		if(isDemo()){
 			gameState = DemoGameState.createGameStateFromGame(this);
@@ -49,6 +57,7 @@ public class Game {
 			sendGameStartedMessageToUser(user);
 		}
 		
+		gameState.setTestMode(isTest);
 		gameState.startGame();
 	}
 
