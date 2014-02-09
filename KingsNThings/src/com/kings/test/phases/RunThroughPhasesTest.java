@@ -2,19 +2,25 @@ package com.kings.test.phases;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.Test;
 
+import com.kings.controllers.phases.MovementPhaseController;
 import com.kings.http.SentMessage;
 import com.kings.model.Game;
 import com.kings.model.GamePiece;
 import com.kings.model.GameState;
+import com.kings.model.HexLocation;
 import com.kings.model.Player;
+import com.kings.model.Stack;
 import com.kings.model.User;
 import com.kings.model.phases.GoldCollectionPhase;
+import com.kings.model.phases.MovementPhase;
 import com.kings.model.phases.PlacementPhase;
 import com.kings.model.phases.RecruitThingsPhase;
 import com.kings.model.phases.SetupPhase;
@@ -100,6 +106,12 @@ public class RunThroughPhasesTest {
 		pPhase.didPlaceFort("player4", fort4.getId(), "hexLocation_10");
 		assertEquals("hexLocation_10", fort4.getLocation().getId());
 		
+		MovementPhase mPhase1 = (MovementPhase) gs.getCurrentPhase();
+		mPhase1.playerIsDoneMakingMoves("player1");
+		mPhase1.playerIsDoneMakingMoves("player2");
+		mPhase1.playerIsDoneMakingMoves("player3");
+		mPhase1.playerIsDoneMakingMoves("player4");
+		
 		// Gold phase should be started and handled automatically, players should now have gold assigned
 		assertEquals("gold", gs.getCurrentPhase().getPhaseId());
 		
@@ -130,6 +142,37 @@ public class RunThroughPhasesTest {
 		rtPhase.playerIsReadyForNextPhase("player4");
 		rtPhase.playerIsReadyForNextPhase("player2");
 		assertEquals("movement", gs.getCurrentPhase().getPhaseId());
+		
+		MovementPhase mPhase = (MovementPhase)gs.getCurrentPhase();
+		HexLocation p1HexForMov1 = p1.getOwnedLocationsAsList().get(0);
+		HexLocation p1HexForMov2 = p1.getOwnedLocationsAsList().get(1);
+		mPhase.didMoveGamePiece(p1.getPlayerId(), p1HexForMov1.getId(), "T_Mountains_050-01");
+		assertEquals(p1HexForMov1.getId(), p1.getGamePieceById("T_Mountains_050-01").getLocation().getId());
+		mPhase.didMoveGamePiece(p1.getPlayerId(), p1.getRack1().getId(), "T_Mountains_050-01");
+		assertNotEquals(p1HexForMov1.getId(), p1.getGamePieceById("T_Mountains_050-01").getLocation().getId());
+		assertEquals(p1.getRack1().getId(), p1.getGamePieceById("T_Mountains_050-01").getLocation().getId());
+		
+		List<String> p1MoveStackCreateList = new ArrayList<String>();
+		p1MoveStackCreateList.add("T_Mountains_038-01");
+		mPhase.didCreateStack(p1.getPlayerId(),  p1HexForMov1.getId(), p1MoveStackCreateList);
+		assertEquals("Stack", p1.getGamePieceById("T_Mountains_038-01").getLocation().getName());
+		List<Stack> p1StacksHex1 = new ArrayList<Stack>(p1HexForMov1.getStacks());
+		assertEquals(1, p1StacksHex1.get(0).getGamePieces().size());
+		List<String> p1MoveStackAddList = new ArrayList<String>();
+		p1MoveStackAddList.add("T_Mountains_034-01");
+		mPhase.didAddPiecesToStack(p1.getPlayerId(), p1StacksHex1.get(0).getId(), p1MoveStackAddList);
+		assertEquals(2, p1StacksHex1.get(0).getGamePieces().size());
+		
+		mPhase.didMoveStack(p1.getPlayerId(), p1HexForMov2.getId(), p1StacksHex1.get(0).getId());
+		assertEquals(0, p1HexForMov1.getStacks().size());
+		assertEquals(1, p1HexForMov2.getStacks().size());
+		
+		mPhase.playerIsDoneMakingMoves(p1.getPlayerId());
+		mPhase.playerIsDoneMakingMoves(p2.getPlayerId());
+		mPhase.playerIsDoneMakingMoves(p3.getPlayerId());
+		mPhase.playerIsDoneMakingMoves(p4.getPlayerId());
+		
+		
 		
 		for(SentMessage msg : gs.getSentMessages()){
 			System.out.println(msg.getJson());

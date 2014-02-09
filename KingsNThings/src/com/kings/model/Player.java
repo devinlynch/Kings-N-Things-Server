@@ -1,9 +1,11 @@
 package com.kings.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -185,6 +187,10 @@ public class Player extends AbstractSerializedObject {
 
 	public Set<HexLocation> getOwnedLocations() {
 		return ownedLocations;
+	}
+	
+	public List<HexLocation> getOwnedLocationsAsList() {
+		return new ArrayList<HexLocation>(getOwnedLocations());
 	}
 
 	public void setOwnedLocations(Set<HexLocation> ownedLocations) {

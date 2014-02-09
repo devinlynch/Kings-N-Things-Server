@@ -16,22 +16,25 @@ import com.kings.model.phases.exceptions.NotYourTurnException;
 public class MovementPhase extends Phase {
 	private int nextPlayerToMove;
 	boolean isTimeToMove;
-	public MovementPhase(GameState gameState, List<Player> playersInOrderOfTurn) {
+	boolean isInitialMovement;
+	
+	public MovementPhase(GameState gameState, List<Player> playersInOrderOfTurn, boolean isInitialMovement) {
 		super(gameState, playersInOrderOfTurn);
 		setPhaseId("movement");
 		nextPlayerToMove = 0;
-
+		this.isInitialMovement = isInitialMovement;
 	}
 
 	@Override
 	public void handleStart() {
-		// TODO Auto-generated method stub
 		tellPlayerItsTheirTurnToMove();
 
 	}
+	
 	public void tellPlayerItsTheirTurnToMove() {
 		if(nextPlayerToMove > getPlayersInOrderOfTurn().size()-1) {
 			end();
+			return;
 		}
 
 		Player currentPlayer = getPlayersInOrderOfTurn().get(nextPlayerToMove);
@@ -39,6 +42,7 @@ public class MovementPhase extends Phase {
 		message.addPlayerToSendTo(currentPlayer);
 		getGameState().queueUpGameMessageToSendToAllPlayers(message);
 	}
+	
 	public synchronized void didMoveStack(String playerId, String hexLocationId, String stackId) throws NotYourTurnException{
 		// TODO some error checking really needs to take place here
 
@@ -51,7 +55,7 @@ public class MovementPhase extends Phase {
 
 		Player player = getGameState().getPlayerByPlayerId(playerId);
 		HexLocation hexLoc = getGameState().getHexLocationsById(hexLocationId);
-		Stack stackloc = getGameState().getStackLocationsById(stackId);
+		Stack stackloc = getGameState().getStackById(stackId);
 		hexLoc.addStack(stackloc);
 
 		Set<Player> otherPlayers = new HashSet<Player>(getPlayersInOrderOfTurn());
@@ -62,9 +66,6 @@ public class MovementPhase extends Phase {
 		message.addToData("stackLocationId",stackId);
 		message.setPlayersToSendTo(otherPlayers);
 		getGameState().queueUpGameMessageToSendToAllPlayers(message);
-
-		nextPlayerToMove++;
-		tellPlayerItsTheirTurnToMove();
 	}
 
 	public synchronized void didMoveGamePiece(String playerId, String boardLocationId, String gamePieceId) throws NotYourTurnException{
@@ -85,19 +86,85 @@ public class MovementPhase extends Phase {
 
 		Set<Player> otherPlayers = new HashSet<Player>(getPlayersInOrderOfTurn());
 		otherPlayers.remove(player);
-		GameMessage message = new GameMessage("playerMovedStackToNewLocation");
+		
+		GameMessage message = new GameMessage("playerMovedPieceToNewLocation");
 		message.addToData("playerId", playerId);
 		message.addToData("boardLocationId", boardLocationId);
 		message.addToData("gamePieceId",gamePieceId);
 		message.setPlayersToSendTo(otherPlayers);
 		getGameState().queueUpGameMessageToSendToAllPlayers(message);
+	}
+	
+	public synchronized void didCreateStack(String playerId, String hexLocationId, List<String> piecesToAddToStack) throws NotYourTurnException{
+		if(isOver())
+			return;
 
+		if( ! getPlayersInOrderOfTurn().get(nextPlayerToMove).getPlayerId().equals(playerId) ){
+			throw new NotYourTurnException();
+		}
+
+		Player player = getGameState().getPlayerByPlayerId(playerId);
+		HexLocation hexLocation = getGameState().getHexLocationsById(hexLocationId);
+		
+		Set<GamePiece> pieces = new HashSet<GamePiece>();
+		
+		for(String gId : piecesToAddToStack) {
+			pieces.add(getGameState().getGamePiece(gId));
+		}
+		Stack createdStack = hexLocation.createAndAddNewStackWithPieces(player, pieces);
+
+		Set<Player> otherPlayers = new HashSet<Player>(getPlayersInOrderOfTurn());
+		otherPlayers.remove(player);
+		GameMessage message = new GameMessage("playerCreatedStack");
+		message.addToData("playerId", playerId);
+		message.addToData("stack", createdStack.toSerializedFormat());
+		message.setPlayersToSendTo(otherPlayers);
+		getGameState().queueUpGameMessageToSendToAllPlayers(message);
+	}
+	
+	public synchronized void didAddPiecesToStack(String playerId, String stackId, List<String> piecesToAddToStack) throws NotYourTurnException{
+		if(isOver())
+			return;
+
+		if( ! getPlayersInOrderOfTurn().get(nextPlayerToMove).getPlayerId().equals(playerId) ){
+			throw new NotYourTurnException();
+		}
+
+		Player player = getGameState().getPlayerByPlayerId(playerId);
+		Stack stack = getGameState().getStackById(stackId);
+		
+		Set<GamePiece> pieces = new HashSet<GamePiece>();
+		for(String gId : piecesToAddToStack) {
+			pieces.add(getGameState().getGamePiece(gId));
+		}
+		stack.addGamePiecesToLocation(pieces);
+
+		Set<Player> otherPlayers = new HashSet<Player>(getPlayersInOrderOfTurn());
+		otherPlayers.remove(player);
+		GameMessage message = new GameMessage("playerAddedPiecesToStack");
+		message.addToData("playerId", playerId);
+		message.addToData("stack", stack.toSerializedFormat());
+		message.setPlayersToSendTo(otherPlayers);
+		getGameState().queueUpGameMessageToSendToAllPlayers(message);
+	}
+	
+	public synchronized void playerIsDoneMakingMoves(String playerId) throws NotYourTurnException {
+		if( ! getPlayersInOrderOfTurn().get(nextPlayerToMove).getPlayerId().equals(playerId) ){
+			throw new NotYourTurnException();
+		}
+		
 		nextPlayerToMove++;
 		tellPlayerItsTheirTurnToMove();
 	}
+	
+	
+	
 	@Override
 	public void setupNextPhase() {
-		setNextPhase(new CombatPhase(getGameState(), getPlayersInOrderOfTurn()));
+		if( ! isInitialMovement )
+			setNextPhase(new CombatPhase(getGameState(), getPlayersInOrderOfTurn()));
+		else
+			setNextPhase(new GoldCollectionPhase(getGameState(), getPlayersInOrderOfTurn()));
 	}
 
 	@Override
@@ -111,8 +178,8 @@ public class MovementPhase extends Phase {
 
 	@Override
 	public GameMessage getPhaseStartedMessage() {
-		// TODO Auto-generated method stub
-		return null;
+		GameMessage msg = newGameMessageForAllPlayers("phasementPhaseStarted");
+		return msg;
 	}
 
 }

@@ -1,8 +1,11 @@
 package com.kings.model;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import com.kings.util.Utils;
 
 public class HexLocation extends BoardLocation {
 	private HexTile hexTile;
@@ -45,6 +48,14 @@ public class HexLocation extends BoardLocation {
 			previousLocation.getStacks().remove(stack);
 		getStacks().add(stack);
 		stack.setHexLocation(this);
+	}
+	
+	public Stack createAndAddNewStackWithPieces(Player owner, Set<GamePiece> gamePieces) {
+		Stack stack = new Stack(Utils.generateRandomId("stack"));
+		stack.setOwner(owner);
+		stack.addGamePiecesToLocation(gamePieces);
+		addStack(stack);
+		return stack;
 	}
 	
 	/**

@@ -38,8 +38,6 @@ public class MovementPhaseController extends PhaseController {
 
 		}
 		
-		
-
 		@RequestMapping(value="moveGamePiece")
 		public @ResponseBody String moveGamePiece(
 			@RequestParam String locationId,
@@ -55,6 +53,26 @@ public class MovementPhaseController extends PhaseController {
 			if(p instanceof MovementPhase) {
 				MovementPhase sPhase = (MovementPhase) p;
 				sPhase.didMoveGamePiece(player.getPlayerId(),locationId,gamePieceId);
+				return successMessage().toJson();
+			} else{
+				return wrongPhaseMessage().toJson();
+			}
+
+		}
+		
+		@RequestMapping(value="playerIsDoneMakingMoves")
+		public @ResponseBody String moveGamePiece(
+			HttpServletRequest req,
+			HttpServletResponse res) throws NotLoggedInException, MoveNotValidException, NotYourTurnException{
+
+			GameState state = getGameState(req);
+			Player player = getPlayer(req);
+
+			Phase p = state.getCurrentPhase();
+
+			if(p instanceof MovementPhase) {
+				MovementPhase sPhase = (MovementPhase) p;
+				sPhase.playerIsDoneMakingMoves(player.getPlayerId());
 				return successMessage().toJson();
 			} else{
 				return wrongPhaseMessage().toJson();

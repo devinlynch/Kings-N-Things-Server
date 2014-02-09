@@ -506,6 +506,10 @@ public class GameStateFactory {
 		map.put("forest-tile-04", new HexTile("forest-tile-04", "forestTile",Terrain.FOREST_TERRAIN));
 		map.put("forest-tile-05", new HexTile("forest-tile-05", "forestTile",Terrain.FOREST_TERRAIN));
 		map.put("forest-tile-06", new HexTile("forest-tile-06", "forestTile",Terrain.FOREST_TERRAIN));
+		map.put("forest-tile-07", new HexTile("forest-tile-06", "forestTile",Terrain.FOREST_TERRAIN));
+		map.put("forest-tile-08", new HexTile("forest-tile-06", "forestTile",Terrain.FOREST_TERRAIN));
+		map.put("forest-tile-09", new HexTile("forest-tile-06", "forestTile",Terrain.FOREST_TERRAIN));
+		map.put("forest-tile-10", new HexTile("forest-tile-06", "forestTile",Terrain.FOREST_TERRAIN));
 
 		map.put("frozen-tile-01", new HexTile("frozen-tile-01", "frozenTile",Terrain.FROZEN_TERRAIN));
 		map.put("frozen-tile-02", new HexTile("frozen-tile-02", "frozenTile",Terrain.FROZEN_TERRAIN));

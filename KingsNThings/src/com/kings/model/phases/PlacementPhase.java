@@ -163,7 +163,7 @@ public class PlacementPhase extends Phase {
 
 	@Override
 	public void setupNextPhase() {
-		setNextPhase(new GoldCollectionPhase(getGameState(), getPlayersInOrderOfTurn()));
+		setNextPhase(new MovementPhase(getGameState(), getPlayersInOrderOfTurn(), true));
 	}
 
 	@Override

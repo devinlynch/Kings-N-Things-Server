@@ -11,18 +11,18 @@ public class RandomEventPhase extends Phase {
 	public RandomEventPhase(GameState gameState,
 			List<Player> playersInOrderOfTurn) {
 		super(gameState, playersInOrderOfTurn);
-		// TODO Auto-generated constructor stub
+		setPhaseId("randomEvent");
 	}
 
 	@Override
 	public void handleStart() {
 		// TODO Auto-generated method stub
-
+		end();
 	}
 
 	@Override
 	public void setupNextPhase() {
-		setNextPhase(new MovementPhase(getGameState(), getPlayersInOrderOfTurn()));
+		setNextPhase(new MovementPhase(getGameState(), getPlayersInOrderOfTurn(), false));
 	}
 
 
