@@ -1,4 +1,4 @@
-package com.kings.model.phases;
+             package com.kings.model.phases;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -77,7 +77,7 @@ public class RecruitThingsPhase extends Phase {
 	
 	@Override
 	public void setupNextPhase() {
-		setNextPhase(new MovementPhase(getGameState(), getPlayersInOrderOfTurn()));
+		setNextPhase(new RandomEventPhase(getGameState(), getPlayersInOrderOfTurn()));
 	}
 
 	@Override

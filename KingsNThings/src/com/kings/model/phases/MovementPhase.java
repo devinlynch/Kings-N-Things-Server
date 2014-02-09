@@ -16,11 +16,13 @@ import com.kings.model.phases.exceptions.NotYourTurnException;
 public class MovementPhase extends Phase {
 	private int nextPlayerToMove;
 	boolean isTimeToMove;
-	public MovementPhase(GameState gameState, List<Player> playersInOrderOfTurn) {
+	boolean isInitialMovement;
+	
+	public MovementPhase(GameState gameState, List<Player> playersInOrderOfTurn, boolean isInitialMovement) {
 		super(gameState, playersInOrderOfTurn);
 		setPhaseId("movement");
 		nextPlayerToMove = 0;
-
+		this.isInitialMovement = isInitialMovement;
 	}
 
 	@Override
@@ -120,7 +122,7 @@ public class MovementPhase extends Phase {
 		getGameState().queueUpGameMessageToSendToAllPlayers(message);
 	}
 	
-	/*public synchronized void didAddPiecesToStack(String playerId, String stackId, List<String> piecesToAddToStack) throws NotYourTurnException{
+	public synchronized void didAddPiecesToStack(String playerId, String stackId, List<String> piecesToAddToStack) throws NotYourTurnException{
 		if(isOver())
 			return;
 
@@ -129,23 +131,22 @@ public class MovementPhase extends Phase {
 		}
 
 		Player player = getGameState().getPlayerByPlayerId(playerId);
-		Stack hexLocation = getGameState().getStackById(stackId);
+		Stack stack = getGameState().getStackById(stackId);
 		
 		Set<GamePiece> pieces = new HashSet<GamePiece>();
-		
 		for(String gId : piecesToAddToStack) {
 			pieces.add(getGameState().getGamePiece(gId));
 		}
-		Stack createdStack = hexLocation.createAndAddNewStackWithPieces(player, pieces);
+		stack.addGamePiecesToLocation(pieces);
 
 		Set<Player> otherPlayers = new HashSet<Player>(getPlayersInOrderOfTurn());
 		otherPlayers.remove(player);
-		GameMessage message = new GameMessage("playerCreatedStack");
+		GameMessage message = new GameMessage("playerAddedPiecesToStack");
 		message.addToData("playerId", playerId);
-		message.addToData("stack", createdStack.toSerializedFormat());
+		message.addToData("stack", stack.toSerializedFormat());
 		message.setPlayersToSendTo(otherPlayers);
 		getGameState().queueUpGameMessageToSendToAllPlayers(message);
-	}*/
+	}
 	
 	public synchronized void playerIsDoneMakingMoves(String playerId) throws NotYourTurnException {
 		if( ! getPlayersInOrderOfTurn().get(nextPlayerToMove).getPlayerId().equals(playerId) ){
@@ -160,7 +161,10 @@ public class MovementPhase extends Phase {
 	
 	@Override
 	public void setupNextPhase() {
-		setNextPhase(new CombatPhase(getGameState(), getPlayersInOrderOfTurn()));
+		if( ! isInitialMovement )
+			setNextPhase(new CombatPhase(getGameState(), getPlayersInOrderOfTurn()));
+		else
+			setNextPhase(new GoldCollectionPhase(getGameState(), getPlayersInOrderOfTurn()));
 	}
 
 	@Override
