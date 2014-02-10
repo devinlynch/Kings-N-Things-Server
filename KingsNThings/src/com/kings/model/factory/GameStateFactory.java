@@ -89,11 +89,11 @@ public class GameStateFactory {
  		gameState.getHexlocations().get(25).setHexTile((HexTile)gameState.getGamePiece("plains-tile-04"));
  		gameState.getHexlocations().get(26).setHexTile((HexTile)gameState.getGamePiece("forest-tile-05"));
  		gameState.getHexlocations().get(27).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-04"));
- 		gameState.getHexlocations().get(28).setHexTile((HexTile)gameState.getGamePiece("forest-tile-06"));
+ 		gameState.getHexlocations().get(28).setHexTile((HexTile)gameState.getGamePiece("jungle-tile-05"));
  		gameState.getHexlocations().get(29).setHexTile((HexTile)gameState.getGamePiece("mountain-tile-04"));
  		gameState.getHexlocations().get(30).setHexTile((HexTile)gameState.getGamePiece("desert-tile-04"));
  		gameState.getHexlocations().get(31).setHexTile((HexTile)gameState.getGamePiece("plains-tile-05"));
- 		gameState.getHexlocations().get(32).setHexTile((HexTile)gameState.getGamePiece("forest-tile-07"));
+ 		gameState.getHexlocations().get(32).setHexTile((HexTile)gameState.getGamePiece("jungle-tile-04"));
  		gameState.getHexlocations().get(33).setHexTile((HexTile)gameState.getGamePiece("mountain-tile-05"));
  		gameState.getHexlocations().get(34).setHexTile((HexTile)gameState.getGamePiece("forest-tile-08"));
  		gameState.getHexlocations().get(35).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-05"));
