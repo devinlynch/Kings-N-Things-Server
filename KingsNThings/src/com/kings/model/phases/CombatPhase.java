@@ -10,6 +10,7 @@ import com.kings.http.GameMessage;
 import com.kings.model.GameState;
 import com.kings.model.HexLocation;
 import com.kings.model.Player;
+import com.kings.model.phases.battle.CombatBattle;
 import com.kings.model.phases.exceptions.NotYourTurnException;
 
 public class CombatPhase extends Phase {
@@ -48,6 +49,9 @@ public class CombatPhase extends Phase {
 	private int numberOfHitsEarnedForDefender;
 	private int attacker;
 	private int defender;
+	private List<CombatBattle> combatBattles;
+	private List<CombatBattle> doneBattles;
+
 	
 	public CombatPhase(GameState gameState, List<Player> playersInOrderOfTurn) {
 		super(gameState, playersInOrderOfTurn);
@@ -57,52 +61,7 @@ public class CombatPhase extends Phase {
 		defender = 0;
 		numberOfHitsEarnedForAttacker = 0;
 		numberOfHitsEarnedForDefender = 0;
-	}
-
-	public void whatPlayerHasWhatCreaturesToKnowWhatRoundStarts() {
-		handleTellPlayersTimeToFightMelee();
-	}
-
-	/* For Iteration 1 */
-	/* Only 2 Players in a battle */
-
-	// Step 1 : Find Who is on The Same Hex, Assign Owner to go Second and
-	// Attacker as First
-	public synchronized void whoIsFighingAndWhoGoesFirst(String playerId,
-			String playerIdAttacker, String stackId, String StackIdAttacker,
-			String hexLocationId) {
-
-		List<Player> listOfPlayers;
-		HexLocation hexLoc = getGameState().getHexLocationsById(hexLocationId);
-		listOfPlayers = hexLoc.getPlayersWhoAreOnMe();
-		//Assigning first player as a defender
-		if(listOfPlayers.contains( getGameState().getPlayerByPlayerId(playerId))){
-			defender++;
-		}
-		//Only 2 moves in the fight
-		if (nextPlayerToFight > 2) {
-			end();
-			return;
-		}
-		Player currentPlayer = getPlayersInOrderOfTurn().get(nextPlayerToFight);
-		GameMessage message = new GameMessage("yourTurntoFight");
-		message.addPlayerToSendTo(currentPlayer);
-		getGameState().queueUpGameMessageToSendToAllPlayers(message);
-	}
-
-	// Step 2 : Tell next Player(Attacker) to click Roll
-	public void handleTellPlayersTimeToFightMelee() {
-		if (nextPlayerToFight > getPlayersInOrderOfTurn().size() - 1) {
-			retreat();
-			return;
-		}
-		// rangePhaseOver = true;
-		GameMessage message = new GameMessage("timeToPlaywithMelee");
-		message.setPlayersToSendTo(new HashSet<Player>(
-				getPlayersInOrderOfTurn()));
-		getGameState().queueUpGameMessageToSendToAllPlayers(message);
-		tellPlayerItsTheirTurnToFightMelee();
-
+		doneBattles = new ArrayList<CombatBattle>();
 	}
 
 	public void tellPlayerItsTheirTurnToFightMelee() {
@@ -155,11 +114,7 @@ public class CombatPhase extends Phase {
 		tellPlayerItsTheirTurnToFightMelee();
 	}
 
-	@Override
-	public void handleStart() {
-		// TODO Auto-generated method stub
-		whatPlayerHasWhatCreaturesToKnowWhatRoundStarts();
-	}
+	
 
 	@Override
 	public void setupNextPhase() {
@@ -184,6 +139,32 @@ public class CombatPhase extends Phase {
 		GameMessage msg = newGameMessageForAllPlayers("combatPhaseStarted");
 		return msg;
 	}
+	
+	
+	
+	
+	//////////// Start for Devin Stuff /////////
+	
+	
+	@Override
+	public void handleStart() {
+		List<CombatBattle> combatBattles = createBattlesAsNeeded();
+		this.combatBattles = combatBattles;
+		
+		handleStartFirstBattle();
+	}
+	
+	public List<CombatBattle> createBattlesAsNeeded() {
+		List<CombatBattle> combatBattles = new ArrayList<CombatBattle>();
+		for(HexLocation hexLocation: getGameState().getHexlocations()) {
+			List<Player> playersOnHex = hexLocation.getPlayersWhoAreOnMe();
+			if(playersOnHex.size() > 1) {
+				CombatBattle battle = new CombatBattle(hexLocation, this);
+			}
+		}
+		return combatBattles;
+	}
+	
 
 	///////////////////////////////////// Stuff under here is for later////////////////////////////////////////////////////
 	/*public void handleTellPlayersTimeToFightMagic() {
