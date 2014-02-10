@@ -3,6 +3,7 @@ package com.kings.model.phases;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import com.kings.http.GameMessage;
@@ -45,11 +46,15 @@ public class CombatPhase extends Phase {
 	boolean meleePhaseOver;
 	private int numberOfHitsEarnedForAttacker;
 	private int numberOfHitsEarnedForDefender;
-
+	private int attacker;
+	private int defender;
+	
 	public CombatPhase(GameState gameState, List<Player> playersInOrderOfTurn) {
 		super(gameState, playersInOrderOfTurn);
 		setPhaseId("combat");
 		nextPlayerToFight = 0;
+		attacker = 0;
+		defender = 0;
 		numberOfHitsEarnedForAttacker = 0;
 		numberOfHitsEarnedForDefender = 0;
 	}
@@ -66,9 +71,16 @@ public class CombatPhase extends Phase {
 	public synchronized void whoIsFighingAndWhoGoesFirst(String playerId,
 			String playerIdAttacker, String stackId, String StackIdAttacker,
 			String hexLocationId) {
+
+		List<Player> listOfPlayers;
 		HexLocation hexLoc = getGameState().getHexLocationsById(hexLocationId);
-		hexLoc.getPlayersWhoAreOnMe();
-		if (nextPlayerToFight > getPlayersInOrderOfTurn().size()) {
+		listOfPlayers = hexLoc.getPlayersWhoAreOnMe();
+		//Assigning first player as a defender
+		if(listOfPlayers.contains( getGameState().getPlayerByPlayerId(playerId))){
+			defender++;
+		}
+		//Only 2 moves in the fight
+		if (nextPlayerToFight > 2) {
 			end();
 			return;
 		}
@@ -110,9 +122,17 @@ public class CombatPhase extends Phase {
 		// the Counter for hits by 1
 		// If player is attacker add to attacker counter , If defender add to
 		// defender counter
+		Random r = new Random();
+		int randomnum = r.nextInt(6-1) + 1;
+		
+		//Find all creatures in stack 
+		
 
-		;
-
+		//Compare random number with creature combat value
+		
+		
+		
+		
 	}
 
 	// Step 4: End Combat By removing whoever clicked Retreat(If attacker clicked : Go to previous hex owned, If defender clicks, attackers gets hex and defender goes to previous hex owned.
