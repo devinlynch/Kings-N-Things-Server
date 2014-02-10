@@ -39,13 +39,7 @@ public class CombatBattle {
 	private boolean attackerDidRoll;
 	private boolean defenderDidRoll;
 	
-	private boolean attackerWantsToBattleAgain;
-	private boolean defenderWantsToBattleAgain;
-	
-	private boolean attackerRetreated;
-	private boolean defenderRetreated;
-	
-	private boolean resolutionWasMade;
+ 	private boolean resolutionWasMade;
 	
 	public CombatBattle(HexLocation locationOfBattle, CombatPhase combatPhase) {
 		this.locationOfBattle = locationOfBattle;
@@ -210,27 +204,27 @@ public class CombatBattle {
 		}
 	}
 	
-	public void playerMadeResolution(Player p, BattleResolution resolution) {
-		synchronized (this) {
-			if(resolutionWasMade) {
-				// TODO
-			}
-			
-			if(resolution == BattleResolution.RETREAT) {
-				System.out.println("Player retreated");
-				// Retreat
-				if(p.getPlayerId().equals(attacker.getPlayerId())) {
-					handleRetreat(attacker);
-				} else if(p.getPlayerId().equals(defender.getPlayerId())) {
-					handleRetreat(defender);
-				}
-				resolutionWasMade = true;
-				isOver = true;
-			} else {
-				// Battle again
-				System.out.println("Player wants to battle again, not supported right now");
-			}
+	public synchronized void playerMadeResolution(Player p, BattleResolution resolution) {
+		if(resolutionWasMade) {
+			// TODO
 		}
+		
+		if(resolution == BattleResolution.RETREAT) {
+			System.out.println("Player retreated");
+			// Retreat
+			if(p.getPlayerId().equals(attacker.getPlayerId())) {
+				handleRetreat(attacker);
+			} else if(p.getPlayerId().equals(defender.getPlayerId())) {
+				handleRetreat(defender);
+			}
+		} else {
+			// Battle again
+			System.out.println("Player wants to battle again, not supported right now");
+		}
+		
+		resolutionWasMade = true;
+		isOver = true;
+		getCombatPhase().handleStartNextBattle();
 	}
 	
 	protected void handleRetreat(Player player){
