@@ -63,7 +63,7 @@ public class MovementPhase extends Phase {
 		GameMessage message = new GameMessage("playerMovedStackToNewLocation");
 		message.addToData("playerId", playerId);
 		message.addToData("hexLocationId", hexLoc.getId());
-		message.addToData("stackLocationId",stackId);
+		message.addToData("stack",stackloc.toSerializedFormat());
 		message.setPlayersToSendTo(otherPlayers);
 		getGameState().queueUpGameMessageToSendToAllPlayers(message);
 	}

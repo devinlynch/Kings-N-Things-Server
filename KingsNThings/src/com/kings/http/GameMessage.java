@@ -26,6 +26,7 @@ public class GameMessage {
 	private Map<String, HttpResponseData> userSpecificData;
 	@JsonIgnore private Set<Player> playersToSendTo;
 	private Date createdDate;
+	private String messageId;
 	
 	public GameMessage(String type) {
 		setPlayersToSendTo(new HashSet<Player>());
@@ -33,6 +34,7 @@ public class GameMessage {
 		this.userSpecificData = new HashMap<String, HttpResponseData>();
 		data = new HttpResponseData();
 		createdDate = new Date();
+		this.messageId = Utils.generateRandomId("gamemessage");
 	}
 	
 	public void addToData(String key, Object val) {
@@ -82,7 +84,7 @@ public class GameMessage {
 		dataMap.putAll(getData().getMap());
 		thisAsMap.put("data", dataMap);
 		thisAsMap.put("createdDate", getCreatedDate());
-		
+		thisAsMap.put("messageId", messageId);
 		return Utils.toJson(thisAsMap);
 	}
 	
@@ -170,5 +172,13 @@ public class GameMessage {
 
 	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
+	}
+
+	public String getMessageId() {
+		return messageId;
+	}
+
+	public void setMessageId(String messageId) {
+		this.messageId = messageId;
 	}
 }
