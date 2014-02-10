@@ -1,5 +1,6 @@
 package com.kings.model.phases;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -25,6 +26,19 @@ public class CombatPhase extends Phase {
 	 * Check if there is another battle taking place if not end.
 	 */
 
+	/*
+	 * For Iteration 1 Goals : Detect theres a fight Find all creatures involed
+	 * in fight Click roll have numbers assigned to each creature (3 creatures,3
+	 * random numbers) Then be able to select which creature takes damage
+	 * Retreat: If attacker retreats defender stays and attacker goes back to
+	 * where he was If defender retreats attacker claims the hex.
+	 * 
+	 * 
+	 * Simple version: Find Creatures for each Player assigned rolls to each
+	 * creature,Assign hits,Send back Values to Client They decide who gets
+	 * hits, Add Retreat so players can leave.
+	 */
+
 	private int nextPlayerToFight;
 	boolean magicPhaseOver;
 	boolean rangePhaseOver;
@@ -32,12 +46,6 @@ public class CombatPhase extends Phase {
 	private int numberOfHitsEarnedForAttacker;
 	private int numberOfHitsEarnedForDefender;
 
-	// What types their creatures are
-	// Set magic fight first
-	// Set range second
-	// Set melee last
-	// Retreat option to end game
-	//
 	public CombatPhase(GameState gameState, List<Player> playersInOrderOfTurn) {
 		super(gameState, playersInOrderOfTurn);
 		setPhaseId("combat");
@@ -46,18 +54,37 @@ public class CombatPhase extends Phase {
 		numberOfHitsEarnedForDefender = 0;
 	}
 
-
 	public void whatPlayerHasWhatCreaturesToKnowWhatRoundStarts() {
 		handleTellPlayersTimeToFightMelee();
 	}
 
-	/*                                                                For Iteration 1                                                         */
-	public void handleTellPlayersTimeToFightMelee() {	
+	/* For Iteration 1 */
+	/* Only 2 Players in a battle */
+
+	// Step 1 : Find Who is on The Same Hex, Assign Owner to go Second and
+	// Attacker as First
+	public synchronized void whoIsFighingAndWhoGoesFirst(String playerId,
+			String playerIdAttacker, String stackId, String StackIdAttacker,
+			String hexLocationId) {
+		HexLocation hexLoc = getGameState().getHexLocationsById(hexLocationId);
+		hexLoc.getPlayersWhoAreOnMe();
+		if (nextPlayerToFight > getPlayersInOrderOfTurn().size()) {
+			end();
+			return;
+		}
+		Player currentPlayer = getPlayersInOrderOfTurn().get(nextPlayerToFight);
+		GameMessage message = new GameMessage("yourTurntoFight");
+		message.addPlayerToSendTo(currentPlayer);
+		getGameState().queueUpGameMessageToSendToAllPlayers(message);
+	}
+
+	// Step 2 : Tell next Player(Attacker) to click Roll
+	public void handleTellPlayersTimeToFightMelee() {
 		if (nextPlayerToFight > getPlayersInOrderOfTurn().size() - 1) {
 			retreat();
 			return;
 		}
-		rangePhaseOver = true;
+		// rangePhaseOver = true;
 		GameMessage message = new GameMessage("timeToPlaywithMelee");
 		message.setPlayersToSendTo(new HashSet<Player>(
 				getPlayersInOrderOfTurn()));
@@ -67,45 +94,51 @@ public class CombatPhase extends Phase {
 	}
 
 	public void tellPlayerItsTheirTurnToFightMelee() {
-		//Owner doesnt attack first
 		GameMessage message = new GameMessage("yourTurnToFightWithMelee");
 		Player currentPlayer = getPlayersInOrderOfTurn().get(nextPlayerToFight);
 		message.addPlayerToSendTo(currentPlayer);
 		getGameState().queueUpGameMessageToSendToAllPlayers(message);
 	}
 
-	public synchronized void didFightInMelee(String playerId,
-			String hexLocation1, String hexLocation2, String hexLocation3)
+	// Step 3: Assign random numbers numbers to each creature in players stack
+
+	public synchronized void didFightInMelee(String playerId, String StackId)
 			throws NotYourTurnException {
-		// To fight you need all creatures in a stack
-		// Pull their combat values
-		// Add totals up
-		// Random roll between 1-6
-		// Send message
+		// Get all All creatures in a stack, along with their combat value
+		// Assign a random number between 1-6 to each Creature
+		// If the random number is equal or greater than the combat value add to
+		// the Counter for hits by 1
+		// If player is attacker add to attacker counter , If defender add to
+		// defender counter
+
+		;
+
 	}
 
+	// Step 4: End Combat By removing whoever clicked Retreat(If attacker clicked : Go to previous hex owned, If defender clicks, attackers gets hex and defender goes to previous hex owned.
 	public synchronized void retreat() {
-		// Find out who pressed retreat
+		// Find out which player pressed retreat
+		// If Owner retreats -> Move to adjcent hex with stack END
+		// If Attacker retreats -> Move to adjcent hex owned with stack END
+
+	}
+
+	// Check if combat is done.
+	public synchronized void playerIsDoneCombat(String playerId)
+			throws NotYourTurnException {
+		if (!getPlayersInOrderOfTurn().get(nextPlayerToFight).getPlayerId()
+				.equals(playerId)) {
+			throw new NotYourTurnException();
+		}
+
+		nextPlayerToFight++;
+		tellPlayerItsTheirTurnToFightMelee();
 	}
 
 	@Override
 	public void handleStart() {
 		// TODO Auto-generated method stub
 		whatPlayerHasWhatCreaturesToKnowWhatRoundStarts();
-	}
-
-	public void tellAttackerTheyAreFirstToFight() {
-		//Owner of the hex cannot go First (Only players in hex can fight)
-		HexLocation playersThatFight;
-		if (nextPlayerToFight > getPlayersInOrderOfTurn().size() ) {
-			end();
-			return;
-		}
-
-		Player currentPlayer = getPlayersInOrderOfTurn().get(nextPlayerToFight);
-		GameMessage message = new GameMessage("yourTurntoFight");
-		message.addPlayerToSendTo(currentPlayer);
-		getGameState().queueUpGameMessageToSendToAllPlayers(message);
 	}
 
 	@Override
@@ -132,8 +165,8 @@ public class CombatPhase extends Phase {
 		return msg;
 	}
 
-	// Stuff under here is for later
-	public void handleTellPlayersTimeToFightMagic() {
+	///////////////////////////////////// Stuff under here is for later////////////////////////////////////////////////////
+	/*public void handleTellPlayersTimeToFightMagic() {
 		if (nextPlayerToFight > getPlayersInOrderOfTurn().size() - 1) {
 			handleTellPlayersTimeToFightRange();
 			return;
@@ -186,6 +219,6 @@ public class CombatPhase extends Phase {
 			String hexLocation1, String hexLocation2, String hexLocation3)
 			throws NotYourTurnException {
 
-	}
+	}*/
 
 }
