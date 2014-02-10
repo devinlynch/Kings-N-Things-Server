@@ -46,62 +46,14 @@ public class CombatPhase extends Phase {
 		numberOfHitsEarnedForDefender = 0;
 	}
 
-	public void whoIsTheAttacker() {
-
-	}
 
 	public void whatPlayerHasWhatCreaturesToKnowWhatRoundStarts() {
-		//Check if any one has Magic creatures if so start handle magic
-		//Check if any one has Range creatures if so start handle Range
-		//If not just start Melee
 		handleTellPlayersTimeToFightMelee();
 	}
 
-	public void handleTellPlayersTimeToFightMagic() {
-		if(nextPlayerToFight > getPlayersInOrderOfTurn().size()-1){
-			handleTellPlayersTimeToFightRange();
-			return;
-		}
-		
-		magicPhaseOver = false;
-		GameMessage message = new GameMessage("timeToFightWithMagic");
-		message.setPlayersToSendTo(new HashSet<Player>(
-				getPlayersInOrderOfTurn()));
-		getGameState().queueUpGameMessageToSendToAllPlayers(message);
-
-		tellPlayerItsTheirTurnToFightMagic();
-	}
-
-	public void tellPlayerItsTheirTurnToFightMagic() {
-		GameMessage message = new GameMessage("yourTurnToFightMagic");
-		Player currentPlayer = getPlayersInOrderOfTurn().get(nextPlayerToFight);
-		message.addPlayerToSendTo(currentPlayer);
-		getGameState().queueUpGameMessageToSendToAllPlayers(message);
-	}
-
-	public void handleTellPlayersTimeToFightRange() {
-		if(nextPlayerToFight > getPlayersInOrderOfTurn().size()-1){
-			handleTellPlayersTimeToFightMelee();
-			return;
-		}
-		magicPhaseOver = true;
-		GameMessage message = new GameMessage("timeToFightWithRange");
-		message.setPlayersToSendTo(new HashSet<Player>(
-				getPlayersInOrderOfTurn()));
-		getGameState().queueUpGameMessageToSendToAllPlayers(message);
-
-		tellPlayerItsTheirTurnToFightRange();
-	}
-
-	public void tellPlayerItsTheirTurnToFightRange() {
-		GameMessage message = new GameMessage("yourTurnToFightwithRange");
-		Player currentPlayer = getPlayersInOrderOfTurn().get(nextPlayerToFight);
-		message.addPlayerToSendTo(currentPlayer);
-		getGameState().queueUpGameMessageToSendToAllPlayers(message);
-	}
-
-	public void handleTellPlayersTimeToFightMelee() {
-		if(nextPlayerToFight > getPlayersInOrderOfTurn().size()-1){
+	/*                                                                For Iteration 1                                                         */
+	public void handleTellPlayersTimeToFightMelee() {	
+		if (nextPlayerToFight > getPlayersInOrderOfTurn().size() - 1) {
 			retreat();
 			return;
 		}
@@ -111,30 +63,29 @@ public class CombatPhase extends Phase {
 				getPlayersInOrderOfTurn()));
 		getGameState().queueUpGameMessageToSendToAllPlayers(message);
 		tellPlayerItsTheirTurnToFightMelee();
-		
+
 	}
 
 	public void tellPlayerItsTheirTurnToFightMelee() {
+		//Owner doesnt attack first
 		GameMessage message = new GameMessage("yourTurnToFightWithMelee");
 		Player currentPlayer = getPlayersInOrderOfTurn().get(nextPlayerToFight);
 		message.addPlayerToSendTo(currentPlayer);
 		getGameState().queueUpGameMessageToSendToAllPlayers(message);
 	}
 
-	public synchronized void didFightInMagic(String playerId,String hexLocation1, String hexLocation2, String hexLocation3)throws NotYourTurnException {
-
-	}
-
-	public synchronized void didFightInRange(String playerId,String hexLocation1, String hexLocation2, String hexLocation3)throws NotYourTurnException {
-
-	}
-
-	public synchronized void didFightInMelee(String playerId,String hexLocation1, String hexLocation2, String hexLocation3)throws NotYourTurnException {
-
+	public synchronized void didFightInMelee(String playerId,
+			String hexLocation1, String hexLocation2, String hexLocation3)
+			throws NotYourTurnException {
+		// To fight you need all creatures in a stack
+		// Pull their combat values
+		// Add totals up
+		// Random roll between 1-6
+		// Send message
 	}
 
 	public synchronized void retreat() {
-
+		// Find out who pressed retreat
 	}
 
 	@Override
@@ -144,7 +95,9 @@ public class CombatPhase extends Phase {
 	}
 
 	public void tellAttackerTheyAreFirstToFight() {
-		if (nextPlayerToFight > getPlayersInOrderOfTurn().size() - 3) {
+		//Owner of the hex cannot go First (Only players in hex can fight)
+		HexLocation playersThatFight;
+		if (nextPlayerToFight > getPlayersInOrderOfTurn().size() ) {
 			end();
 			return;
 		}
@@ -177,6 +130,62 @@ public class CombatPhase extends Phase {
 		// TODO Auto-generated method stub
 		GameMessage msg = newGameMessageForAllPlayers("combatPhaseStarted");
 		return msg;
+	}
+
+	// Stuff under here is for later
+	public void handleTellPlayersTimeToFightMagic() {
+		if (nextPlayerToFight > getPlayersInOrderOfTurn().size() - 1) {
+			handleTellPlayersTimeToFightRange();
+			return;
+		}
+
+		magicPhaseOver = false;
+		GameMessage message = new GameMessage("timeToFightWithMagic");
+		message.setPlayersToSendTo(new HashSet<Player>(
+				getPlayersInOrderOfTurn()));
+		getGameState().queueUpGameMessageToSendToAllPlayers(message);
+
+		tellPlayerItsTheirTurnToFightMagic();
+	}
+
+	public void tellPlayerItsTheirTurnToFightMagic() {
+		GameMessage message = new GameMessage("yourTurnToFightMagic");
+		Player currentPlayer = getPlayersInOrderOfTurn().get(nextPlayerToFight);
+		message.addPlayerToSendTo(currentPlayer);
+		getGameState().queueUpGameMessageToSendToAllPlayers(message);
+	}
+
+	public void handleTellPlayersTimeToFightRange() {
+		if (nextPlayerToFight > getPlayersInOrderOfTurn().size() - 1) {
+			handleTellPlayersTimeToFightMelee();
+			return;
+		}
+		magicPhaseOver = true;
+		GameMessage message = new GameMessage("timeToFightWithRange");
+		message.setPlayersToSendTo(new HashSet<Player>(
+				getPlayersInOrderOfTurn()));
+		getGameState().queueUpGameMessageToSendToAllPlayers(message);
+
+		tellPlayerItsTheirTurnToFightRange();
+	}
+
+	public void tellPlayerItsTheirTurnToFightRange() {
+		GameMessage message = new GameMessage("yourTurnToFightwithRange");
+		Player currentPlayer = getPlayersInOrderOfTurn().get(nextPlayerToFight);
+		message.addPlayerToSendTo(currentPlayer);
+		getGameState().queueUpGameMessageToSendToAllPlayers(message);
+	}
+
+	public synchronized void didFightInMagic(String playerId,
+			String hexLocation1, String hexLocation2, String hexLocation3)
+			throws NotYourTurnException {
+
+	}
+
+	public synchronized void didFightInRange(String playerId,
+			String hexLocation1, String hexLocation2, String hexLocation3)
+			throws NotYourTurnException {
+
 	}
 
 }
