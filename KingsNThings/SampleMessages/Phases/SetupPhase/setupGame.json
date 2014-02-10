@@ -1122,15 +1122,32 @@
 
                ],
                "ownerId":null,
-               "locationId":"hexLocation_1",
+               "locationId":"hexLocation_0",
                "stacks":[
 
                ],
                "hexTile":{
                   "id":"frozen-tile-01",
                   "ownerId":null,
-                  "locationId":"hexLocation_1",
+                  "locationId":"hexLocation_0",
                   "terrainId":"frozen-tile"
+               },
+               "hexNumber":0
+            },
+            {
+               "gamePieces":[
+
+               ],
+               "ownerId":null,
+               "locationId":"hexLocation_1",
+               "stacks":[
+
+               ],
+               "hexTile":{
+                  "id":"forest-tile-01",
+                  "ownerId":null,
+                  "locationId":"hexLocation_1",
+                  "terrainId":"forest-tile"
                },
                "hexNumber":1
             },
@@ -1144,10 +1161,10 @@
 
                ],
                "hexTile":{
-                  "id":"forest-tile-01",
+                  "id":"jungle-tile-01",
                   "ownerId":null,
                   "locationId":"hexLocation_2",
-                  "terrainId":"forest-tile"
+                  "terrainId":"jungle-tile"
                },
                "hexNumber":2
             },
@@ -1161,10 +1178,10 @@
 
                ],
                "hexTile":{
-                  "id":"jungle-tile-01",
+                  "id":"plains-tile-01",
                   "ownerId":null,
                   "locationId":"hexLocation_3",
-                  "terrainId":"jungle-tile"
+                  "terrainId":"plains-tile"
                },
                "hexNumber":3
             },
@@ -1178,10 +1195,10 @@
 
                ],
                "hexTile":{
-                  "id":"plains-tile-01",
+                  "id":"sea-tile-01",
                   "ownerId":null,
                   "locationId":"hexLocation_4",
-                  "terrainId":"plains-tile"
+                  "terrainId":"sea-tile"
                },
                "hexNumber":4
             },
@@ -1195,10 +1212,10 @@
 
                ],
                "hexTile":{
-                  "id":"sea-tile-01",
+                  "id":"forest-tile-02",
                   "ownerId":null,
                   "locationId":"hexLocation_5",
-                  "terrainId":"sea-tile"
+                  "terrainId":"forest-tile"
                },
                "hexNumber":5
             },
@@ -1212,10 +1229,10 @@
 
                ],
                "hexTile":{
-                  "id":"forest-tile-02",
+                  "id":"swamp-tile-01",
                   "ownerId":null,
                   "locationId":"hexLocation_6",
-                  "terrainId":"forest-tile"
+                  "terrainId":"swamp-tile"
                },
                "hexNumber":6
             },
@@ -1229,10 +1246,10 @@
 
                ],
                "hexTile":{
-                  "id":"swamp-tile-01",
+                  "id":"plains-tile-02",
                   "ownerId":null,
                   "locationId":"hexLocation_7",
-                  "terrainId":"swamp-tile"
+                  "terrainId":"plains-tile"
                },
                "hexNumber":7
             },
@@ -1246,10 +1263,10 @@
 
                ],
                "hexTile":{
-                  "id":"plains-tile-02",
+                  "id":"frozen-tile-02",
                   "ownerId":null,
                   "locationId":"hexLocation_8",
-                  "terrainId":"plains-tile"
+                  "terrainId":"frozen-tile"
                },
                "hexNumber":8
             },
@@ -1263,10 +1280,10 @@
 
                ],
                "hexTile":{
-                  "id":"frozen-tile-02",
+                  "id":"mountain-tile-01",
                   "ownerId":null,
                   "locationId":"hexLocation_9",
-                  "terrainId":"frozen-tile"
+                  "terrainId":"mountain-tile"
                },
                "hexNumber":9
             },
@@ -1280,10 +1297,10 @@
 
                ],
                "hexTile":{
-                  "id":"mountain-tile-01",
+                  "id":"frozen-tile-03",
                   "ownerId":null,
                   "locationId":"hexLocation_10",
-                  "terrainId":"mountain-tile"
+                  "terrainId":"frozen-tile"
                },
                "hexNumber":10
             },
@@ -1297,10 +1314,10 @@
 
                ],
                "hexTile":{
-                  "id":"frozen-tile-03",
+                  "id":"swamp-tile-02",
                   "ownerId":null,
                   "locationId":"hexLocation_11",
-                  "terrainId":"frozen-tile"
+                  "terrainId":"swamp-tile"
                },
                "hexNumber":11
             },
@@ -1314,10 +1331,10 @@
 
                ],
                "hexTile":{
-                  "id":"swamp-tile-02",
+                  "id":"desert-tile-01",
                   "ownerId":null,
                   "locationId":"hexLocation_12",
-                  "terrainId":"swamp-tile"
+                  "terrainId":"desert-tile"
                },
                "hexNumber":12
             },
@@ -1331,10 +1348,10 @@
 
                ],
                "hexTile":{
-                  "id":"desert-tile-01",
+                  "id":"swamp-tile-03",
                   "ownerId":null,
                   "locationId":"hexLocation_13",
-                  "terrainId":"desert-tile"
+                  "terrainId":"swamp-tile"
                },
                "hexNumber":13
             },
@@ -1348,10 +1365,10 @@
 
                ],
                "hexTile":{
-                  "id":"swamp-tile-03",
+                  "id":"forest-tile-03",
                   "ownerId":null,
                   "locationId":"hexLocation_14",
-                  "terrainId":"swamp-tile"
+                  "terrainId":"forest-tile"
                },
                "hexNumber":14
             },
@@ -1365,10 +1382,10 @@
 
                ],
                "hexTile":{
-                  "id":"forest-tile-03",
+                  "id":"desert-tile-02",
                   "ownerId":null,
                   "locationId":"hexLocation_15",
-                  "terrainId":"forest-tile"
+                  "terrainId":"desert-tile"
                },
                "hexNumber":15
             },
@@ -1382,10 +1399,10 @@
 
                ],
                "hexTile":{
-                  "id":"desert-tile-02",
+                  "id":"plains-tile-03",
                   "ownerId":null,
                   "locationId":"hexLocation_16",
-                  "terrainId":"desert-tile"
+                  "terrainId":"plains-tile"
                },
                "hexNumber":16
             },
@@ -1399,10 +1416,10 @@
 
                ],
                "hexTile":{
-                  "id":"plains-tile-03",
+                  "id":"mountain-tile-02",
                   "ownerId":null,
                   "locationId":"hexLocation_17",
-                  "terrainId":"plains-tile"
+                  "terrainId":"mountain-tile"
                },
                "hexNumber":17
             },
@@ -1416,10 +1433,10 @@
 
                ],
                "hexTile":{
-                  "id":"mountain-tile-02",
+                  "id":"jungle-tile-02",
                   "ownerId":null,
                   "locationId":"hexLocation_18",
-                  "terrainId":"mountain-tile"
+                  "terrainId":"jungle-tile"
                },
                "hexNumber":18
             },
@@ -1433,10 +1450,10 @@
 
                ],
                "hexTile":{
-                  "id":"jungle-tile-02",
+                  "id":"swamp-tile-04",
                   "ownerId":null,
                   "locationId":"hexLocation_19",
-                  "terrainId":"jungle-tile"
+                  "terrainId":"swamp-tile"
                },
                "hexNumber":19
             },
@@ -1450,10 +1467,10 @@
 
                ],
                "hexTile":{
-                  "id":"swamp-tile-04",
+                  "id":"mountain-tile-03",
                   "ownerId":null,
                   "locationId":"hexLocation_20",
-                  "terrainId":"swamp-tile"
+                  "terrainId":"mountain-tile"
                },
                "hexNumber":20
             },
@@ -1467,10 +1484,10 @@
 
                ],
                "hexTile":{
-                  "id":"mountain-tile-03",
+                  "id":"jungle-tile-03",
                   "ownerId":null,
                   "locationId":"hexLocation_21",
-                  "terrainId":"mountain-tile"
+                  "terrainId":"jungle-tile"
                },
                "hexNumber":21
             },
@@ -1484,10 +1501,10 @@
 
                ],
                "hexTile":{
-                  "id":"jungle-tile-03",
+                  "id":"swamp-tile-05",
                   "ownerId":null,
                   "locationId":"hexLocation_22",
-                  "terrainId":"jungle-tile"
+                  "terrainId":"swamp-tile"
                },
                "hexNumber":22
             },
@@ -1501,10 +1518,10 @@
 
                ],
                "hexTile":{
-                  "id":"swamp-tile-05",
+                  "id":"desert-tile-03",
                   "ownerId":null,
                   "locationId":"hexLocation_23",
-                  "terrainId":"swamp-tile"
+                  "terrainId":"desert-tile"
                },
                "hexNumber":23
             },
@@ -1518,10 +1535,10 @@
 
                ],
                "hexTile":{
-                  "id":"desert-tile-03",
+                  "id":"forest-tile-04",
                   "ownerId":null,
                   "locationId":"hexLocation_24",
-                  "terrainId":"desert-tile"
+                  "terrainId":"forest-tile"
                },
                "hexNumber":24
             },
@@ -1535,10 +1552,10 @@
 
                ],
                "hexTile":{
-                  "id":"forest-tile-04",
+                  "id":"plains-tile-04",
                   "ownerId":null,
                   "locationId":"hexLocation_25",
-                  "terrainId":"forest-tile"
+                  "terrainId":"plains-tile"
                },
                "hexNumber":25
             },
@@ -1552,10 +1569,10 @@
 
                ],
                "hexTile":{
-                  "id":"plains-tile-04",
+                  "id":"forest-tile-05",
                   "ownerId":null,
                   "locationId":"hexLocation_26",
-                  "terrainId":"plains-tile"
+                  "terrainId":"forest-tile"
                },
                "hexNumber":26
             },
@@ -1569,10 +1586,10 @@
 
                ],
                "hexTile":{
-                  "id":"forest-tile-05",
+                  "id":"frozen-tile-04",
                   "ownerId":null,
                   "locationId":"hexLocation_27",
-                  "terrainId":"forest-tile"
+                  "terrainId":"frozen-tile"
                },
                "hexNumber":27
             },
@@ -1586,10 +1603,10 @@
 
                ],
                "hexTile":{
-                  "id":"frozen-tile-04",
+                  "id":"forest-tile-06",
                   "ownerId":null,
                   "locationId":"hexLocation_28",
-                  "terrainId":"frozen-tile"
+                  "terrainId":"forest-tile"
                },
                "hexNumber":28
             },
@@ -1603,10 +1620,10 @@
 
                ],
                "hexTile":{
-                  "id":"forest-tile-06",
+                  "id":"mountain-tile-04",
                   "ownerId":null,
                   "locationId":"hexLocation_29",
-                  "terrainId":"forest-tile"
+                  "terrainId":"mountain-tile"
                },
                "hexNumber":29
             },
@@ -1620,10 +1637,10 @@
 
                ],
                "hexTile":{
-                  "id":"mountain-tile-04",
+                  "id":"desert-tile-04",
                   "ownerId":null,
                   "locationId":"hexLocation_30",
-                  "terrainId":"mountain-tile"
+                  "terrainId":"desert-tile"
                },
                "hexNumber":30
             },
@@ -1637,10 +1654,10 @@
 
                ],
                "hexTile":{
-                  "id":"desert-tile-04",
+                  "id":"plains-tile-05",
                   "ownerId":null,
                   "locationId":"hexLocation_31",
-                  "terrainId":"desert-tile"
+                  "terrainId":"plains-tile"
                },
                "hexNumber":31
             },
@@ -1654,10 +1671,10 @@
 
                ],
                "hexTile":{
-                  "id":"plains-tile-05",
+                  "id":"forest-tile-06",
                   "ownerId":null,
                   "locationId":"hexLocation_32",
-                  "terrainId":"plains-tile"
+                  "terrainId":"forest-tile"
                },
                "hexNumber":32
             },
@@ -1671,10 +1688,10 @@
 
                ],
                "hexTile":{
-                  "id":"forest-tile-06",
+                  "id":"mountain-tile-05",
                   "ownerId":null,
                   "locationId":"hexLocation_33",
-                  "terrainId":"forest-tile"
+                  "terrainId":"mountain-tile"
                },
                "hexNumber":33
             },
@@ -1688,10 +1705,10 @@
 
                ],
                "hexTile":{
-                  "id":"mountain-tile-05",
+                  "id":"forest-tile-06",
                   "ownerId":null,
                   "locationId":"hexLocation_34",
-                  "terrainId":"mountain-tile"
+                  "terrainId":"forest-tile"
                },
                "hexNumber":34
             },
@@ -1705,10 +1722,10 @@
 
                ],
                "hexTile":{
-                  "id":"forest-tile-06",
+                  "id":"frozen-tile-05",
                   "ownerId":null,
                   "locationId":"hexLocation_35",
-                  "terrainId":"forest-tile"
+                  "terrainId":"frozen-tile"
                },
                "hexNumber":35
             },
@@ -1722,29 +1739,12 @@
 
                ],
                "hexTile":{
-                  "id":"frozen-tile-05",
-                  "ownerId":null,
-                  "locationId":"hexLocation_36",
-                  "terrainId":"frozen-tile"
-               },
-               "hexNumber":36
-            },
-            {
-               "gamePieces":[
-
-               ],
-               "ownerId":null,
-               "locationId":"hexLocation_37",
-               "stacks":[
-
-               ],
-               "hexTile":{
                   "id":"desert-tile-05",
                   "ownerId":null,
-                  "locationId":"hexLocation_37",
+                  "locationId":"hexLocation_36",
                   "terrainId":"desert-tile"
                },
-               "hexNumber":37
+               "hexNumber":36
             }
          ],
          "sideLocation":{
@@ -1899,43 +1899,9 @@
 
                   ],
                   "ownerId":null,
-                  "locationId":"player1_rack2"
-               },
-               "username":null,
-               "rack1":{
-                  "gamePieces":[
-                     {
-                        "id":"Fort_01-03",
-                        "ownerId":"player1",
-                        "locationId":"player1_rack1"
-                     }
-                  ],
-                  "ownerId":null,
-                  "locationId":"player1_rack1"
-               },
-               "gamePieces":[
-                  {
-                     "id":"Fort_01-03",
-                     "ownerId":"player1",
-                     "locationId":"player1_rack1"
-                  }
-               ],
-               "playerId":"player1",
-               "userId":"4",
-               "ownedHexIds":[
-
-               ],
-               "gold":10
-            },
-            {
-               "rack2":{
-                  "gamePieces":[
-
-                  ],
-                  "ownerId":null,
                   "locationId":"player4_rack2"
                },
-               "username":null,
+               "username":"john",
                "rack1":{
                   "gamePieces":[
                      {
@@ -1969,7 +1935,7 @@
                   "ownerId":null,
                   "locationId":"player3_rack2"
                },
-               "username":null,
+               "username":"devin",
                "rack1":{
                   "gamePieces":[
                      {
@@ -2003,7 +1969,7 @@
                   "ownerId":null,
                   "locationId":"player2_rack2"
                },
-               "username":null,
+               "username":"devin",
                "rack1":{
                   "gamePieces":[
                      {
@@ -2028,6 +1994,40 @@
 
                ],
                "gold":10
+            },
+            {
+               "rack2":{
+                  "gamePieces":[
+
+                  ],
+                  "ownerId":null,
+                  "locationId":"player1_rack2"
+               },
+               "username":"richard",
+               "rack1":{
+                  "gamePieces":[
+                     {
+                        "id":"Fort_01-03",
+                        "ownerId":"player1",
+                        "locationId":"player1_rack1"
+                     }
+                  ],
+                  "ownerId":null,
+                  "locationId":"player1_rack1"
+               },
+               "gamePieces":[
+                  {
+                     "id":"Fort_01-03",
+                     "ownerId":"player1",
+                     "locationId":"player1_rack1"
+                  }
+               ],
+               "playerId":"player1",
+               "userId":"4",
+               "ownedHexIds":[
+
+               ],
+               "gold":10
             }
          ],
          "bank":{
@@ -2036,5 +2036,6 @@
       },
       "myPlayerId":"player3"
    },
-   "type":"setupGame"
+   "type":"setupGame",
+   "createdDate":1391992209252
 }

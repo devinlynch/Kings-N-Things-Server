@@ -37,9 +37,13 @@ public class RunThroughPhasesTest {
 		User u1=new User("1");
 		u1.setPort(3004);
 		u1.setHostName("localhost");
+		u1.setUsername("devin");
 		User u2=new User("2");
+		u2.setUsername("john");
 		User u3=new User("3");
+		u3.setUsername("devin");
 		User u4=new User("4");
+		u4.setUsername("richard");
 		users.add(u1);
 		users.add(u2);
 		users.add(u3);
