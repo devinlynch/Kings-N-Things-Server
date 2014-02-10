@@ -178,7 +178,7 @@ public class MovementPhase extends Phase {
 
 	@Override
 	public GameMessage getPhaseStartedMessage() {
-		GameMessage msg = newGameMessageForAllPlayers("phasementPhaseStarted");
+		GameMessage msg = newGameMessageForAllPlayers("movementPhaseStarted");
 		return msg;
 	}
 
