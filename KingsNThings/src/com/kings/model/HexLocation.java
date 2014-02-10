@@ -1,6 +1,8 @@
 package com.kings.model;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -112,6 +114,58 @@ public class HexLocation extends BoardLocation {
 
 	public void setHexNumber(int hexNumber) {
 		this.hexNumber = hexNumber;
+	}
+	
+	public List<Player> getPlayersWhoAreOnMe() {
+		List<Player> players = new ArrayList<Player>();
+		for(GamePiece gp: getGamePieces()) {
+			Player p = gp.getOwner();
+			if(!players.contains(p)) {
+				players.add(p);
+			}
+		}
+		
+		for(Stack stack: getStacks()) {
+			Player p = stack.getOwner();
+			if(!players.contains(p)) {
+				players.add(p);
+			}
+		}
+		return players;
+	}
+	
+	
+	public Set<Creature> getCreaturePiecesForPlayer(Player p) {
+		Set<Creature> set = new HashSet<Creature>();
+		Iterator<GamePiece> it = getGamePieces().iterator();
+		while(it.hasNext()) {
+			GamePiece gp = it.next();
+			if(gp instanceof Creature && p.equals(gp.getOwner()))
+				set.add((Creature)gp);
+		}
+		return set;
+	}
+	
+	public Set<GamePiece> getPiecesForPlayer(Player p) {
+		Set<GamePiece> set = new HashSet<GamePiece>();
+		Iterator<GamePiece> it = getGamePieces().iterator();
+		while(it.hasNext()) {
+			GamePiece gp = it.next();
+			if(p.equals(gp.getOwner()))
+				set.add(gp);
+		}
+		return set;
+	}
+	
+	public Set<Stack> getStacksForPlayer(Player p) {
+		Set<Stack> set = new HashSet<Stack>();
+		Iterator<Stack> it = getStacks().iterator();
+		while(it.hasNext()) {
+			Stack st = it.next();
+			if(p.equals(st.getOwner()))
+				set.add(st);
+		}
+		return set;
 	}
 
 }

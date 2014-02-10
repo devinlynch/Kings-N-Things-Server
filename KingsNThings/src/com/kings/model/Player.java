@@ -220,6 +220,17 @@ public class Player extends AbstractSerializedObject {
 		return set;
 	}
 	
+	public Set<Creature> getCreaturePieces() {
+		Set<Creature> set = new HashSet<Creature>();
+		Iterator<GamePiece> it = getGamePieces().values().iterator();
+		while(it.hasNext()) {
+			GamePiece gp = it.next();
+			if(gp instanceof Creature)
+				set.add((Creature)gp);
+		}
+		return set;
+	}
+	
 	public Set<Fort> getFortPieces() {
 		Set<Fort> set = new HashSet<Fort>();
 		Iterator<GamePiece> it = getGamePieces().values().iterator();
@@ -288,5 +299,17 @@ public class Player extends AbstractSerializedObject {
 				things.add((Thing)gp);
 		}
 		return things;
+	}
+	
+	public HexLocation getNearestHexTo(HexLocation hex){
+		// TODO!  I am just returning any tile but the one given for now!
+		
+		for(HexLocation tile : getOwnedLocations()) {
+			if( ! tile.getId().equals(hex.getId()) ) {
+				return tile;
+			}
+		}
+		
+		return null;
 	}
 }
