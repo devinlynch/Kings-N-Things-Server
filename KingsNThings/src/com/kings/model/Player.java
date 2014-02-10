@@ -300,4 +300,16 @@ public class Player extends AbstractSerializedObject {
 		}
 		return things;
 	}
+	
+	public HexLocation getNearestHexTo(HexLocation hex){
+		// TODO!  I am just returning any tile but the one given for now!
+		
+		for(HexLocation tile : getOwnedLocations()) {
+			if( ! tile.getId().equals(hex.getId()) ) {
+				return tile;
+			}
+		}
+		
+		return null;
+	}
 }

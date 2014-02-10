@@ -145,5 +145,27 @@ public class HexLocation extends BoardLocation {
 		}
 		return set;
 	}
+	
+	public Set<GamePiece> getPiecesForPlayer(Player p) {
+		Set<GamePiece> set = new HashSet<GamePiece>();
+		Iterator<GamePiece> it = getGamePieces().iterator();
+		while(it.hasNext()) {
+			GamePiece gp = it.next();
+			if(p.equals(gp.getOwner()))
+				set.add(gp);
+		}
+		return set;
+	}
+	
+	public Set<Stack> getStacksForPlayer(Player p) {
+		Set<Stack> set = new HashSet<Stack>();
+		Iterator<Stack> it = getStacks().iterator();
+		while(it.hasNext()) {
+			Stack st = it.next();
+			if(p.equals(st.getOwner()))
+				set.add(st);
+		}
+		return set;
+	}
 
 }
