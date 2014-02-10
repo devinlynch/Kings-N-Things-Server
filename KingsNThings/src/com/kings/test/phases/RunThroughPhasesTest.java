@@ -18,6 +18,7 @@ import com.kings.model.HexLocation;
 import com.kings.model.Player;
 import com.kings.model.Stack;
 import com.kings.model.User;
+import com.kings.model.phases.CombatPhase;
 import com.kings.model.phases.GoldCollectionPhase;
 import com.kings.model.phases.MovementPhase;
 import com.kings.model.phases.PlacementPhase;
@@ -181,7 +182,7 @@ public class RunThroughPhasesTest {
 		mPhase.playerIsDoneMakingMoves(p3.getPlayerId());
 		mPhase.playerIsDoneMakingMoves(p4.getPlayerId());
 		
-		
+		//CombatPhase cp = (CombatPhase)gs.getCurrentPhase();
 		
 		for(SentMessage msg : gs.getSentMessages()){
 			System.out.println(msg.getJson());
