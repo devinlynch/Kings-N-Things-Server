@@ -701,7 +701,7 @@
 
                ],
                "hexTile":{
-                  "id":"forest-tile-06",
+                  "id":"forest-tile-01",
                   "ownerId":null,
                   "locationId":"hexLocation_1",
                   "neutralized":false,
@@ -1343,13 +1343,6 @@
          "sideLocation":{
             "gamePieces":[
                {
-                  "id":"forest-tile-01",
-                  "ownerId":null,
-                  "locationId":"side",
-                  "neutralized":false,
-                  "terrainId":"forest-tile"
-               },
-               {
                   "id":"desert-tile-06",
                   "ownerId":null,
                   "locationId":"side",
@@ -1653,8 +1646,8 @@
             "currentTotal":9999959
          }
       },
-      "myPlayerId":"player2"
+      "myPlayerId":"player4"
    },
    "type":"setupGame",
-   "createdDate":1392051237805
+   "createdDate":1392053016362
 }

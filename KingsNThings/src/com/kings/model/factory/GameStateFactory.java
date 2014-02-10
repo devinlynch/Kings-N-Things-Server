@@ -62,7 +62,7 @@ public class GameStateFactory {
 	
 	public static void setHexTilesOnLocationsForDemo(GameState gameState) {
 		gameState.getHexlocations().get(0).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-01"));
- 		gameState.getHexlocations().get(1).setHexTile((HexTile)gameState.getGamePiece("forest-tile-09"));
+ 		gameState.getHexlocations().get(1).setHexTile((HexTile)gameState.getGamePiece("forest-tile-01"));
  		gameState.getHexlocations().get(2).setHexTile((HexTile)gameState.getGamePiece("jungle-tile-01"));
  		gameState.getHexlocations().get(3).setHexTile((HexTile)gameState.getGamePiece("plains-tile-01"));
  		gameState.getHexlocations().get(4).setHexTile((HexTile)gameState.getGamePiece("sea-tile-01"));
