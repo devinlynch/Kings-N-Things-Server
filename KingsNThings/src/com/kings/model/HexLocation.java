@@ -2,6 +2,7 @@ package com.kings.model;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -131,6 +132,18 @@ public class HexLocation extends BoardLocation {
 			}
 		}
 		return players;
+	}
+	
+	
+	public Set<Creature> getCreaturePiecesForPlayer(Player p) {
+		Set<Creature> set = new HashSet<Creature>();
+		Iterator<GamePiece> it = getGamePieces().iterator();
+		while(it.hasNext()) {
+			GamePiece gp = it.next();
+			if(gp instanceof Creature && p.equals(gp.getOwner()))
+				set.add((Creature)gp);
+		}
+		return set;
 	}
 
 }

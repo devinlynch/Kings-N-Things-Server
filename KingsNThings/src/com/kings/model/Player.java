@@ -220,6 +220,17 @@ public class Player extends AbstractSerializedObject {
 		return set;
 	}
 	
+	public Set<Creature> getCreaturePieces() {
+		Set<Creature> set = new HashSet<Creature>();
+		Iterator<GamePiece> it = getGamePieces().values().iterator();
+		while(it.hasNext()) {
+			GamePiece gp = it.next();
+			if(gp instanceof Creature)
+				set.add((Creature)gp);
+		}
+		return set;
+	}
+	
 	public Set<Fort> getFortPieces() {
 		Set<Fort> set = new HashSet<Fort>();
 		Iterator<GamePiece> it = getGamePieces().values().iterator();
