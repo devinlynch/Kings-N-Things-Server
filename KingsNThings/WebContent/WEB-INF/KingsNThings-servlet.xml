@@ -13,6 +13,13 @@
    	  <bean class="com.kings.test.TestController" />
  	  <bean class="com.kings.controllers.phases.SetupPhaseController" />
  	  <bean class="com.kings.controllers.phases.PlacementPhaseController" />
+ 	  <bean class="com.kings.controllers.phases.GoldCollectionPhaseController" />
+	   	  <bean class="com.kings.controllers.phases.MovementPhaseController" />
+	   	  <bean class="com.kings.controllers.phases.RecruitThingsPhaseController" />
+	   	  <bean class="com.kings.controllers.phases.CombatPhaseController" />
+ 	  
+ 	  
+ 	  
 	  <bean id="handlerMapping" class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
 	    <property name="interceptors">
 	      <bean class="com.kings.controllers.GlobalKATInterceptor"/>

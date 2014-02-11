@@ -18,9 +18,6 @@ import com.kings.model.phases.exceptions.NotYourTurnException;
 public class GoldCollectionPhaseController extends PhaseController {
 	@RequestMapping(value="didCollectGold")
 	public @ResponseBody String didCollectGold(
-		@RequestParam String hexLocation1,
-		@RequestParam String hexLocation2,
-		@RequestParam String hexLocation3,
 		HttpServletRequest req,
 		HttpServletResponse res) throws NotLoggedInException, NotYourTurnException{
 		
