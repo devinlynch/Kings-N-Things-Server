@@ -93,4 +93,14 @@ public class BoardLocation extends AbstractSerializedObject {
 		}
 		return things;
 	}
+	
+	public Set<Creature> getCreatures() {
+		Set<Creature> things = new HashSet<Creature>();
+		for(GamePiece p: getGamePieces()) {
+			if(p instanceof Creature) {
+				things.add((Creature)p);
+			}
+		}
+		return things;
+	}
 }

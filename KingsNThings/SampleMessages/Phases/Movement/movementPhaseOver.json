@@ -1,0 +1,713 @@
+{
+   "data":{
+      "hexLocations":[
+         {
+            "gamePieces":[
+
+            ],
+            "ownerId":null,
+            "locationId":"hexLocation_0",
+            "stacks":[
+
+            ],
+            "hexTile":{
+               "id":"frozen-tile-01",
+               "ownerId":null,
+               "locationId":"hexLocation_0",
+               "neutralized":false,
+               "terrainId":"frozen-tile"
+            },
+            "hexNumber":0
+         },
+         {
+            "gamePieces":[
+               {
+                  "id":"Fort_01-03",
+                  "ownerId":"player1",
+                  "locationId":"hexLocation_1",
+                  "neutralized":false
+               }
+            ],
+            "ownerId":"player1",
+            "locationId":"hexLocation_1",
+            "stacks":[
+               {
+                  "gamePieces":[
+                     {
+                        "id":"T_Mountains_034-01",
+                        "ownerId":"player1",
+                        "locationId":"stack1392064803573br0ji2szuzce7pf94ulm",
+                        "neutralized":false
+                     },
+                     {
+                        "id":"T_Mountains_038-01",
+                        "ownerId":"player1",
+                        "locationId":"stack1392064803573br0ji2szuzce7pf94ulm",
+                        "neutralized":false
+                     }
+                  ],
+                  "ownerId":"player1",
+                  "locationId":"stack1392064803573br0ji2szuzce7pf94ulm",
+                  "hexLocationId":"hexLocation_1"
+               }
+            ],
+            "hexTile":{
+               "id":"forest-tile-01",
+               "ownerId":null,
+               "locationId":"hexLocation_1",
+               "neutralized":false,
+               "terrainId":"forest-tile"
+            },
+            "hexNumber":1
+         },
+         {
+            "gamePieces":[
+
+            ],
+            "ownerId":"player1",
+            "locationId":"hexLocation_2",
+            "stacks":[
+
+            ],
+            "hexTile":{
+               "id":"jungle-tile-01",
+               "ownerId":null,
+               "locationId":"hexLocation_2",
+               "neutralized":false,
+               "terrainId":"jungle-tile"
+            },
+            "hexNumber":2
+         },
+         {
+            "gamePieces":[
+
+            ],
+            "ownerId":"player1",
+            "locationId":"hexLocation_3",
+            "stacks":[
+
+            ],
+            "hexTile":{
+               "id":"plains-tile-01",
+               "ownerId":null,
+               "locationId":"hexLocation_3",
+               "neutralized":false,
+               "terrainId":"plains-tile"
+            },
+            "hexNumber":3
+         },
+         {
+            "gamePieces":[
+               {
+                  "id":"Fort_01-02",
+                  "ownerId":"player2",
+                  "locationId":"hexLocation_4",
+                  "neutralized":false
+               }
+            ],
+            "ownerId":"player2",
+            "locationId":"hexLocation_4",
+            "stacks":[
+
+            ],
+            "hexTile":{
+               "id":"sea-tile-01",
+               "ownerId":null,
+               "locationId":"hexLocation_4",
+               "neutralized":false,
+               "terrainId":"sea-tile"
+            },
+            "hexNumber":4
+         },
+         {
+            "gamePieces":[
+
+            ],
+            "ownerId":"player2",
+            "locationId":"hexLocation_5",
+            "stacks":[
+
+            ],
+            "hexTile":{
+               "id":"forest-tile-02",
+               "ownerId":null,
+               "locationId":"hexLocation_5",
+               "neutralized":false,
+               "terrainId":"forest-tile"
+            },
+            "hexNumber":5
+         },
+         {
+            "gamePieces":[
+
+            ],
+            "ownerId":"player2",
+            "locationId":"hexLocation_6",
+            "stacks":[
+
+            ],
+            "hexTile":{
+               "id":"swamp-tile-01",
+               "ownerId":null,
+               "locationId":"hexLocation_6",
+               "neutralized":false,
+               "terrainId":"swamp-tile"
+            },
+            "hexNumber":6
+         },
+         {
+            "gamePieces":[
+               {
+                  "id":"Fort_01-01",
+                  "ownerId":"player3",
+                  "locationId":"hexLocation_7",
+                  "neutralized":false
+               }
+            ],
+            "ownerId":"player3",
+            "locationId":"hexLocation_7",
+            "stacks":[
+
+            ],
+            "hexTile":{
+               "id":"plains-tile-02",
+               "ownerId":null,
+               "locationId":"hexLocation_7",
+               "neutralized":false,
+               "terrainId":"plains-tile"
+            },
+            "hexNumber":7
+         },
+         {
+            "gamePieces":[
+
+            ],
+            "ownerId":"player3",
+            "locationId":"hexLocation_8",
+            "stacks":[
+
+            ],
+            "hexTile":{
+               "id":"frozen-tile-02",
+               "ownerId":null,
+               "locationId":"hexLocation_8",
+               "neutralized":false,
+               "terrainId":"frozen-tile"
+            },
+            "hexNumber":8
+         },
+         {
+            "gamePieces":[
+
+            ],
+            "ownerId":"player3",
+            "locationId":"hexLocation_9",
+            "stacks":[
+
+            ],
+            "hexTile":{
+               "id":"mountain-tile-01",
+               "ownerId":null,
+               "locationId":"hexLocation_9",
+               "neutralized":false,
+               "terrainId":"mountain-tile"
+            },
+            "hexNumber":9
+         },
+         {
+            "gamePieces":[
+               {
+                  "id":"Fort_01-04",
+                  "ownerId":"player4",
+                  "locationId":"hexLocation_10",
+                  "neutralized":false
+               }
+            ],
+            "ownerId":"player4",
+            "locationId":"hexLocation_10",
+            "stacks":[
+
+            ],
+            "hexTile":{
+               "id":"frozen-tile-03",
+               "ownerId":null,
+               "locationId":"hexLocation_10",
+               "neutralized":false,
+               "terrainId":"frozen-tile"
+            },
+            "hexNumber":10
+         },
+         {
+            "gamePieces":[
+
+            ],
+            "ownerId":"player4",
+            "locationId":"hexLocation_11",
+            "stacks":[
+
+            ],
+            "hexTile":{
+               "id":"swamp-tile-02",
+               "ownerId":null,
+               "locationId":"hexLocation_11",
+               "neutralized":false,
+               "terrainId":"swamp-tile"
+            },
+            "hexNumber":11
+         },
+         {
+            "gamePieces":[
+
+            ],
+            "ownerId":"player4",
+            "locationId":"hexLocation_12",
+            "stacks":[
+
+            ],
+            "hexTile":{
+               "id":"desert-tile-01",
+               "ownerId":null,
+               "locationId":"hexLocation_12",
+               "neutralized":false,
+               "terrainId":"desert-tile"
+            },
+            "hexNumber":12
+         },
+         {
+            "gamePieces":[
+
+            ],
+            "ownerId":null,
+            "locationId":"hexLocation_13",
+            "stacks":[
+
+            ],
+            "hexTile":{
+               "id":"swamp-tile-03",
+               "ownerId":null,
+               "locationId":"hexLocation_13",
+               "neutralized":false,
+               "terrainId":"swamp-tile"
+            },
+            "hexNumber":13
+         },
+         {
+            "gamePieces":[
+
+            ],
+            "ownerId":null,
+            "locationId":"hexLocation_14",
+            "stacks":[
+
+            ],
+            "hexTile":{
+               "id":"forest-tile-03",
+               "ownerId":null,
+               "locationId":"hexLocation_14",
+               "neutralized":false,
+               "terrainId":"forest-tile"
+            },
+            "hexNumber":14
+         },
+         {
+            "gamePieces":[
+
+            ],
+            "ownerId":null,
+            "locationId":"hexLocation_15",
+            "stacks":[
+
+            ],
+            "hexTile":{
+               "id":"desert-tile-02",
+               "ownerId":null,
+               "locationId":"hexLocation_15",
+               "neutralized":false,
+               "terrainId":"desert-tile"
+            },
+            "hexNumber":15
+         },
+         {
+            "gamePieces":[
+
+            ],
+            "ownerId":null,
+            "locationId":"hexLocation_16",
+            "stacks":[
+
+            ],
+            "hexTile":{
+               "id":"plains-tile-03",
+               "ownerId":null,
+               "locationId":"hexLocation_16",
+               "neutralized":false,
+               "terrainId":"plains-tile"
+            },
+            "hexNumber":16
+         },
+         {
+            "gamePieces":[
+
+            ],
+            "ownerId":null,
+            "locationId":"hexLocation_17",
+            "stacks":[
+
+            ],
+            "hexTile":{
+               "id":"mountain-tile-02",
+               "ownerId":null,
+               "locationId":"hexLocation_17",
+               "neutralized":false,
+               "terrainId":"mountain-tile"
+            },
+            "hexNumber":17
+         },
+         {
+            "gamePieces":[
+
+            ],
+            "ownerId":null,
+            "locationId":"hexLocation_18",
+            "stacks":[
+
+            ],
+            "hexTile":{
+               "id":"jungle-tile-02",
+               "ownerId":null,
+               "locationId":"hexLocation_18",
+               "neutralized":false,
+               "terrainId":"jungle-tile"
+            },
+            "hexNumber":18
+         },
+         {
+            "gamePieces":[
+
+            ],
+            "ownerId":null,
+            "locationId":"hexLocation_19",
+            "stacks":[
+
+            ],
+            "hexTile":{
+               "id":"swamp-tile-04",
+               "ownerId":null,
+               "locationId":"hexLocation_19",
+               "neutralized":false,
+               "terrainId":"swamp-tile"
+            },
+            "hexNumber":19
+         },
+         {
+            "gamePieces":[
+
+            ],
+            "ownerId":null,
+            "locationId":"hexLocation_20",
+            "stacks":[
+
+            ],
+            "hexTile":{
+               "id":"mountain-tile-03",
+               "ownerId":null,
+               "locationId":"hexLocation_20",
+               "neutralized":false,
+               "terrainId":"mountain-tile"
+            },
+            "hexNumber":20
+         },
+         {
+            "gamePieces":[
+
+            ],
+            "ownerId":null,
+            "locationId":"hexLocation_21",
+            "stacks":[
+
+            ],
+            "hexTile":{
+               "id":"jungle-tile-03",
+               "ownerId":null,
+               "locationId":"hexLocation_21",
+               "neutralized":false,
+               "terrainId":"jungle-tile"
+            },
+            "hexNumber":21
+         },
+         {
+            "gamePieces":[
+
+            ],
+            "ownerId":null,
+            "locationId":"hexLocation_22",
+            "stacks":[
+
+            ],
+            "hexTile":{
+               "id":"swamp-tile-05",
+               "ownerId":null,
+               "locationId":"hexLocation_22",
+               "neutralized":false,
+               "terrainId":"swamp-tile"
+            },
+            "hexNumber":22
+         },
+         {
+            "gamePieces":[
+
+            ],
+            "ownerId":null,
+            "locationId":"hexLocation_23",
+            "stacks":[
+
+            ],
+            "hexTile":{
+               "id":"desert-tile-03",
+               "ownerId":null,
+               "locationId":"hexLocation_23",
+               "neutralized":false,
+               "terrainId":"desert-tile"
+            },
+            "hexNumber":23
+         },
+         {
+            "gamePieces":[
+
+            ],
+            "ownerId":null,
+            "locationId":"hexLocation_24",
+            "stacks":[
+
+            ],
+            "hexTile":{
+               "id":"forest-tile-04",
+               "ownerId":null,
+               "locationId":"hexLocation_24",
+               "neutralized":false,
+               "terrainId":"forest-tile"
+            },
+            "hexNumber":24
+         },
+         {
+            "gamePieces":[
+
+            ],
+            "ownerId":null,
+            "locationId":"hexLocation_25",
+            "stacks":[
+
+            ],
+            "hexTile":{
+               "id":"plains-tile-04",
+               "ownerId":null,
+               "locationId":"hexLocation_25",
+               "neutralized":false,
+               "terrainId":"plains-tile"
+            },
+            "hexNumber":25
+         },
+         {
+            "gamePieces":[
+
+            ],
+            "ownerId":null,
+            "locationId":"hexLocation_26",
+            "stacks":[
+
+            ],
+            "hexTile":{
+               "id":"forest-tile-05",
+               "ownerId":null,
+               "locationId":"hexLocation_26",
+               "neutralized":false,
+               "terrainId":"forest-tile"
+            },
+            "hexNumber":26
+         },
+         {
+            "gamePieces":[
+
+            ],
+            "ownerId":null,
+            "locationId":"hexLocation_27",
+            "stacks":[
+
+            ],
+            "hexTile":{
+               "id":"frozen-tile-04",
+               "ownerId":null,
+               "locationId":"hexLocation_27",
+               "neutralized":false,
+               "terrainId":"frozen-tile"
+            },
+            "hexNumber":27
+         },
+         {
+            "gamePieces":[
+
+            ],
+            "ownerId":null,
+            "locationId":"hexLocation_28",
+            "stacks":[
+
+            ],
+            "hexTile":{
+               "id":"jungle-tile-05",
+               "ownerId":null,
+               "locationId":"hexLocation_28",
+               "neutralized":false,
+               "terrainId":"jungle-tile"
+            },
+            "hexNumber":28
+         },
+         {
+            "gamePieces":[
+
+            ],
+            "ownerId":null,
+            "locationId":"hexLocation_29",
+            "stacks":[
+
+            ],
+            "hexTile":{
+               "id":"mountain-tile-04",
+               "ownerId":null,
+               "locationId":"hexLocation_29",
+               "neutralized":false,
+               "terrainId":"mountain-tile"
+            },
+            "hexNumber":29
+         },
+         {
+            "gamePieces":[
+
+            ],
+            "ownerId":null,
+            "locationId":"hexLocation_30",
+            "stacks":[
+
+            ],
+            "hexTile":{
+               "id":"desert-tile-04",
+               "ownerId":null,
+               "locationId":"hexLocation_30",
+               "neutralized":false,
+               "terrainId":"desert-tile"
+            },
+            "hexNumber":30
+         },
+         {
+            "gamePieces":[
+
+            ],
+            "ownerId":null,
+            "locationId":"hexLocation_31",
+            "stacks":[
+
+            ],
+            "hexTile":{
+               "id":"plains-tile-05",
+               "ownerId":null,
+               "locationId":"hexLocation_31",
+               "neutralized":false,
+               "terrainId":"plains-tile"
+            },
+            "hexNumber":31
+         },
+         {
+            "gamePieces":[
+
+            ],
+            "ownerId":null,
+            "locationId":"hexLocation_32",
+            "stacks":[
+
+            ],
+            "hexTile":{
+               "id":"jungle-tile-04",
+               "ownerId":null,
+               "locationId":"hexLocation_32",
+               "neutralized":false,
+               "terrainId":"jungle-tile"
+            },
+            "hexNumber":32
+         },
+         {
+            "gamePieces":[
+
+            ],
+            "ownerId":null,
+            "locationId":"hexLocation_33",
+            "stacks":[
+
+            ],
+            "hexTile":{
+               "id":"mountain-tile-05",
+               "ownerId":null,
+               "locationId":"hexLocation_33",
+               "neutralized":false,
+               "terrainId":"mountain-tile"
+            },
+            "hexNumber":33
+         },
+         {
+            "gamePieces":[
+
+            ],
+            "ownerId":null,
+            "locationId":"hexLocation_34",
+            "stacks":[
+
+            ],
+            "hexTile":{
+               "id":"forest-tile-06",
+               "ownerId":null,
+               "locationId":"hexLocation_34",
+               "neutralized":false,
+               "terrainId":"forest-tile"
+            },
+            "hexNumber":34
+         },
+         {
+            "gamePieces":[
+
+            ],
+            "ownerId":null,
+            "locationId":"hexLocation_35",
+            "stacks":[
+
+            ],
+            "hexTile":{
+               "id":"frozen-tile-05",
+               "ownerId":null,
+               "locationId":"hexLocation_35",
+               "neutralized":false,
+               "terrainId":"frozen-tile"
+            },
+            "hexNumber":35
+         },
+         {
+            "gamePieces":[
+
+            ],
+            "ownerId":null,
+            "locationId":"hexLocation_36",
+            "stacks":[
+
+            ],
+            "hexTile":{
+               "id":"desert-tile-05",
+               "ownerId":null,
+               "locationId":"hexLocation_36",
+               "neutralized":false,
+               "terrainId":"desert-tile"
+            },
+            "hexNumber":36
+         }
+      ]
+   },
+   "messageId":"gamemessage1392064803601yphvkrhn9f90agjatg",
+   "type":"movementPhaseOver",
+   "createdDate":1392064803601
+}

@@ -56,7 +56,7 @@ public class Game {
 		for(User user : users) {
 			sendGameStartedMessageToUser(user);
 		}
-		
+				
 		gameState.setTestMode(isTest);
 		gameState.startGame();
 	}

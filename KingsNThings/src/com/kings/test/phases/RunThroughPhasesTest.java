@@ -24,6 +24,7 @@ import com.kings.model.phases.MovementPhase;
 import com.kings.model.phases.PlacementPhase;
 import com.kings.model.phases.RecruitThingsPhase;
 import com.kings.model.phases.SetupPhase;
+import com.kings.model.phases.battle.CombatBattle;
 import com.kings.model.phases.exceptions.NotYourTurnException;
 
 public class RunThroughPhasesTest {
@@ -84,7 +85,7 @@ public class RunThroughPhasesTest {
 		assertEquals("player4", gs.getHexLocationsById("hexLocation_12").getOwner().getPlayerId());
 		
 		Player p1 = gs.getPlayerByPlayerId("player1");
-		GamePiece fort1 = (GamePiece) p1.getGamePieces().values().toArray()[0];
+		GamePiece fort1 = (GamePiece) p1.getFortPieces().toArray()[0];
 		assertEquals("Tower", fort1.getName());
 		pPhase.didPlaceFort("player1", fort1.getId(), "hexLocation_1");
 		assertEquals("hexLocation_1", fort1.getLocation().getId());
@@ -99,19 +100,19 @@ public class RunThroughPhasesTest {
 		assertTrue(didGetNotTurnException);
 		
 		Player p2 = gs.getPlayerByPlayerId("player2");
-		GamePiece fort2 = (GamePiece) p2.getGamePieces().values().toArray()[0];
+		GamePiece fort2 = (GamePiece) p2.getFortPieces().toArray()[0];
 		assertEquals("Tower", fort2.getName());
 		pPhase.didPlaceFort("player2", fort2.getId(), "hexLocation_4");
 		assertEquals("hexLocation_4", fort2.getLocation().getId());
 		
 		Player p3 = gs.getPlayerByPlayerId("player3");
-		GamePiece fort3 = (GamePiece) p3.getGamePieces().values().toArray()[0];
+		GamePiece fort3 = (GamePiece) p3.getFortPieces().toArray()[0];
 		assertEquals("Tower", fort3.getName());
 		pPhase.didPlaceFort("player3", fort3.getId(), "hexLocation_7");
 		assertEquals("hexLocation_7", fort3.getLocation().getId());
 		
 		Player p4 = gs.getPlayerByPlayerId("player4");
-		GamePiece fort4 = (GamePiece) p4.getGamePieces().values().toArray()[0];
+		GamePiece fort4 = (GamePiece) p4.getFortPieces().toArray()[0];
 		assertEquals("Tower", fort4.getName());
 		pPhase.didPlaceFort("player4", fort4.getId(), "hexLocation_10");
 		assertEquals("hexLocation_10", fort4.getLocation().getId());
@@ -143,8 +144,8 @@ public class RunThroughPhasesTest {
 		rtPhase.didRecruitAndPlaceThing("player1", "T_Mountains_050-01", "player1_rack1", true);
 		rtPhase.didRecruitAndPlaceThing("player1", "T_Mountains_034-01", "player1_rack2", false);
 		rtPhase.didRecruitAndPlaceThing("player1", "T_Mountains_038-01", "player1_rack2", false);
-		assertEquals(1, p1.getRack1().getGamePieces().size());
-		assertEquals(2, p1.getRack2().getGamePieces().size());
+		//assertEquals(1, p1.getRack1().getGamePieces().size());
+		//assertEquals(2, p1.getRack2().getGamePieces().size());
 		assertEquals(9, (int)p1.getGold());
 		
 		rtPhase.playerIsReadyForNextPhase("player1");
@@ -178,11 +179,31 @@ public class RunThroughPhasesTest {
 		assertEquals(1, p1HexForMov2.getStacks().size());
 		
 		mPhase.playerIsDoneMakingMoves(p1.getPlayerId());
+		
+		//play 2 moves
+		p2.assignGamePieceToPlayer(gs.getGamePiece("T_Swamp_074-01"));
+		List<String> p2ListOfPiecesForMove = new ArrayList<String>();
+		p2ListOfPiecesForMove.add("T_Swamp_074-01");
+		mPhase.didCreateStack(p2.getPlayerId(), p1HexForMov2.getId(), p2ListOfPiecesForMove);
+		assertEquals(2, p1HexForMov2.getPlayersWhoAreOnMe().size());
+		
 		mPhase.playerIsDoneMakingMoves(p2.getPlayerId());
 		mPhase.playerIsDoneMakingMoves(p3.getPlayerId());
 		mPhase.playerIsDoneMakingMoves(p4.getPlayerId());
 		
-		//CombatPhase cp = (CombatPhase)gs.getCurrentPhase();
+		CombatPhase cp = (CombatPhase)gs.getCurrentPhase();
+		CombatBattle battle = cp.getCombatBattles().get(0);
+		
+		int attackerHitCount = battle.getAttackerHitCount();
+		int defenderHitCount = battle.getDefenderHitCount();
+		
+		assertEquals(1, attackerHitCount);
+		assertEquals(2, defenderHitCount);
+		
+		battle.defenderDidRoll();
+		battle.attackerDidRoll();
+		
+		//List<String> attackerPiecesToTakeDamage
 		
 		for(SentMessage msg : gs.getSentMessages()){
 			System.out.println(msg.getJson());

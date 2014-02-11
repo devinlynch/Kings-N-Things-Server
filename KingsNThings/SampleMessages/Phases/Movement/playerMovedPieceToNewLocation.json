@@ -1,0 +1,10 @@
+{
+   "data":{
+      "boardLocationId":"hexLocation_2",
+      "gamePieceId":"T_Mountains_050-01",
+      "playerId":"player1"
+   },
+   "messageId":"gamemessage1392064803554h8v37may8de6o7ul9",
+   "type":"playerMovedPieceToNewLocation",
+   "createdDate":1392064803554
+}

@@ -2,6 +2,7 @@ package com.kings.networking;
 
 import java.io.IOException;
 import java.util.ArrayDeque;
+import java.util.Date;
 import java.util.Queue;
 
 /**
@@ -31,6 +32,14 @@ public class UDPMessageSenderThread extends Thread {
 		while(! isStopped() || messages.size() > 0) {
 			if(messages.size() > 0) {
 				UDPMessage message = messages.remove();
+				
+				if(message.getDelay() > 0) {
+					if((message.getCreatedDate().getTime() + message.getDelay()) > (new Date()).getTime()) {
+						addToQueue(message);
+						continue;
+					}
+				}
+				
 				try {
 					MessageSender.sendUDPMessage(message);
 				} catch (IOException e) {
@@ -58,6 +67,8 @@ public class UDPMessageSenderThread extends Thread {
 	}
 	
 	public void addToQueue(UDPMessage message) {
-		messages.add(message);
+		synchronized (messages) {
+			messages.add(message);
+		}
 	}
 }

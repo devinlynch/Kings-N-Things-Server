@@ -1,0 +1,27 @@
+{
+   "data":{
+      "playerId":"player1",
+      "stack":{
+         "gamePieces":[
+            {
+               "id":"T_Mountains_034-01",
+               "ownerId":"player1",
+               "locationId":"stack1392064803573br0ji2szuzce7pf94ulm",
+               "neutralized":false
+            },
+            {
+               "id":"T_Mountains_038-01",
+               "ownerId":"player1",
+               "locationId":"stack1392064803573br0ji2szuzce7pf94ulm",
+               "neutralized":false
+            }
+         ],
+         "ownerId":"player1",
+         "locationId":"stack1392064803573br0ji2szuzce7pf94ulm",
+         "hexLocationId":"hexLocation_2"
+      }
+   },
+   "messageId":"gamemessage13920648035828syod1of28cix",
+   "type":"playerAddedPiecesToStack",
+   "createdDate":1392064803582
+}

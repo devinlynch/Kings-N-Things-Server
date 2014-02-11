@@ -67,6 +67,7 @@ public class CombatPhase extends Phase {
 			List<Player> playersOnHex = hexLocation.getPlayersWhoAreOnMe();
 			if(playersOnHex.size() > 1) {
 				CombatBattle battle = new CombatBattle(hexLocation, this);
+				combatBattles.add(battle);
 			}
 		}
 		return combatBattles;
@@ -123,8 +124,13 @@ public class CombatPhase extends Phase {
 		GameMessage msg = newGameMessageForAllPlayers("combatPhaseStarted");
 		return msg;
 	}
-	
-	
-	
+
+	public List<CombatBattle> getCombatBattles() {
+		return combatBattles;
+	}
+
+	public int getCurrentBattle() {
+		return currentBattle;
+	}
 
 }
