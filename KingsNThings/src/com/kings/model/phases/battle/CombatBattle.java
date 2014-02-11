@@ -58,6 +58,7 @@ public class CombatBattle {
 	}
 	
 	public void start() {
+		System.out.println("CombatBattle started id=["+battleId+"]");
 		informAttackerAndDefenderOfBattle();
 		informAttackerItsTheirTurnToFight();
 		informDefenderItsTheirTurnToFight();
@@ -104,13 +105,17 @@ public class CombatBattle {
 	
 	protected Map<Creature, Integer> getCreatureToRollNumbersForAttacker() {
 		Map<Creature, Integer> map = new HashMap<Creature, Integer>();
-		Set<Creature> creatures = locationOfBattle.getCreaturePiecesForPlayer(attacker);
+		Set<Creature> creatures = locationOfBattle.getCreaturePiecesForPlayerIncludingCreaturesInStack(attacker);
 		
 		for(Creature creature: creatures) {
 			Random r = new Random();
 			Integer randomnum = r.nextInt(6-1) + 1;
 			
-			if(randomnum >= creature.getCombatValue()) {
+			if(getGameState().isTestMode()) {
+				randomnum=0;
+			}
+			
+			if(randomnum <= creature.getCombatValue()) {
 				attackerHitCount++;
 			}
 			
@@ -123,13 +128,17 @@ public class CombatBattle {
 		//TODO for it2: need to have forts, cities, etc. 
 		
 		Map<Creature, Integer> map = new HashMap<Creature, Integer>();
-		Set<Creature> creatures = locationOfBattle.getCreaturePiecesForPlayer(defender);
+		Set<Creature> creatures = locationOfBattle.getCreaturePiecesForPlayerIncludingCreaturesInStack(defender);
 		
 		for(Creature creature: creatures) {
 			Random r = new Random();
 			Integer randomnum = r.nextInt(6-1) + 1;
 			
-			if(randomnum >= creature.getCombatValue()) {
+			if(getGameState().isTestMode()) {
+				randomnum=0;
+			}
+			
+			if(randomnum <= creature.getCombatValue()) {
 				defenderHitCount++;
 			}
 			
@@ -308,4 +317,70 @@ public class CombatBattle {
 	public void setBattleId(String battleId) {
 		this.battleId = battleId;
 	}
+
+	public Player getDefender() {
+		return defender;
+	}
+
+	public void setDefender(Player defender) {
+		this.defender = defender;
+	}
+
+	public int getAttackerHitCount() {
+		return attackerHitCount;
+	}
+
+	public void setAttackerHitCount(int attackerHitCount) {
+		this.attackerHitCount = attackerHitCount;
+	}
+
+	public int getDefenderHitCount() {
+		return defenderHitCount;
+	}
+
+	public void setDefenderHitCount(int defenderHitCount) {
+		this.defenderHitCount = defenderHitCount;
+	}
+
+	public boolean isAttackerDidRoll() {
+		return attackerDidRoll;
+	}
+
+	public void setAttackerDidRoll(boolean attackerDidRoll) {
+		this.attackerDidRoll = attackerDidRoll;
+	}
+
+	public boolean isDefenderDidRoll() {
+		return defenderDidRoll;
+	}
+
+	public void setDefenderDidRoll(boolean defenderDidRoll) {
+		this.defenderDidRoll = defenderDidRoll;
+	}
+
+	public boolean isResolutionWasMade() {
+		return resolutionWasMade;
+	}
+
+	public void setResolutionWasMade(boolean resolutionWasMade) {
+		this.resolutionWasMade = resolutionWasMade;
+	}
+
+	public boolean isAttackerDidTakeDamage() {
+		return attackerDidTakeDamage;
+	}
+
+	public void setAttackerDidTakeDamage(boolean attackerDidTakeDamage) {
+		this.attackerDidTakeDamage = attackerDidTakeDamage;
+	}
+
+	public boolean isDefenderDidTakeDamage() {
+		return defenderDidTakeDamage;
+	}
+
+	public void setDefenderDidTakeDamage(boolean defenderDidTakeDamage) {
+		this.defenderDidTakeDamage = defenderDidTakeDamage;
+	}
+
+	
 }

@@ -24,6 +24,7 @@ import com.kings.model.phases.MovementPhase;
 import com.kings.model.phases.PlacementPhase;
 import com.kings.model.phases.RecruitThingsPhase;
 import com.kings.model.phases.SetupPhase;
+import com.kings.model.phases.battle.CombatBattle;
 import com.kings.model.phases.exceptions.NotYourTurnException;
 
 public class RunThroughPhasesTest {
@@ -178,11 +179,31 @@ public class RunThroughPhasesTest {
 		assertEquals(1, p1HexForMov2.getStacks().size());
 		
 		mPhase.playerIsDoneMakingMoves(p1.getPlayerId());
+		
+		//play 2 moves
+		p2.assignGamePieceToPlayer(gs.getGamePiece("T_Swamp_074-01"));
+		List<String> p2ListOfPiecesForMove = new ArrayList<String>();
+		p2ListOfPiecesForMove.add("T_Swamp_074-01");
+		mPhase.didCreateStack(p2.getPlayerId(), p1HexForMov2.getId(), p2ListOfPiecesForMove);
+		assertEquals(2, p1HexForMov2.getPlayersWhoAreOnMe().size());
+		
 		mPhase.playerIsDoneMakingMoves(p2.getPlayerId());
 		mPhase.playerIsDoneMakingMoves(p3.getPlayerId());
 		mPhase.playerIsDoneMakingMoves(p4.getPlayerId());
 		
-		//CombatPhase cp = (CombatPhase)gs.getCurrentPhase();
+		CombatPhase cp = (CombatPhase)gs.getCurrentPhase();
+		CombatBattle battle = cp.getCombatBattles().get(0);
+		
+		int attackerHitCount = battle.getAttackerHitCount();
+		int defenderHitCount = battle.getDefenderHitCount();
+		
+		assertEquals(1, attackerHitCount);
+		assertEquals(2, defenderHitCount);
+		
+		battle.defenderDidRoll();
+		battle.attackerDidRoll();
+		
+		//List<String> attackerPiecesToTakeDamage
 		
 		for(SentMessage msg : gs.getSentMessages()){
 			System.out.println(msg.getJson());

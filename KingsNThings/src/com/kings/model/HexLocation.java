@@ -135,7 +135,7 @@ public class HexLocation extends BoardLocation {
 	}
 	
 	
-	public Set<Creature> getCreaturePiecesForPlayer(Player p) {
+	public Set<Creature> getCreaturePiecesForPlayerIncludingCreaturesInStack(Player p) {
 		Set<Creature> set = new HashSet<Creature>();
 		Iterator<GamePiece> it = getGamePieces().iterator();
 		while(it.hasNext()) {
@@ -143,6 +143,14 @@ public class HexLocation extends BoardLocation {
 			if(gp instanceof Creature && p.equals(gp.getOwner()))
 				set.add((Creature)gp);
 		}
+		
+		Iterator<Stack> it2 = getStacks().iterator();
+		while(it2.hasNext()) {
+			Stack st = it2.next();
+			if(p.equals(st.getOwner()))
+				set.addAll(st.getCreatures());
+		}
+		
 		return set;
 	}
 	
