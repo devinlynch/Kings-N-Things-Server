@@ -34,6 +34,7 @@ public class SetupPhase extends Phase {
 	
 	public GameMessage generateSetupGameMessage() {
 		GameMessage message = new GameMessage("setupGame");
+		message.setDelay(2000L);
 		message.setPlayersToSendTo(getGameState().getPlayers());		
 		message.addToData("gameState", getGameState().toSerializedFormat());
 		

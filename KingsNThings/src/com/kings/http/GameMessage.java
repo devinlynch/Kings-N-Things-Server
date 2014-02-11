@@ -27,6 +27,7 @@ public class GameMessage {
 	@JsonIgnore private Set<Player> playersToSendTo;
 	private Date createdDate;
 	private String messageId;
+	private long delay;
 	
 	public GameMessage(String type) {
 		setPlayersToSendTo(new HashSet<Player>());
@@ -112,6 +113,7 @@ public class GameMessage {
 				
 				if(port != null && host != null) {
 					UDPMessage message = new UDPMessage(host, port, json);
+					message.setDelay(delay);
 					UDPSenderQueue.addMessagesToQueue(message);
 				}
 			} catch(Exception e) {
@@ -180,5 +182,13 @@ public class GameMessage {
 
 	public void setMessageId(String messageId) {
 		this.messageId = messageId;
+	}
+
+	public long getDelay() {
+		return delay;
+	}
+
+	public void setDelay(long delay) {
+		this.delay = delay;
 	}
 }

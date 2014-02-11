@@ -38,7 +38,7 @@ public class GameStateFactory {
 		
 		boolean is23PlayerGame = numberOfPlayers==2 || numberOfPlayers==3;
 		if(is23PlayerGame) {
-			addHexLocations(gameState, 19);
+			addHexLocations(gameState, 37);
 		} else{
 			addHexLocations(gameState, 37);
 		}
@@ -112,7 +112,7 @@ public class GameStateFactory {
 			
 			// Give gold
 			gameState.getBank().payoutGoldToPlayer(10, player);
-			
+			giveRandomPiecesToPlayer(player, 10, gameState);
 			i++;
 		}
 	}
@@ -121,49 +121,49 @@ public class GameStateFactory {
 		//TODO this is only for demo!   random creatures should be assigned
 		
 		if(player.getPlayerId().equals("player1")){
-			gameState.getGamePiece("T_Desert_105-01");
-			gameState.getGamePiece("T_Desert_115-01");
-			gameState.getGamePiece("T_Jungle_001-01");
-			gameState.getGamePiece("T_Mountains_037-01");
-			gameState.getGamePiece("T_Mountains_043-01");
-			gameState.getGamePiece("T_Mountains_047-01");
-			gameState.getGamePiece("T_Desert_118-01");
-			gameState.getGamePiece("T_Jungle_012-01");
-			gameState.getGamePiece("T_Mountains_038-02");
-			gameState.getGamePiece("T_Mountains_042-01");
+			player.assignGamePieceToPlayerRack(gameState.getGamePiece("T_Desert_105-01"));
+			player.assignGamePieceToPlayerRack(gameState.getGamePiece("T_Desert_115-01"));
+			player.assignGamePieceToPlayerRack(gameState.getGamePiece("T_Jungle_001-01"));
+			player.assignGamePieceToPlayerRack(gameState.getGamePiece("T_Mountains_037-01"));
+			player.assignGamePieceToPlayerRack(gameState.getGamePiece("T_Mountains_043-01"));
+			player.assignGamePieceToPlayerRack(gameState.getGamePiece("T_Mountains_047-01"));
+			player.assignGamePieceToPlayerRack(gameState.getGamePiece("T_Desert_118-01"));
+			player.assignGamePieceToPlayerRack(gameState.getGamePiece("T_Jungle_012-01"));
+			player.assignGamePieceToPlayerRack(gameState.getGamePiece("T_Mountains_038-02"));
+			player.assignGamePieceToPlayerRack(gameState.getGamePiece("T_Mountains_042-01"));
 		} else if(player.getPlayerId().equals("player2")){
-			gameState.getGamePiece("T_Jungle_002-01");
-			gameState.getGamePiece("T_Desert_117-01");
-			gameState.getGamePiece("T_Forest_097-01");
-			gameState.getGamePiece("T_Desert_108-01");
-			gameState.getGamePiece("T_Jungle_005-01");
-			gameState.getGamePiece("T_Desert_114-01");
-			gameState.getGamePiece("T_Forest_088-01");
-			gameState.getGamePiece("T_Forest_098-01");
-			gameState.getGamePiece("T_Jungle_003-01");
-			gameState.getGamePiece("T_Forest_086-01");
+			player.assignGamePieceToPlayerRack(gameState.getGamePiece("T_Jungle_002-01"));
+			player.assignGamePieceToPlayerRack(gameState.getGamePiece("T_Desert_117-01"));
+			player.assignGamePieceToPlayerRack(gameState.getGamePiece("T_Forest_097-01"));
+			player.assignGamePieceToPlayerRack(gameState.getGamePiece("T_Desert_108-01"));
+			player.assignGamePieceToPlayerRack(gameState.getGamePiece("T_Jungle_005-01"));
+			player.assignGamePieceToPlayerRack(gameState.getGamePiece("T_Desert_114-01"));
+			player.assignGamePieceToPlayerRack(gameState.getGamePiece("T_Forest_088-01"));
+			player.assignGamePieceToPlayerRack(gameState.getGamePiece("T_Forest_098-01"));
+			player.assignGamePieceToPlayerRack(gameState.getGamePiece("T_Jungle_003-01"));
+			player.assignGamePieceToPlayerRack(gameState.getGamePiece("T_Forest_086-01"));
 		} else if(player.getPlayerId().equals("player3")){
-			gameState.getGamePiece("T_Plains_031-01");
-			gameState.getGamePiece("T_Desert_113-01");
-			gameState.getGamePiece("T_Plains_014-01");
-			gameState.getGamePiece("T_Plains_014-02");
-			gameState.getGamePiece("T_Desert_109-01");
-			gameState.getGamePiece("T_Desert_118-02");
-			gameState.getGamePiece("T_Jungle_008-01");
-			gameState.getGamePiece("T_Plains_021-01");
-			gameState.getGamePiece("T_Desert_114-01");
-			gameState.getGamePiece("T_Jungle_006-01");
+			player.assignGamePieceToPlayerRack(gameState.getGamePiece("T_Plains_031-01"));
+			player.assignGamePieceToPlayerRack(gameState.getGamePiece("T_Desert_113-01"));
+			player.assignGamePieceToPlayerRack(gameState.getGamePiece("T_Plains_014-01"));
+			player.assignGamePieceToPlayerRack(gameState.getGamePiece("T_Plains_014-02"));
+			player.assignGamePieceToPlayerRack(gameState.getGamePiece("T_Desert_109-01"));
+			player.assignGamePieceToPlayerRack(gameState.getGamePiece("T_Desert_118-02"));
+			player.assignGamePieceToPlayerRack(gameState.getGamePiece("T_Jungle_008-01"));
+			player.assignGamePieceToPlayerRack(gameState.getGamePiece("T_Plains_021-01"));
+			player.assignGamePieceToPlayerRack(gameState.getGamePiece("T_Desert_114-01"));
+			player.assignGamePieceToPlayerRack(gameState.getGamePiece("T_Jungle_006-01"));
 		} else if(player.getPlayerId().equals("player4")){
-			gameState.getGamePiece("T_Plains_027-01");
-			gameState.getGamePiece("T_Swamp_076-01");
-			gameState.getGamePiece("T_Plains_015-01");
-			gameState.getGamePiece("T_Swamp_084-01");
-			gameState.getGamePiece("T_Jungle_005-01");
-			gameState.getGamePiece("T_Plains_027-02");
-			gameState.getGamePiece("T_Forest_088-01");
-			gameState.getGamePiece("T_Swamp_080-01");
-			gameState.getGamePiece("T_Jungle_009-01");
-			gameState.getGamePiece("T_Plains_016-01");
+			player.assignGamePieceToPlayerRack(gameState.getGamePiece("T_Plains_027-01"));
+			player.assignGamePieceToPlayerRack(gameState.getGamePiece("T_Swamp_076-01"));
+			player.assignGamePieceToPlayerRack(gameState.getGamePiece("T_Plains_015-01"));
+			player.assignGamePieceToPlayerRack(gameState.getGamePiece("T_Swamp_084-01"));
+			player.assignGamePieceToPlayerRack(gameState.getGamePiece("T_Jungle_005-01"));
+			player.assignGamePieceToPlayerRack(gameState.getGamePiece("T_Plains_027-02"));
+			player.assignGamePieceToPlayerRack(gameState.getGamePiece("T_Forest_088-01"));
+			player.assignGamePieceToPlayerRack(gameState.getGamePiece("T_Swamp_080-01"));
+			player.assignGamePieceToPlayerRack(gameState.getGamePiece("T_Jungle_009-01"));
+			player.assignGamePieceToPlayerRack(gameState.getGamePiece("T_Plains_016-01"));
 		}
 		
 	}

@@ -32,7 +32,7 @@ public class MessageSender {
 		socket.send(packet);
 		
 		socket.close();
-		System.out.println("Sent " + new String(packet.getData()));
+		System.out.println("Sent UDP message to ["+udpMessage.getHost()+"] at port ["+udpMessage.getPort()+"] " + new String(packet.getData()));
 	}
 	
 }
