@@ -2,6 +2,8 @@ package com.kings.model;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -27,6 +29,9 @@ public class User {
 	@JsonIgnore
 	private Set<Game> games;
 
+	@JsonIgnore
+	private List<SentMessage> sentMessages;
+	
 	public User() {
 		setGames(new HashSet<Game>());
 	}
@@ -137,4 +142,32 @@ public class User {
 		return null;
 	}
 	
+	public List<SentMessage> getSentMessages() {
+		return sentMessages;
+	}
+
+	public void setSentMessages(List<SentMessage> sentMessages) {
+		this.sentMessages = sentMessages;
+	}
+	
+	protected void addSentMessage(SentMessage sentMessage) {
+		getSentMessages().add(sentMessage);
+	}
+	
+	protected void addSentMessages(Set<SentMessage> sentMessages) {
+		for(SentMessage msg : sentMessages)
+			addSentMessage(msg);
+	}
+	
+	public Set<SentMessage> getSentMessageAfterDate(Date d) {
+		Iterator<SentMessage> it = getSentMessages().iterator();
+		Set<SentMessage> messages = new HashSet<SentMessage>();
+		while(it.hasNext()) {
+			SentMessage msg = it.next();
+			if(d.before(msg.getSentDate())){
+				messages.add(msg);
+			}
+		}
+		return messages;
+	}
 }

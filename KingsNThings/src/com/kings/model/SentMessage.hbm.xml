@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.kings.model.SentMessage" table="sent_message">
+        <id name="messageId" column="message_id">
+        </id>
+        <property name="sentDate"  column="sent_date" />
+        <property name="json" />
+        <property name="type" />
+        <many-to-one class="com.kings.model.User" name="sentToUser" >
+        	<column name="user_id" not-null="true" />
+        </many-to-one>
+        <many-to-one class="com.kings.model.Game" name="game" >
+        	<column name="game_id" not-null="true" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

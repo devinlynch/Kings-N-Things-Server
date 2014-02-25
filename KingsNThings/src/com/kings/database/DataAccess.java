@@ -7,6 +7,7 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.proxy.HibernateProxy;
 
 import com.kings.model.Game;
+import com.kings.model.SentMessage;
 import com.kings.model.User;
 
 public class DataAccess {
@@ -33,6 +34,7 @@ public class DataAccess {
 	public static void addClassMappings() {
 		config.addClass(User.class);
 		config.addClass(Game.class);
+		config.addClass(SentMessage.class);
 	}
 	
 	public void beginTransaction() {

@@ -10,8 +10,8 @@ import java.util.Random;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.kings.database.DataAccess;
 import com.kings.http.GameMessage;
-import com.kings.http.SentMessage;
 import com.kings.model.factory.GameStateFactory;
 import com.kings.model.phases.Phase;
 import com.kings.model.phases.SetupPhase;
@@ -150,11 +150,23 @@ public class GameState extends AbstractSerializedObject {
 			sentMessages = gameMessage.testSend();
 		}
 		for(SentMessage msg : sentMessages) {
-			Player p = getPlayerByUserId(msg.getSentToUserId());
+			Player p = getPlayerByUserId(msg.getSentToUser().getUserId());
 			if(p != null)
 				p.addSentMessage(msg);
 		}
+		
+		saveGameWithSentMessages(sentMessages);
+		
 		addSentMessages(sentMessages);
+	}
+	
+	public void saveGameWithSentMessages(Set<SentMessage> sentMessages) {
+		DataAccess access = new DataAccess();
+		access.beginTransaction();
+		Game game = access.get(Game.class, getGameId());
+		game.addSentMessages(sentMessages);
+		access.save(game);
+		access.commit();
 	}
 	
 	public Player getPlayerByUserId(String userId){

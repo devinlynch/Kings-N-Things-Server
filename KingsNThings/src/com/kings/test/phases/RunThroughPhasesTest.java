@@ -10,12 +10,12 @@ import java.util.Set;
 
 import org.junit.Test;
 
-import com.kings.http.SentMessage;
 import com.kings.model.Game;
 import com.kings.model.GamePiece;
 import com.kings.model.GameState;
 import com.kings.model.HexLocation;
 import com.kings.model.Player;
+import com.kings.model.SentMessage;
 import com.kings.model.Stack;
 import com.kings.model.User;
 import com.kings.model.phases.CombatPhase;

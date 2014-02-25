@@ -17,5 +17,13 @@
                 <column name="user_id" not-null="true" />
             </many-to-many>
         </set>
+        
+        <list name="sentMessages" table="sent_message" cascade="all">
+        	<key>
+        		<column name="game_id" />
+            </key>
+            <list-index column="created_date"/>
+            <one-to-many class="com.kings.model.SentMessage" />
+        </list>
     </class>
 </hibernate-mapping>
