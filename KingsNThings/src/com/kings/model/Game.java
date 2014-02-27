@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.kings.database.GameStateCache;
 import com.kings.http.HttpResponseMessage;
 
 public class Game {
@@ -164,5 +165,35 @@ public class Game {
 			}
 		}
 		return messages;
+	}
+	
+	/**
+	 * Ends the game.  <b>Be careful when calling this, it destroys everything!  The game state will be destroyed FOREVER</b>
+	 */
+	public void end() {
+		setActive(false);
+		GameStateCache.getInstance().getGameState(getGameId());
+		alertUsersThatGameIsOver();
+	}
+	
+	public void alertUsersThatGameIsOver() {
+		for(User u : users) {
+			sendGameOverMessageToUser(u);
+		}
+	}
+	
+	
+	public void sendGameOverMessageToUser(User user) {
+		HttpResponseMessage message = getGameOverMessage();
+		user.sendMessage(message);
+	}
+	
+	@JsonIgnore
+	public HttpResponseMessage getGameOverMessage(){
+		HttpResponseMessage message = new HttpResponseMessage();
+		message.setType("gameOver");
+		message.addToData("gameId", this.getGameId());
+		
+		return message;
 	}
 }

@@ -15,10 +15,12 @@ public class HttpResponseMessage implements Serializable {
 	private HttpResponseError error;
 	private Date createdDate;
 	private boolean dontHandleOnClient;
+	private String messageId;
 	
 	public HttpResponseMessage() {
 		setCreatedDate(new Date());
 		data = new HttpResponseData();
+		setMessageId(Utils.generateRandomId("messageid"));
 	}
 	
 	public HttpResponseMessage(HttpResponseError.ResponseError responseError) {
@@ -99,5 +101,13 @@ public class HttpResponseMessage implements Serializable {
 
 	public void setDontHandleOnClient(boolean dontHandleOnClient) {
 		this.dontHandleOnClient = dontHandleOnClient;
+	}
+
+	public String getMessageId() {
+		return messageId;
+	}
+
+	public void setMessageId(String messageId) {
+		this.messageId = messageId;
 	}
 }

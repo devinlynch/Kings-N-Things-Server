@@ -37,6 +37,12 @@ public class GameStateCache {
 			return getCache().get(gameId);
 		}
 	}
+	
+	public void removeGameStateForGame(String gameId) {
+		synchronized (monitor) {
+			getCache().remove(gameId);
+		}
+	}
 
 	protected ConcurrentMap<String, GameState> getCache() {
 		return cache;

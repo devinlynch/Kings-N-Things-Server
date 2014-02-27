@@ -106,7 +106,8 @@ public class GameMessage {
 					didJustStartTransaction=true;
 				}
 				User user = access.get(User.class, userId);
-				sentMessages.add(new SentMessage(getType(), json, user, getMessageId()));
+				SentMessage sentMessage = new SentMessage(getType(), json, user, getMessageId());
+				sentMessages.add(sentMessage);
 				Integer port = user.getPort();
 				String host = user.getHostName();
 				if(didJustStartTransaction)

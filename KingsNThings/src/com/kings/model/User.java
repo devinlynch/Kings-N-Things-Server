@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.kings.http.HttpResponseMessage;
 import com.kings.networking.UDPMessage;
 import com.kings.networking.UDPSenderQueue;
 import com.kings.networking.lobby.GameLobby;
@@ -119,6 +120,14 @@ public class User {
 		UDPSenderQueue.addMessagesToQueue(udpMessage);
 	}
 	
+	public SentMessage sendMessage(HttpResponseMessage message) {
+		String json = message.toJson();
+		SentMessage sMsg = new SentMessage(message.getType(), json, this, message.getMessageId());
+		addSentMessage(sMsg);
+		sendJSONMessage(json);
+		return sMsg;
+	}
+	
 	/**
 	 * Gets the active game that the user is in
 	 * @return
@@ -150,11 +159,11 @@ public class User {
 		this.sentMessages = sentMessages;
 	}
 	
-	protected void addSentMessage(SentMessage sentMessage) {
+	public void addSentMessage(SentMessage sentMessage) {
 		getSentMessages().add(sentMessage);
 	}
 	
-	protected void addSentMessages(Set<SentMessage> sentMessages) {
+	public void addSentMessages(Set<SentMessage> sentMessages) {
 		for(SentMessage msg : sentMessages)
 			addSentMessage(msg);
 	}
