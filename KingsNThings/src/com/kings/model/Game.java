@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.kings.database.GameStateCache;
 import com.kings.http.HttpResponseMessage;
 
 public class Game {
@@ -21,11 +20,13 @@ public class Game {
 	private boolean active;
 	private boolean isDemo;
 	private List<SentMessage> sentMessages;
+	private List<GameChatMessage> chatMessages;
 	
 	public Game() {
 		setUsers(new HashSet<User>());
 		gameState = new GameState();
 		sentMessages = new ArrayList<SentMessage>();
+		chatMessages = new ArrayList<GameChatMessage>();
 	}
 	
 	public void addUsers(Set<User> players) {
@@ -35,20 +36,20 @@ public class Game {
 		getUsers().add(player);
 	}
 	
-	public void start() throws Exception {
+	public GameState start() throws Exception {
 		//TODO
 		// This is going to handle actually starting the game
 		// Right now it is being called from the GameCreatorQueue, so the users are all assigned to this game and now all logic of creating a game
 		// and sending messages to the client needs to happen here
 		
-		handleStart(false);
+		return handleStart(false);
 	}
 	
-	public void startAsTest() throws Exception {
-		handleStart(true);
+	public GameState startAsTest() throws Exception {
+		return handleStart(true);
 	}
 	
-	protected void handleStart(boolean isTest) throws Exception {
+	protected GameState handleStart(boolean isTest) throws Exception {
 		GameState gameState;
 		if(isDemo()){
 			gameState = DemoGameState.createGameStateFromGame(this);
@@ -65,6 +66,8 @@ public class Game {
 				
 		gameState.setTestMode(isTest);
 		gameState.startGame();
+		
+		return gameState;
 	}
 
 	public void sendGameStartedMessageToUser(User user) {
@@ -172,7 +175,6 @@ public class Game {
 	 */
 	public void end() {
 		setActive(false);
-		GameStateCache.getInstance().getGameState(getGameId());
 		alertUsersThatGameIsOver();
 	}
 	
@@ -185,7 +187,8 @@ public class Game {
 	
 	public void sendGameOverMessageToUser(User user) {
 		HttpResponseMessage message = getGameOverMessage();
-		user.sendMessage(message);
+		SentMessage sentMessage = user.sendMessage(message);
+		addSentMessage(sentMessage);
 	}
 	
 	@JsonIgnore
@@ -196,4 +199,41 @@ public class Game {
 		
 		return message;
 	}
+	
+	public HttpResponseMessage sendChatMessage(User fromUser, String message) {
+		GameChatMessage msg = new GameChatMessage();
+		msg.setGame(this);
+		msg.setUser(fromUser);
+		msg.setMessage(message);
+		msg.setCreatedDate(new Date());
+		addChatMessage(msg);
+		
+		HttpResponseMessage jsonMessage = new HttpResponseMessage();
+		jsonMessage.setType("chatMessage");
+		jsonMessage.addToData("message", msg.toSerializedFormat());
+		
+		String json = jsonMessage.toJson();
+		sendMessageToAllUsers(json);
+		
+		return jsonMessage;
+	}
+
+	public List<GameChatMessage> getChatMessages() {
+		return chatMessages;
+	}
+
+	public void setChatMessages(List<GameChatMessage> chatMessages) {
+		this.chatMessages = chatMessages;
+	}
+	
+	public void addChatMessage(GameChatMessage msg) {
+		chatMessages.add(msg);
+	}
+	
+	public void sendMessageToAllUsers(String json) {
+		for(User user : getUsers()) {
+			user.sendJSONMessage(json);
+		}
+	}
+	
 }

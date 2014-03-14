@@ -3,6 +3,8 @@ package com.kings.test;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
+import java.util.Scanner;
 import java.util.Set;
 
 import com.kings.model.HexTile;
@@ -14,11 +16,24 @@ public class TestFile {
 		//	System.out.println("gameState.getHexlocations().get("+i+").setHexTile((HexTile)gameState.getGamePiece(\"frozen-tile-01\"));");
 		//}
 		
-		List<String> list = new ArrayList<String>();
+		/*List<String> list = new ArrayList<String>();
 		list.add("test");
 		System.out.println(list.size());
 		list.remove("test");
-		System.out.println(list.size());
+		System.out.println(list.size());*/
+		
+		
+		for(int i=0; i< 10000; i++) {
+			double start = 0;
+			double end = 100;
+			double random = new Random().nextDouble();
+			double result = start + (random * (end - start));
+			double random2 = new Random().nextDouble();
+			double result2 = start + (random * (end - start));
+			System.out.println(i+" "+result+" "+result2);
+		}
+		
+		
 	}
 	
 	public static void t1() {

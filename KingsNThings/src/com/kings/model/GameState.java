@@ -155,18 +155,19 @@ public class GameState extends AbstractSerializedObject {
 				p.addSentMessage(msg);
 		}
 		
-		saveGameWithSentMessages(sentMessages);
+		if(!isTestMode)
+			saveGameWithSentMessages(sentMessages);
 		
 		addSentMessages(sentMessages);
 	}
 	
 	public void saveGameWithSentMessages(Set<SentMessage> sentMessages) {
 		DataAccess access = new DataAccess();
-		access.beginTransaction();
+		//access.beginTransaction();
 		Game game = access.get(Game.class, getGameId());
 		game.addSentMessages(sentMessages);
 		access.save(game);
-		access.commit();
+		//access.commit();
 	}
 	
 	public Player getPlayerByUserId(String userId){

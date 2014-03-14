@@ -10,6 +10,7 @@ import java.util.Set;
 
 import org.junit.Test;
 
+import com.kings.http.HttpResponseMessage;
 import com.kings.model.Game;
 import com.kings.model.GamePiece;
 import com.kings.model.GameState;
@@ -28,23 +29,28 @@ import com.kings.model.phases.battle.CombatBattle;
 import com.kings.model.phases.exceptions.NotYourTurnException;
 
 public class RunThroughPhasesTest {
+	private Game game;
+	private User u1;
+	private User u2;
+	private User u3;
+	private User u4;
 	
 	public GameState getNewGameState() throws Exception{
-		Game game = new Game();
+		game = new Game();
 		game.setDemo(true);
 		game.setActive(true);
 		game.setGameId("1");
 		game.setStartedDate(new Date());
 		Set<User> users = new HashSet<User>();
-		User u1=new User("1");
+		u1=new User("1");
 		u1.setPort(3004);
 		u1.setHostName("localhost");
 		u1.setUsername("devin");
-		User u2=new User("2");
+		u2=new User("2");
 		u2.setUsername("john");
-		User u3=new User("3");
+		u3=new User("3");
 		u3.setUsername("devin");
-		User u4=new User("4");
+		u4=new User("4");
 		u4.setUsername("richard");
 		users.add(u1);
 		users.add(u2);
@@ -203,7 +209,11 @@ public class RunThroughPhasesTest {
 		battle.defenderDidRoll();
 		battle.attackerDidRoll();
 		
-		//List<String> attackerPiecesToTakeDamage
+		
+		// Send chat message
+		HttpResponseMessage chatMsg = game.sendChatMessage(u1, "Hi Chat!");
+		System.out.println("Sent chat message: [" + chatMsg.toJson() + "]");
+		
 		
 		for(SentMessage msg : gs.getSentMessages()){
 			System.out.println(msg.getJson());

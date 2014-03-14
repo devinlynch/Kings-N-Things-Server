@@ -33,3 +33,10 @@ ADD CONSTRAINT `game_user_game_ibfk`
   REFERENCES `kingsnthings`.`game` (`game_id`)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
+
+
+ALTER TABLE `kingsnthings`.`sent_message` 
+DROP COLUMN `created_date`;
+
+ALTER TABLE `kingsnthings`.`sent_message` 
+ADD COLUMN `order` INT NULL AFTER `game_id`;

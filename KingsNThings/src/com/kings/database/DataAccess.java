@@ -1,5 +1,7 @@
 package com.kings.database;
 
+import java.util.List;
+
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -7,6 +9,7 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.proxy.HibernateProxy;
 
 import com.kings.model.Game;
+import com.kings.model.GameChatMessage;
 import com.kings.model.SentMessage;
 import com.kings.model.User;
 
@@ -32,9 +35,10 @@ public class DataAccess {
 	}
 	
 	public static void addClassMappings() {
+		config.addClass(SentMessage.class);
 		config.addClass(User.class);
 		config.addClass(Game.class);
-		config.addClass(SentMessage.class);
+		config.addClass(GameChatMessage.class);
 	}
 	
 	public void beginTransaction() {
@@ -97,4 +101,14 @@ public class DataAccess {
 				.setParameter("un", gameLobbyId)
 				.uniqueResult();
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<GameChatMessage> getChatMessagesAfterId(Game game, String lastId) {
+		return (List<GameChatMessage>) getSession()
+				.createQuery("from GameChatMessage where gameChatMessageId > :lid and game = :game")
+				.setParameter("lid", lastId)
+				.setParameter("game", game)
+				.list();
+	}
+	
 }

@@ -18,12 +18,15 @@
             </many-to-many>
         </set>
         
-        <list name="sentMessages" table="sent_message" cascade="all">
-        	<key>
-        		<column name="game_id" />
-            </key>
-            <list-index column="created_date"/>
-            <one-to-many class="com.kings.model.SentMessage" />
-        </list>
+        
+        <bag name="sentMessages" table="sent_message" cascade="all" order-by="sent_date">
+		    <key column="game_id"/>
+		    <one-to-many class="com.kings.model.SentMessage"/>
+		</bag>
+		
+		<bag name="chatMessages" table="game_chat" cascade="all" order-by="created_date">
+		    <key column="game_id"/>
+		    <one-to-many class="com.kings.model.GameChatMessage"/>
+		</bag>
     </class>
 </hibernate-mapping>

@@ -123,7 +123,6 @@ public class User {
 	public SentMessage sendMessage(HttpResponseMessage message) {
 		String json = message.toJson();
 		SentMessage sMsg = new SentMessage(message.getType(), json, this, message.getMessageId());
-		addSentMessage(sMsg);
 		sendJSONMessage(json);
 		return sMsg;
 	}

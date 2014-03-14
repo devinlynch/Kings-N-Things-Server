@@ -33,7 +33,7 @@ import com.kings.model.Treasure;
 public class GameStateFactory {
 	
 	public static GameState makeGameState(GameState gameState, int numberOfPlayers) throws Exception {
-		if(numberOfPlayers < 2 || numberOfPlayers > 4)
+		if(numberOfPlayers < 1 || numberOfPlayers > 4)
 			throw new Exception("Number of players must be between 2 and 4");
 		
 		boolean is23PlayerGame = numberOfPlayers==2 || numberOfPlayers==3;
