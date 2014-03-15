@@ -36,8 +36,10 @@ public class LoginController extends AbstractAccountController {
 		
 		//TODO REMOVE
 		Game g = user.getGame();
-		g.end();
-		getDataAccess().save(g);
+		if(g != null){
+			g.end();
+			getDataAccess().save(g);
+		}
 		
 		if(isLoggedIn(session)) {
 			message = alreadyLoggedInMessage();

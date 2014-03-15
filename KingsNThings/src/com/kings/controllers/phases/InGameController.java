@@ -47,7 +47,7 @@ public class InGameController extends PhaseController {
 		try{
 			User user = getUser(req);
 			Game game = user.getGame();
-			game.sendChatMessage(user, message);
+			game.sendChatMessage(user, message, getDataAccess());
 			
 			getDataAccess().save(game);
 		} catch(Exception e) {

@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import com.kings.database.DataAccess;
 import com.kings.http.HttpResponseMessage;
 import com.kings.model.Game;
 import com.kings.model.User;
@@ -82,11 +83,10 @@ public class GameLobby {
 			HttpResponseMessage message = new HttpResponseMessage();
 			message.setType("gameLobbyState");
 			message.addToData("lobby", this);
-			String json = message.toJson();
 			
 			for(UserWaiting userWaiting : users) {
 				User user = userWaiting.getUser();
-				user.sendJSONMessage(json);
+				user.sendMessage(message, new DataAccess());
 			}
 		}
 	}

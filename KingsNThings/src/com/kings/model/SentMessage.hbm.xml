@@ -13,7 +13,7 @@
         	<column name="user_id" not-null="true" />
         </many-to-one>
         <many-to-one class="com.kings.model.Game" name="game" >
-        	<column name="game_id" not-null="true" />
+        	<column name="game_id" />
         </many-to-one>
     </class>
 </hibernate-mapping>

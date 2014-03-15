@@ -35,24 +35,22 @@ public class MessageController extends AbstractLoggedInOnlyController {
 			HttpServletResponse res) throws NotLoggedInException{
 
 		User user = getUser(req);
-		try{
-			List<SentMessage> messages = getDataAccess().getQueuedMessagesForUser(user.getUserId());
+		List<SentMessage> messages = getDataAccess().getQueuedMessagesForUser(user.getUserId());
+		
+		HttpResponseMessage msg = new HttpResponseMessage();
+		msg.setType("newMessages");
+		
+		Set<HashMap<String, Object>> messageMaps = new HashSet<HashMap<String,Object>>();
+		
+		for(SentMessage sentMessage: messages) {
 			
-			HttpResponseMessage msg = new HttpResponseMessage();
-			msg.setType("newMessages");
-			
-			Set<HashMap<String, Object>> messageMaps = new HashSet<HashMap<String,Object>>();
-			
-			for(SentMessage sentMessage: messages) {
-				messageMaps.add(sentMessage.toSerializedFormat());
-			}
-			
-			msg.addToData("messages", messageMaps);
-
-			return msg.toJson();
-		} catch (Exception e) {
-			return genericError().toJson();
+			sentMessage.setQueued(false);
+			messageMaps.add(sentMessage.toSerializedFormat());
 		}
+		
+		msg.addToData("messages", messageMaps);
+
+		return msg.toJson();
 	}
 	
 	@RequestMapping(value="gotMessage")

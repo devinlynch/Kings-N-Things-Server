@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.kings.database.DataAccess;
 import com.kings.http.HttpResponseMessage;
 import com.kings.networking.UDPMessage;
 import com.kings.networking.UDPSenderQueue;
@@ -108,23 +109,39 @@ public class User {
 	}
 	
 	
-	public void sendJSONMessage(String message) {
-		Integer port = getPort();
-		String hostName = getHostName();
-		if(port == null || hostName == null) {
-			//TODO handle user who doesnt have these set...
-			return;
+	public SentMessage sendJSONMessage(String message, String type, String messageId, DataAccess access) {
+		SentMessage msg = new SentMessage(type, message, this, messageId);
+		try{
+			if(access != null) {
+				boolean didStartTransaction = false;
+				if(!access.isTransactionActive()) {
+					didStartTransaction = true;
+					access.beginTransaction();
+				}
+				
+				access.save(msg);
+				
+				if(didStartTransaction)
+					access.commit();
+			}
+		} catch(Exception e) {
+			System.out.println("Error persisting sent message for us");
+			e.printStackTrace();
 		}
 		
-		UDPMessage udpMessage = new UDPMessage(getHostName(), getPort(), message);
-		UDPSenderQueue.addMessagesToQueue(udpMessage);
+		Integer port = getPort();
+		String hostName = getHostName();
+		if(port != null && hostName != null) {
+			UDPMessage udpMessage = new UDPMessage(getHostName(), getPort(), message);
+			UDPSenderQueue.addMessagesToQueue(udpMessage);
+		}
+		
+		return msg;
 	}
 	
-	public SentMessage sendMessage(HttpResponseMessage message) {
+	public SentMessage sendMessage(HttpResponseMessage message, DataAccess access) {
 		String json = message.toJson();
-		SentMessage sMsg = new SentMessage(message.getType(), json, this, message.getMessageId());
-		sendJSONMessage(json);
-		return sMsg;
+		return sendJSONMessage(json, message.getType(), message.getMessageId(), access);
 	}
 	
 	/**

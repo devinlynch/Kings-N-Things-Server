@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.kings.database.DataAccess;
 import com.kings.http.HttpResponseMessage;
 
 public class Game {
@@ -72,7 +73,7 @@ public class Game {
 
 	public void sendGameStartedMessageToUser(User user) {
 		HttpResponseMessage message = getGameStartedMessage();
-		user.sendJSONMessage(message.toJson());
+		user.sendMessage(message, new DataAccess());
 	}
 	
 	@JsonIgnore
@@ -187,8 +188,7 @@ public class Game {
 	
 	public void sendGameOverMessageToUser(User user) {
 		HttpResponseMessage message = getGameOverMessage();
-		SentMessage sentMessage = user.sendMessage(message);
-		addSentMessage(sentMessage);
+		user.sendMessage(message, new DataAccess());
 	}
 	
 	@JsonIgnore
@@ -200,7 +200,7 @@ public class Game {
 		return message;
 	}
 	
-	public HttpResponseMessage sendChatMessage(User fromUser, String message) {
+	public HttpResponseMessage sendChatMessage(User fromUser, String message, DataAccess access) {
 		GameChatMessage msg = new GameChatMessage();
 		msg.setGame(this);
 		msg.setUser(fromUser);
@@ -212,8 +212,7 @@ public class Game {
 		jsonMessage.setType("chatMessage");
 		jsonMessage.addToData("message", msg.toSerializedFormat());
 		
-		String json = jsonMessage.toJson();
-		sendMessageToAllUsers(json);
+		sendMessageToAllUsers(jsonMessage, access);
 		
 		return jsonMessage;
 	}
@@ -230,9 +229,9 @@ public class Game {
 		chatMessages.add(msg);
 	}
 	
-	public void sendMessageToAllUsers(String json) {
+	public void sendMessageToAllUsers(HttpResponseMessage message, DataAccess access) {
 		for(User user : getUsers()) {
-			user.sendJSONMessage(json);
+			user.sendMessage(message, access);
 		}
 	}
 	

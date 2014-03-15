@@ -211,7 +211,7 @@ public class RunThroughPhasesTest {
 		
 		
 		// Send chat message
-		HttpResponseMessage chatMsg = game.sendChatMessage(u1, "Hi Chat!");
+		HttpResponseMessage chatMsg = game.sendChatMessage(u1, "Hi Chat!", null);
 		System.out.println("Sent chat message: [" + chatMsg.toJson() + "]");
 		
 		
