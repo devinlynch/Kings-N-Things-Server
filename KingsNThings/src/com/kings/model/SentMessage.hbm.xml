@@ -8,6 +8,7 @@
         <property name="sentDate"  column="sent_date" />
         <property name="json" />
         <property name="type" />
+        <property name="queued"  column="queued" />
         <many-to-one class="com.kings.model.User" name="sentToUser" >
         	<column name="user_id" not-null="true" />
         </many-to-one>

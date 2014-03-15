@@ -10,6 +10,7 @@ public class SentMessage {
 	private String messageId;
 	private String json;
 	private String type;
+	private boolean queued;
 	
 	@JsonIgnore
 	private User sentToUser;
@@ -27,6 +28,7 @@ public class SentMessage {
 		setJson(json);
 		setSentToUser(user);
 		setMessageId(messageId);
+		setQueued(true);
 	}
 	
 	public Date getSentDate() {
@@ -82,4 +84,13 @@ public class SentMessage {
 		map.put("type", type);
 		return map;
 	}
+
+	public boolean isQueued() {
+		return queued;
+	}
+
+	public void setQueued(boolean queued) {
+		this.queued = queued;
+	}
+
 }

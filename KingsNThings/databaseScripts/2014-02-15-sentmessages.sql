@@ -5,7 +5,7 @@ CREATE TABLE `kingsnthings`.`sent_message` (
   `json` TEXT NULL,
   `type` VARCHAR(45) NULL,
   `user_id` INT NOT NULL,
-  `game_id` INT NOT NULL,
+  `game_id` INT NULL,
   PRIMARY KEY (`message_id`));
 
 ALTER TABLE `kingsnthings`.`sent_message` 

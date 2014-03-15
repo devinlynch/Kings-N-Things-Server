@@ -111,4 +111,21 @@ public class DataAccess {
 				.list();
 	}
 	
+	
+	@SuppressWarnings("unchecked")
+	public List<SentMessage> getQueuedMessagesForUser(String userId) {
+		return (List<SentMessage>) getSession()
+				.createQuery("from SentMessage where sentToUser.userId = :user and queued = 1 order by sent_date")
+				.setParameter("user", userId)
+				.list();
+	}
+	
+	public SentMessage getQueuedMessageForUser(String userId, String messageId) {
+		return (SentMessage) getSession()
+				.createQuery("from SentMessage where sentToUser.userId = :user and messageId = :mid and queued = 1")
+				.setParameter("user", userId)
+				.setParameter("mid", messageId)
+				.uniqueResult();
+	}
+	
 }

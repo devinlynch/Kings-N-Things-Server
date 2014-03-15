@@ -19,3 +19,6 @@ CREATE TABLE `kingsnthings`.`game_chat` (
 
 ALTER TABLE `kingsnthings`.`game_chat` 
 ADD COLUMN `created_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `message`;
+
+ALTER TABLE `kingsnthings`.`sent_message` 
+ADD COLUMN `queued` TINYINT NOT NULL DEFAULT 1 AFTER `order`;

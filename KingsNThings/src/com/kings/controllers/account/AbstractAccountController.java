@@ -45,9 +45,12 @@ public abstract class AbstractAccountController extends AbstractDatabaseControll
 		GameLobby gameLobby = user.getGameLobby();
 		if(gameLobby != null)
 			message.addToData("gameLobby", user.getGameLobby());
+		
+		/*
+		 * TODO: UNCOMMENT.  THIS IS COMMENTED TO GAMES ARNT SENT UPON LOGIN
 		Game game = user.getGame();
 		if(game != null)
-			message.addToData("game", game);
+			message.addToData("game", game);*/
 		
 	}
 }
