@@ -64,14 +64,14 @@ public class MessageController extends AbstractLoggedInOnlyController {
 			SentMessage message = getDataAccess().getQueuedMessageForUser(user.getUserId(), messageId);
 			
 			if(message == null) {
-				return "";
+				return "{}";
 			}
 			
 			message.setQueued(false);
 			
 			getDataAccess().save(message);
 
-			return "";
+			return "{}";
 		} catch (Exception e) {
 			return genericError().toJson();
 		}
