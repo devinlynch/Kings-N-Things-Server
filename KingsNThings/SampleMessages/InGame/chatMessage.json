@@ -1,0 +1,20 @@
+{
+   "responseStatus":"OK_REQUEST",
+   "data":{
+      "map":{
+         "message":{
+            "message":"Hi Chat!",
+            "gameId":"1",
+            "userId":"1",
+            "gameChatMessageId":"1",
+            "createdDate":1394978852591
+         }
+      }
+   },
+   "name":null,
+   "type":"chatMessage",
+   "error":null,
+   "createdDate":1394978852591,
+   "dontHandleOnClient":false,
+   "messageId":"messageid13949788525914lsv8i90gm3rck5"
+}

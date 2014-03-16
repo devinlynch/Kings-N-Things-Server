@@ -18,7 +18,7 @@ public class TestGameMessagesender {
 	 */
 	public static void main(String[] paths) throws IOException {
 		for(String path : paths) {
-			 BufferedReader br = new BufferedReader(new FileReader("SampleMessages/Phases/"+path+".json"));
+			 BufferedReader br = new BufferedReader(new FileReader("SampleMessages/"+path+".json"));
 			    try {
 			        StringBuilder sb = new StringBuilder();
 			        String line = br.readLine();
