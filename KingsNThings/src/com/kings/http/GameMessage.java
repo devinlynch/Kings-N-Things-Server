@@ -10,6 +10,7 @@ import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kings.database.DataAccess;
 import com.kings.model.Player;
+import com.kings.model.SentMessage;
 import com.kings.model.User;
 import com.kings.networking.UDPMessage;
 import com.kings.networking.UDPSenderQueue;
@@ -98,7 +99,6 @@ public class GameMessage {
 			try{
 				String json = this.toJson(player.getPlayerId());
 				String userId = player.getUserId();
-				sentMessages.add(new SentMessage(getType(), json, userId));
 				boolean didJustStartTransaction=false;
 				DataAccess access = new DataAccess();
 				if(!access.isTransactionActive()){
@@ -106,6 +106,8 @@ public class GameMessage {
 					didJustStartTransaction=true;
 				}
 				User user = access.get(User.class, userId);
+				SentMessage sentMessage = new SentMessage(getType(), json, user, getMessageId());
+				sentMessages.add(sentMessage);
 				Integer port = user.getPort();
 				String host = user.getHostName();
 				if(didJustStartTransaction)
@@ -134,7 +136,7 @@ public class GameMessage {
 			try{
 				String json = this.toJson(player.getPlayerId());
 				String userId = player.getUserId();
-				sentMessages.add(new SentMessage(getType(), json, userId));
+				sentMessages.add(new SentMessage(getType(), json, new User(userId), getMessageId()));
 				Integer port = 3004;
 				String host = "localhost";
 				

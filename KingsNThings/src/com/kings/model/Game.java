@@ -1,10 +1,14 @@
 package com.kings.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.kings.database.DataAccess;
 import com.kings.http.HttpResponseMessage;
 
 public class Game {
@@ -16,10 +20,14 @@ public class Game {
 	private String createdFromGameLobbyId;
 	private boolean active;
 	private boolean isDemo;
+	private List<SentMessage> sentMessages;
+	private List<GameChatMessage> chatMessages;
 	
 	public Game() {
 		setUsers(new HashSet<User>());
 		gameState = new GameState();
+		sentMessages = new ArrayList<SentMessage>();
+		chatMessages = new ArrayList<GameChatMessage>();
 	}
 	
 	public void addUsers(Set<User> players) {
@@ -29,20 +37,20 @@ public class Game {
 		getUsers().add(player);
 	}
 	
-	public void start() throws Exception {
+	public GameState start() throws Exception {
 		//TODO
 		// This is going to handle actually starting the game
 		// Right now it is being called from the GameCreatorQueue, so the users are all assigned to this game and now all logic of creating a game
 		// and sending messages to the client needs to happen here
 		
-		handleStart(false);
+		return handleStart(false);
 	}
 	
-	public void startAsTest() throws Exception {
-		handleStart(true);
+	public GameState startAsTest() throws Exception {
+		return handleStart(true);
 	}
 	
-	protected void handleStart(boolean isTest) throws Exception {
+	protected GameState handleStart(boolean isTest) throws Exception {
 		GameState gameState;
 		if(isDemo()){
 			gameState = DemoGameState.createGameStateFromGame(this);
@@ -59,11 +67,13 @@ public class Game {
 				
 		gameState.setTestMode(isTest);
 		gameState.startGame();
+		
+		return gameState;
 	}
 
 	public void sendGameStartedMessageToUser(User user) {
 		HttpResponseMessage message = getGameStartedMessage();
-		user.sendJSONMessage(message.toJson());
+		user.sendMessage(message, new DataAccess());
 	}
 	
 	@JsonIgnore
@@ -130,4 +140,99 @@ public class Game {
 	public void setDemo(boolean isDemo) {
 		this.isDemo = isDemo;
 	}
+
+	public List<SentMessage> getSentMessages() {
+		return sentMessages;
+	}
+
+	public void setSentMessages(List<SentMessage> sentMessages) {
+		this.sentMessages = sentMessages;
+	}
+	
+	protected void addSentMessage(SentMessage sentMessage) {
+		sentMessage.setGame(this);
+		getSentMessages().add(sentMessage);
+	}
+	
+	protected void addSentMessages(Set<SentMessage> sentMessages) {
+		for(SentMessage msg : sentMessages)
+			addSentMessage(msg);
+	}
+	
+	public Set<SentMessage> getSentMessageAfterDate(Date d) {
+		Iterator<SentMessage> it = getSentMessages().iterator();
+		Set<SentMessage> messages = new HashSet<SentMessage>();
+		while(it.hasNext()) {
+			SentMessage msg = it.next();
+			if(d.before(msg.getSentDate())){
+				messages.add(msg);
+			}
+		}
+		return messages;
+	}
+	
+	/**
+	 * Ends the game.  <b>Be careful when calling this, it destroys everything!  The game state will be destroyed FOREVER</b>
+	 */
+	public void end() {
+		setActive(false);
+		alertUsersThatGameIsOver();
+	}
+	
+	public void alertUsersThatGameIsOver() {
+		for(User u : users) {
+			sendGameOverMessageToUser(u);
+		}
+	}
+	
+	
+	public void sendGameOverMessageToUser(User user) {
+		HttpResponseMessage message = getGameOverMessage();
+		user.sendMessage(message, new DataAccess());
+	}
+	
+	@JsonIgnore
+	public HttpResponseMessage getGameOverMessage(){
+		HttpResponseMessage message = new HttpResponseMessage();
+		message.setType("gameOver");
+		message.addToData("gameId", this.getGameId());
+		
+		return message;
+	}
+	
+	public HttpResponseMessage sendChatMessage(User fromUser, String message, DataAccess access) {
+		GameChatMessage msg = new GameChatMessage();
+		msg.setGame(this);
+		msg.setUser(fromUser);
+		msg.setMessage(message);
+		msg.setCreatedDate(new Date());
+		addChatMessage(msg);
+		
+		HttpResponseMessage jsonMessage = new HttpResponseMessage();
+		jsonMessage.setType("chatMessage");
+		jsonMessage.addToData("message", msg.toSerializedFormat());
+		
+		sendMessageToAllUsers(jsonMessage, access);
+		
+		return jsonMessage;
+	}
+
+	public List<GameChatMessage> getChatMessages() {
+		return chatMessages;
+	}
+
+	public void setChatMessages(List<GameChatMessage> chatMessages) {
+		this.chatMessages = chatMessages;
+	}
+	
+	public void addChatMessage(GameChatMessage msg) {
+		chatMessages.add(msg);
+	}
+	
+	public void sendMessageToAllUsers(HttpResponseMessage message, DataAccess access) {
+		for(User user : getUsers()) {
+			user.sendMessage(message, access);
+		}
+	}
+	
 }

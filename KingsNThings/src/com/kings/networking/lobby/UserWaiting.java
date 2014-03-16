@@ -2,6 +2,7 @@ package com.kings.networking.lobby;
 
 import java.util.Date;
 
+import com.kings.database.DataAccess;
 import com.kings.http.HttpResponseError;
 import com.kings.http.HttpResponseError.ResponseError;
 import com.kings.http.HttpResponseMessage;
@@ -82,7 +83,7 @@ public class UserWaiting {
 		HttpResponseMessage message = new HttpResponseMessage();
 		message.setType("joinLobby");
 		message.setError(new HttpResponseError(getResponseErrorForNoLobbyFound()));
-		getUser().sendJSONMessage(message.toJson());
+		getUser().sendMessage(message, new DataAccess());
 	}
 	
 	protected ResponseError getResponseErrorForNoLobbyFound() {
@@ -94,6 +95,6 @@ public class UserWaiting {
 		message.setType("joinLobby");
 		message.addToData("didJoinLobby", true);
 		message.addToData("lobby", lobby);
-		getUser().sendJSONMessage(message.toJson());
+		getUser().sendMessage(message, new DataAccess());
 	}
 }

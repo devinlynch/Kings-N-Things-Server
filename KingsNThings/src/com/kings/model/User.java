@@ -2,9 +2,13 @@ package com.kings.model;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.kings.database.DataAccess;
+import com.kings.http.HttpResponseMessage;
 import com.kings.networking.UDPMessage;
 import com.kings.networking.UDPSenderQueue;
 import com.kings.networking.lobby.GameLobby;
@@ -27,6 +31,9 @@ public class User {
 	@JsonIgnore
 	private Set<Game> games;
 
+	@JsonIgnore
+	private List<SentMessage> sentMessages;
+	
 	public User() {
 		setGames(new HashSet<Game>());
 	}
@@ -102,16 +109,39 @@ public class User {
 	}
 	
 	
-	public void sendJSONMessage(String message) {
-		Integer port = getPort();
-		String hostName = getHostName();
-		if(port == null || hostName == null) {
-			//TODO handle user who doesnt have these set...
-			return;
+	public SentMessage sendJSONMessage(String message, String type, String messageId, DataAccess access) {
+		SentMessage msg = new SentMessage(type, message, this, messageId);
+		try{
+			if(access != null) {
+				boolean didStartTransaction = false;
+				if(!access.isTransactionActive()) {
+					didStartTransaction = true;
+					access.beginTransaction();
+				}
+				
+				access.save(msg);
+				
+				if(didStartTransaction)
+					access.commit();
+			}
+		} catch(Exception e) {
+			System.out.println("Error persisting sent message for us");
+			e.printStackTrace();
 		}
 		
-		UDPMessage udpMessage = new UDPMessage(getHostName(), getPort(), message);
-		UDPSenderQueue.addMessagesToQueue(udpMessage);
+		Integer port = getPort();
+		String hostName = getHostName();
+		if(port != null && hostName != null) {
+			UDPMessage udpMessage = new UDPMessage(getHostName(), getPort(), message);
+			UDPSenderQueue.addMessagesToQueue(udpMessage);
+		}
+		
+		return msg;
+	}
+	
+	public SentMessage sendMessage(HttpResponseMessage message, DataAccess access) {
+		String json = message.toJson();
+		return sendJSONMessage(json, message.getType(), message.getMessageId(), access);
 	}
 	
 	/**
@@ -137,4 +167,32 @@ public class User {
 		return null;
 	}
 	
+	public List<SentMessage> getSentMessages() {
+		return sentMessages;
+	}
+
+	public void setSentMessages(List<SentMessage> sentMessages) {
+		this.sentMessages = sentMessages;
+	}
+	
+	public void addSentMessage(SentMessage sentMessage) {
+		getSentMessages().add(sentMessage);
+	}
+	
+	public void addSentMessages(Set<SentMessage> sentMessages) {
+		for(SentMessage msg : sentMessages)
+			addSentMessage(msg);
+	}
+	
+	public Set<SentMessage> getSentMessageAfterDate(Date d) {
+		Iterator<SentMessage> it = getSentMessages().iterator();
+		Set<SentMessage> messages = new HashSet<SentMessage>();
+		while(it.hasNext()) {
+			SentMessage msg = it.next();
+			if(d.before(msg.getSentDate())){
+				messages.add(msg);
+			}
+		}
+		return messages;
+	}
 }

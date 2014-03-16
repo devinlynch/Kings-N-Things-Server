@@ -9,6 +9,7 @@ import java.util.Set;
 import com.kings.database.DataAccess;
 import com.kings.database.GameStateCache;
 import com.kings.model.Game;
+import com.kings.model.GameState;
 
 /**
  * A queue that runs and creates games from {@link GameLobby}'s 
@@ -92,12 +93,15 @@ public class GameCreatorQueue extends Thread {
 		DataAccess access = getDataAccess();
 		try{
 			access.beginTransaction();
-			
 			Game createdGame = gameLobby.becomeGame();
 			access.save(createdGame);
-			createdGame.start();
-			GameStateCache.getInstance().addGameState(createdGame.getGameId(), createdGame.getGameState());
+			
+			String gameId = createdGame.getGameId();
+			GameState gs = createdGame.start();
+			access.save(createdGame);
 			access.commit();
+			GameStateCache.getInstance().addGameState(gameId, gs);
+			
 		} catch(Exception e) {
 			try{
 				if(access.isTransactionActive())

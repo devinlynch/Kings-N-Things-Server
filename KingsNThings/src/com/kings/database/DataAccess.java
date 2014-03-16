@@ -1,5 +1,7 @@
 package com.kings.database;
 
+import java.util.List;
+
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -7,6 +9,8 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.proxy.HibernateProxy;
 
 import com.kings.model.Game;
+import com.kings.model.GameChatMessage;
+import com.kings.model.SentMessage;
 import com.kings.model.User;
 
 public class DataAccess {
@@ -31,8 +35,10 @@ public class DataAccess {
 	}
 	
 	public static void addClassMappings() {
+		config.addClass(SentMessage.class);
 		config.addClass(User.class);
 		config.addClass(Game.class);
+		config.addClass(GameChatMessage.class);
 	}
 	
 	public void beginTransaction() {
@@ -95,4 +101,31 @@ public class DataAccess {
 				.setParameter("un", gameLobbyId)
 				.uniqueResult();
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<GameChatMessage> getChatMessagesAfterId(Game game, String lastId) {
+		return (List<GameChatMessage>) getSession()
+				.createQuery("from GameChatMessage where gameChatMessageId > :lid and game = :game")
+				.setParameter("lid", lastId)
+				.setParameter("game", game)
+				.list();
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	public List<SentMessage> getQueuedMessagesForUser(String userId) {
+		return (List<SentMessage>) getSession()
+				.createQuery("from SentMessage where sentToUser.userId = :user and queued = 1 order by sent_date")
+				.setParameter("user", userId)
+				.list();
+	}
+	
+	public SentMessage getQueuedMessageForUser(String userId, String messageId) {
+		return (SentMessage) getSession()
+				.createQuery("from SentMessage where sentToUser.userId = :user and messageId = :mid and queued = 1")
+				.setParameter("user", userId)
+				.setParameter("mid", messageId)
+				.uniqueResult();
+	}
+	
 }

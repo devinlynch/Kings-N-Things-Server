@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kings.http.HttpResponseMessage;
 import com.kings.http.HttpResponseError.ResponseError;
+import com.kings.model.Game;
 import com.kings.model.User;
 
 @Controller
@@ -32,6 +33,13 @@ public class LoginController extends AbstractAccountController {
 		String type = "login";
 		
 		User user = getUser(username);
+		
+		//TODO REMOVE
+		Game g = user.getGame();
+		if(g != null){
+			g.end();
+			getDataAccess().save(g);
+		}
 		
 		if(isLoggedIn(session)) {
 			message = alreadyLoggedInMessage();

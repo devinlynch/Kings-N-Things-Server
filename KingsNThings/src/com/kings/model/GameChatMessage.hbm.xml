@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.kings.model.GameChatMessage" table="game_chat">
+        <id name="gameChatMessageId" column="game_chat_id">
+        </id>
+        <property name="message" />
+        <property name="createdDate" column="created_date"/>
+        <many-to-one class="com.kings.model.User" name="user" >
+        	<column name="user_id" not-null="true" />
+        </many-to-one>
+        <many-to-one class="com.kings.model.Game" name="game" >
+        	<column name="game_id" not-null="true" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>
