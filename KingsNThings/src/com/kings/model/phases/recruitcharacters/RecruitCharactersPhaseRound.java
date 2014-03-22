@@ -1,7 +1,6 @@
 package com.kings.model.phases.recruitcharacters;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -68,6 +67,12 @@ public class RecruitCharactersPhaseRound {
 	// to the characters combat value then they recruit it.  Before they roll they also get
 	// to pay increments of 5 gold for adding 1 to their roll.
 	public void makeRollForPlayer(String recruitingCharacterId, int numRequestedPreRollChanges) {
+		if(didRoll) {
+			postRoll(0);
+			return;
+		}
+		
+		
 		rollValue = getGameState().rollDice(2);
 		
 		if(recruitingCharacterId != null){

@@ -63,4 +63,5 @@ public abstract class GamePiece extends AbstractSerializedObject {
 	public void setNetralized(boolean netralized) {
 		this.netralized = netralized;
 	}
+	
 }

@@ -385,6 +385,9 @@ public class GameState extends AbstractSerializedObject {
 	 * @return
 	 */
 	public int rollDice(int numDice) {
+		if(isTestMode)
+			return getDiceRollForTest();
+		
 		int total = 0;
 		for(int i=0; i < numDice; i++)
 			total+= Utils.randInt(1, 6); 
@@ -392,6 +395,44 @@ public class GameState extends AbstractSerializedObject {
 		return total;
 	}
 	
+	private int diceRollForTest=0;
+	public int getDiceRollForTest() {
+		return diceRollForTest;
+	}
 	
+	public void setDiceRollForTest(int roll) {
+		this.diceRollForTest=roll;
+	}
 	
+	public void gamePieceTookDamage(Counter piece) {
+		if(piece instanceof Fort) {
+			Fort f = (Fort) piece;
+			f.reduceLevel();
+			if(f.getLevelNum() <= 0) {
+				f.restoreLevel();
+				getPlayingCup().addGamePieceToLocation(piece);
+			}
+		} else if(piece instanceof CityVill) {
+			CityVill f = (CityVill) piece;
+			f.reduceLevel();
+			if(f.getCombatValue() <= 0) {
+				f.restoreLevel();
+				getPlayingCup().addGamePieceToLocation(piece);
+			}
+		} else if(piece instanceof Thing) {
+			getPlayingCup().addGamePieceToLocation(piece);
+			
+			if(piece.getOwner() != null) {
+				piece.getOwner().removeGamePiece(piece.getId());
+				piece.setOwner(null);
+			}
+		} else if(piece instanceof SpecialCharacter) {
+			getSideLocation().addGamePieceToLocation(piece);
+			
+			if(piece.getOwner() != null) {
+				piece.getOwner().removeGamePiece(piece.getId());
+				piece.setOwner(null);
+			}
+		}
+	}
 }

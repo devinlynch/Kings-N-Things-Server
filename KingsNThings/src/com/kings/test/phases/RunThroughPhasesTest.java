@@ -68,6 +68,10 @@ public class RunThroughPhasesTest {
 	public void testRunThroughGame() throws Exception{
 		GameState gs = getNewGameState();
 		
+		/** 
+		 * Setup Phase
+		 */
+		
 		assertEquals("setup", gs.getCurrentPhase().getPhaseId());
 		
 		// Go through setup phase
@@ -79,6 +83,10 @@ public class RunThroughPhasesTest {
 		assertEquals("setup", gs.getCurrentPhase().getPhaseId());
 		sPhase.playerIsReadyForPlacement("2");
 		assertEquals("placement", gs.getCurrentPhase().getPhaseId());
+		
+		/**
+		 * Placement Phase
+		 */
 		
 		// Now do placement phase
 		PlacementPhase pPhase = (PlacementPhase) gs.getCurrentPhase();
@@ -125,11 +133,20 @@ public class RunThroughPhasesTest {
 		pPhase.didPlaceFort("player4", fort4.getId(), "hexLocation_10");
 		assertEquals("hexLocation_10", fort4.getLocation().getId());
 		
+		
+		/**
+		 * Movement Phase
+		 */
+		
 		MovementPhase mPhase1 = (MovementPhase) gs.getCurrentPhase();
 		mPhase1.playerIsDoneMakingMoves("player1");
 		mPhase1.playerIsDoneMakingMoves("player2");
 		mPhase1.playerIsDoneMakingMoves("player3");
 		mPhase1.playerIsDoneMakingMoves("player4");
+		
+		/**
+		 * Gold Collection Phase
+		 */
 		
 		// Gold phase should be started and handled automatically, players should now have gold assigned
 		assertEquals("gold", gs.getCurrentPhase().getPhaseId());
@@ -148,9 +165,11 @@ public class RunThroughPhasesTest {
 		cPhase.playerIsReadyForNextPhase("player4");
 		
 		
+		/**
+		 * Special Character Recruitment
+		 */
 		assertEquals("recruitCharacters", gs.getCurrentPhase().getPhaseId());
 		RecruitCharactersPhase rcPhase = (RecruitCharactersPhase)gs.getCurrentPhase(); 
-		assertEquals(rcPhase.getActualCurrentRound().getPlayer().getPlayerId(), p1.getPlayerId());
 		
 		
 		SpecialCharacter p1RCSPC = (SpecialCharacter)gs.getSideLocation().getGamePieceById("specialcharacter_01");
@@ -158,10 +177,42 @@ public class RunThroughPhasesTest {
 		SpecialCharacter p3RCSPC = (SpecialCharacter)gs.getSideLocation().getGamePieceById("specialcharacter_03");
 		SpecialCharacter p4RCSPC = (SpecialCharacter)gs.getSideLocation().getGamePieceById("specialcharacter_04");
 		
+		// Player 1 Special Characters - Did not recruit, no pre or post rolls
+		assertEquals(rcPhase.getActualCurrentRound().getPlayer().getPlayerId(), p1.getPlayerId());
+		gs.setDiceRollForTest(7);
 		rcPhase.makeRollForPlayer(p1.getPlayerId(), p1RCSPC.getId(), 0);
+		rcPhase.postRoll(p1.getPlayerId(), 0);
+		assertFalse(rcPhase.getRoundForPlayer(p1.getPlayerId()).isDidRecruit());
+		assertTrue(rcPhase.getRoundForPlayer(p1.getPlayerId()).isRoundOver());
 		
+		// Player 2 Special Characters - Recruited on first roll, no pre or post rolls
+		assertEquals(rcPhase.getActualCurrentRound().getPlayer().getPlayerId(), p2.getPlayerId());
+		gs.setDiceRollForTest(10);
+		rcPhase.makeRollForPlayer(p2.getPlayerId(), p2RCSPC.getId(), 0);
+		assertTrue(rcPhase.getRoundForPlayer(p2.getPlayerId()).isDidRecruit());
+		assertTrue(rcPhase.getRoundForPlayer(p2.getPlayerId()).isRoundOver());
 		
-		/*assertEquals("recruitThings", gs.getCurrentPhase().getPhaseId());
+		// Player 3 Special Characters - Paid for 1 pre roll and did recruit
+		assertEquals(rcPhase.getActualCurrentRound().getPlayer().getPlayerId(), p3.getPlayerId());
+		gs.setDiceRollForTest(11);
+		rcPhase.makeRollForPlayer(p3.getPlayerId(), p3RCSPC.getId(), 1);
+		assertTrue(rcPhase.getRoundForPlayer(p3.getPlayerId()).isDidRecruit());
+		assertTrue(rcPhase.getRoundForPlayer(p3.getPlayerId()).isRoundOver());
+		
+		// Player 4 Special Characters - Did not recruit on first roll, paid for 1 post roll
+		assertEquals(rcPhase.getActualCurrentRound().getPlayer().getPlayerId(), p4.getPlayerId());
+		gs.setDiceRollForTest(9);
+		rcPhase.makeRollForPlayer(p4.getPlayerId(), p4RCSPC.getId(), 0);
+		rcPhase.postRoll(p4.getPlayerId(), 1);
+		assertTrue(rcPhase.getRoundForPlayer(p4.getPlayerId()).isDidRecruit());
+		assertTrue(rcPhase.getRoundForPlayer(p4.getPlayerId()).isRoundOver());
+
+		
+		/**
+		 * Recruit Things
+		 */
+		
+		assertEquals("recruitThings", gs.getCurrentPhase().getPhaseId());
 		RecruitThingsPhase rtPhase = (RecruitThingsPhase)gs.getCurrentPhase(); 
 		rtPhase.didRecruitAndPlaceThing("player1", "T_Mountains_050-01", "player1_rack1", true);
 		rtPhase.didRecruitAndPlaceThing("player1", "T_Mountains_034-01", "player1_rack2", false);
@@ -175,6 +226,10 @@ public class RunThroughPhasesTest {
 		rtPhase.playerIsReadyForNextPhase("player4");
 		rtPhase.playerIsReadyForNextPhase("player2");
 		assertEquals("movement", gs.getCurrentPhase().getPhaseId());
+		
+		/**
+		 * Movement
+		 */
 		
 		MovementPhase mPhase = (MovementPhase)gs.getCurrentPhase();
 		HexLocation p1HexForMov1 = p1.getOwnedLocationsAsList().get(0);
@@ -213,6 +268,10 @@ public class RunThroughPhasesTest {
 		mPhase.playerIsDoneMakingMoves(p3.getPlayerId());
 		mPhase.playerIsDoneMakingMoves(p4.getPlayerId());
 		
+		/**
+		 * Combat
+		 */
+		
 		CombatPhase cp = (CombatPhase)gs.getCurrentPhase();
 		CombatBattle battle = cp.getCombatBattles().get(0);
 		
@@ -228,7 +287,7 @@ public class RunThroughPhasesTest {
 		
 		// Send chat message
 		HttpResponseMessage chatMsg = game.sendChatMessage(u1, "Hi Chat!", null);
-		System.out.println("Sent chat message: [" + chatMsg.toJson() + "]");*/
+		System.out.println("Sent chat message: [" + chatMsg.toJson() + "]");
 		
 		
 		for(SentMessage msg : gs.getSentMessages()){

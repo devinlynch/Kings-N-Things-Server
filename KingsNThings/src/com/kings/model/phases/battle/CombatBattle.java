@@ -108,12 +108,7 @@ public class CombatBattle {
 		Set<Creature> creatures = locationOfBattle.getCreaturePiecesForPlayerIncludingCreaturesInStack(attacker);
 		
 		for(Creature creature: creatures) {
-			Random r = new Random();
-			Integer randomnum = r.nextInt(6-1) + 1;
-			
-			if(getGameState().isTestMode()) {
-				randomnum=0;
-			}
+			Integer randomnum = getGameState().rollDice(1);
 			
 			if(randomnum <= creature.getCombatValue()) {
 				attackerHitCount++;
@@ -131,12 +126,7 @@ public class CombatBattle {
 		Set<Creature> creatures = locationOfBattle.getCreaturePiecesForPlayerIncludingCreaturesInStack(defender);
 		
 		for(Creature creature: creatures) {
-			Random r = new Random();
-			Integer randomnum = r.nextInt(6-1) + 1;
-			
-			if(getGameState().isTestMode()) {
-				randomnum=0;
-			}
+			Integer randomnum = getGameState().rollDice(1);
 			
 			if(randomnum <= creature.getCombatValue()) {
 				defenderHitCount++;

@@ -1,5 +1,7 @@
 package com.kings.model;
 
+import com.kings.model.phases.exceptions.DoesNotSupportCombatException;
+
 public class SpecialCharacter extends Counter {
 	private SpecialAbility specialAbility;
 	private int combatValue;
@@ -23,5 +25,10 @@ public class SpecialCharacter extends Counter {
 
 	public void setCombatValue(int combatValue) {
 		this.combatValue = combatValue;
+	}
+
+	@Override
+	public int getCombatValueForCombat() throws DoesNotSupportCombatException {
+		return combatValue;
 	}
 }

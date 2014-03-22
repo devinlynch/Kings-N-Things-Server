@@ -13,6 +13,7 @@ import com.kings.model.Player;
 import com.kings.model.phases.Phase;
 import com.kings.model.phases.RecruitCharactersPhase;
 
+@RequestMapping("/phase/recruitCharacters")
 public class RecruitCharactersPhaseController extends InGameController {
 	
 	

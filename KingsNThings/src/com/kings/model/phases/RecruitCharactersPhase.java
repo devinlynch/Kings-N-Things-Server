@@ -61,6 +61,10 @@ public class RecruitCharactersPhase extends Phase {
 	
 	
 	public void makeRollForPlayer(String playerId, String recruitingCharacterId, int numRequestedPreRollChanges) throws NotYourTurnException {
+		if(isOver()){
+			return;
+		}
+		
 		if( ! getActualCurrentRound().getPlayer().getPlayerId().equals(playerId) ) {
 			throw new NotYourTurnException();
 		}
@@ -70,6 +74,10 @@ public class RecruitCharactersPhase extends Phase {
 	}
 	
 	public void postRoll(String playerId, int numPostRollChanges) throws NotYourTurnException {
+		if(isOver()){
+			return;
+		}
+		
 		if( ! getActualCurrentRound().getPlayer().getPlayerId().equals(playerId) ) {
 			throw new NotYourTurnException();
 		}

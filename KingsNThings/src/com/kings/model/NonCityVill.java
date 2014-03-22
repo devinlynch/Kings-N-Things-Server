@@ -1,5 +1,7 @@
 package com.kings.model;
 
+import com.kings.model.phases.exceptions.DoesNotSupportCombatException;
+
 
 public class NonCityVill extends SpecialIncomeCounter {
 	private Terrain terrainType;
@@ -15,5 +17,10 @@ public class NonCityVill extends SpecialIncomeCounter {
 
 	public void setTerrainType(Terrain terrainType) {
 		this.terrainType = terrainType;
+	}
+
+	@Override
+	public int getCombatValueForCombat() throws DoesNotSupportCombatException {
+		throw new DoesNotSupportCombatException();
 	}
 }
