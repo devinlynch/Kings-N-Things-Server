@@ -59,7 +59,7 @@ public class MovementPhase extends Phase {
 		hexLoc.addStack(stackloc);
 
 		Set<Player> otherPlayers = new HashSet<Player>(getPlayersInOrderOfTurn());
-		otherPlayers.remove(player);
+		//otherPlayers.remove(player);
 		GameMessage message = new GameMessage("playerMovedStackToNewLocation");
 		message.addToData("playerId", playerId);
 		message.addToData("hexLocationId", hexLoc.getId());
@@ -85,7 +85,7 @@ public class MovementPhase extends Phase {
 
 
 		Set<Player> otherPlayers = new HashSet<Player>(getPlayersInOrderOfTurn());
-		otherPlayers.remove(player);
+		//otherPlayers.remove(player);
 		
 		GameMessage message = new GameMessage("playerMovedPieceToNewLocation");
 		message.addToData("playerId", playerId);
@@ -114,7 +114,7 @@ public class MovementPhase extends Phase {
 		Stack createdStack = hexLocation.createAndAddNewStackWithPieces(player, pieces);
 
 		Set<Player> otherPlayers = new HashSet<Player>(getPlayersInOrderOfTurn());
-		otherPlayers.remove(player);
+		//otherPlayers.remove(player);
 		GameMessage message = new GameMessage("playerCreatedStack");
 		message.addToData("playerId", playerId);
 		message.addToData("stack", createdStack.toSerializedFormat());
@@ -140,7 +140,7 @@ public class MovementPhase extends Phase {
 		stack.addGamePiecesToLocation(pieces);
 
 		Set<Player> otherPlayers = new HashSet<Player>(getPlayersInOrderOfTurn());
-		otherPlayers.remove(player);
+		//otherPlayers.remove(player);
 		GameMessage message = new GameMessage("playerAddedPiecesToStack");
 		message.addToData("playerId", playerId);
 		message.addToData("stack", stack.toSerializedFormat());
