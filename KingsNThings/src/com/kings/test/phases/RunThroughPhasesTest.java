@@ -17,12 +17,14 @@ import com.kings.model.GameState;
 import com.kings.model.HexLocation;
 import com.kings.model.Player;
 import com.kings.model.SentMessage;
+import com.kings.model.SpecialCharacter;
 import com.kings.model.Stack;
 import com.kings.model.User;
 import com.kings.model.phases.CombatPhase;
 import com.kings.model.phases.GoldCollectionPhase;
 import com.kings.model.phases.MovementPhase;
 import com.kings.model.phases.PlacementPhase;
+import com.kings.model.phases.RecruitCharactersPhase;
 import com.kings.model.phases.RecruitThingsPhase;
 import com.kings.model.phases.SetupPhase;
 import com.kings.model.phases.battle.CombatBattle;
@@ -144,8 +146,22 @@ public class RunThroughPhasesTest {
 		cPhase.playerIsReadyForNextPhase("player3");
 		assertEquals("gold", gs.getCurrentPhase().getPhaseId());
 		cPhase.playerIsReadyForNextPhase("player4");
-		assertEquals("recruitThings", gs.getCurrentPhase().getPhaseId());
 		
+		
+		assertEquals("recruitCharacters", gs.getCurrentPhase().getPhaseId());
+		RecruitCharactersPhase rcPhase = (RecruitCharactersPhase)gs.getCurrentPhase(); 
+		assertEquals(rcPhase.getActualCurrentRound().getPlayer().getPlayerId(), p1.getPlayerId());
+		
+		
+		SpecialCharacter p1RCSPC = (SpecialCharacter)gs.getSideLocation().getGamePieceById("specialcharacter_01");
+		SpecialCharacter p2RCSPC = (SpecialCharacter)gs.getSideLocation().getGamePieceById("specialcharacter_02");
+		SpecialCharacter p3RCSPC = (SpecialCharacter)gs.getSideLocation().getGamePieceById("specialcharacter_03");
+		SpecialCharacter p4RCSPC = (SpecialCharacter)gs.getSideLocation().getGamePieceById("specialcharacter_04");
+		
+		rcPhase.makeRollForPlayer(p1.getPlayerId(), p1RCSPC.getId(), 0);
+		
+		
+		/*assertEquals("recruitThings", gs.getCurrentPhase().getPhaseId());
 		RecruitThingsPhase rtPhase = (RecruitThingsPhase)gs.getCurrentPhase(); 
 		rtPhase.didRecruitAndPlaceThing("player1", "T_Mountains_050-01", "player1_rack1", true);
 		rtPhase.didRecruitAndPlaceThing("player1", "T_Mountains_034-01", "player1_rack2", false);
@@ -212,7 +228,7 @@ public class RunThroughPhasesTest {
 		
 		// Send chat message
 		HttpResponseMessage chatMsg = game.sendChatMessage(u1, "Hi Chat!", null);
-		System.out.println("Sent chat message: [" + chatMsg.toJson() + "]");
+		System.out.println("Sent chat message: [" + chatMsg.toJson() + "]");*/
 		
 		
 		for(SentMessage msg : gs.getSentMessages()){

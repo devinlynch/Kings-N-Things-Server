@@ -1,8 +1,10 @@
 package com.kings.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -103,4 +105,25 @@ public class BoardLocation extends AbstractSerializedObject {
 		}
 		return things;
 	}
+	
+	public List<SpecialCharacter> getSpecialCharacters() {
+		List<SpecialCharacter> things = new ArrayList<SpecialCharacter>();
+		for(GamePiece p: getGamePieces()) {
+			if(p instanceof SpecialCharacter) {
+				things.add((SpecialCharacter)p);
+			}
+		}
+		return things;
+	}
+	
+	
+	public GamePiece getGamePieceById(String id) {
+		for(GamePiece p: getGamePieces()) {
+			if(id.equals(p.getId())) {
+				return p;
+			}
+		}
+		return null;
+	}
+	
 }

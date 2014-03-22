@@ -15,6 +15,7 @@ import com.kings.http.GameMessage;
 import com.kings.model.factory.GameStateFactory;
 import com.kings.model.phases.Phase;
 import com.kings.model.phases.SetupPhase;
+import com.kings.util.Utils;
 
 public class GameState extends AbstractSerializedObject {
 	private String gameId;
@@ -377,5 +378,20 @@ public class GameState extends AbstractSerializedObject {
 	public void setTestMode(boolean isTestMode) {
 		this.isTestMode = isTestMode;
 	}
+	
+	/**
+	 * Rolls the given number of dice and returns the total value of the roll
+	 * @param numDice
+	 * @return
+	 */
+	public int rollDice(int numDice) {
+		int total = 0;
+		for(int i=0; i < numDice; i++)
+			total+= Utils.randInt(1, 6); 
+					
+		return total;
+	}
+	
+	
 	
 }

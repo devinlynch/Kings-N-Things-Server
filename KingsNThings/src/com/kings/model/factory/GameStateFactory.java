@@ -495,7 +495,7 @@ public class GameStateFactory {
 	
 	public static Map<String, SpecialCharacter> getSpecialCharacterMap() {
 		HashMap<String, SpecialCharacter> map = new HashMap<String, SpecialCharacter>();
-		map.put("specialcharacter_01", new SpecialCharacter("specialcharacter_01", "Marksman",SpecialAbility.markmanCounter));
+		map.put("specialcharacter_01", new SpecialCharacter("specialcharacter_01", "Marksman",SpecialAbility.markmanCounter,5));
 		map.put("specialcharacter_02", new SpecialCharacter("specialcharacter_02", "SirLanceALot",SpecialAbility.markmanCounter));
 		map.put("specialcharacter_03", new SpecialCharacter("specialcharacter_03", "ArchMage",SpecialAbility.markmanCounter));
 		map.put("specialcharacter_04", new SpecialCharacter("specialcharacter_04", "DwarfKing",SpecialAbility.markmanCounter));
