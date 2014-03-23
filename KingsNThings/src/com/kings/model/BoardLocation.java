@@ -116,6 +116,25 @@ public class BoardLocation extends AbstractSerializedObject {
 		return things;
 	}
 	
+	public List<CityVill> getCityVills() {
+		List<CityVill> things = new ArrayList<CityVill>();
+		for(GamePiece p: getGamePieces()) {
+			if(p instanceof CityVill) {
+				things.add((CityVill)p);
+			}
+		}
+		return things;
+	}
+	
+	public List<Fort> getForts() {
+		List<Fort> things = new ArrayList<Fort>();
+		for(GamePiece p: getGamePieces()) {
+			if(p instanceof Fort) {
+				things.add((Fort)p);
+			}
+		}
+		return things;
+	}
 	
 	public GamePiece getGamePieceById(String id) {
 		for(GamePiece p: getGamePieces()) {
@@ -125,5 +144,23 @@ public class BoardLocation extends AbstractSerializedObject {
 		}
 		return null;
 	}
+	
+	/**
+	 * Get a set of counters in this location that are able to take damage in combat
+	 * @return
+	 */
+	public Set<Counter> getDamageablePiecesOnLocationForPlayer(Player p) {
+		Set<Counter> counters = new HashSet<Counter>();
+		
+		for(GamePiece gp : getGamePieces()) {
+			if(gp.getOwner() != null && gp.getOwner().getPlayerId().equals(p.getPlayerId())) {
+				if((gp instanceof Creature) || (gp instanceof Fort) || (gp instanceof CityVill) || (gp instanceof SpecialCharacter)) {
+					counters.add((Counter)gp);
+				}
+			}
+		}
+		return counters;
+	}
+
 	
 }

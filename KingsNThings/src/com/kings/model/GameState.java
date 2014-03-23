@@ -435,4 +435,5 @@ public class GameState extends AbstractSerializedObject {
 			}
 		}
 	}
+	
 }
