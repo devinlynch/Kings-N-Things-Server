@@ -211,14 +211,34 @@ public class CombatBattleRound {
 	}
 	
 	public void handlePlayerWon() {
-		Iterator<GamePiece> it = getBattle().getLocationOfBattle().getAllPiecesOnHexIncludingPiecesInStacks().iterator();
+		Player winner;
+		int numAttackerPieces = getBattle().getLocationOfBattle().getDamageablePiecesOnLocationForPlayer(getBattle().getAttacker()).size();
+		int numDefenderPieces = getBattle().getLocationOfBattle().getDamageablePiecesOnLocationForPlayer(getBattle().getDefender()).size();
 		
+		// If attacker lost all their peices, winner is automatically defender
+		if(numAttackerPieces == 0) {
+			winner = getBattle().getDefender();
+		} else {
+			winner = getBattle().getAttacker();
+		}
+
+		// The winning player now owns the hex
+		getBattle().getLocationOfBattle().capture(winner);
+		
+		Iterator<GamePiece> it = getBattle().getLocationOfBattle().getAllPiecesOnHexIncludingPiecesInStacks().iterator();
 		while(it.hasNext()) {
 			GamePiece piece = it.next();
 			
-			if() {
-				
-			}
+			//TODO
+			// For forts, city vills and other special income counters, see if damage took place.  If so, roll a die for the piece.
+			// A roll of 1 or 6 destroys the piece or if its a fort its reduced 1 level, otherwise damage from battle is restored
+			// (citadels are never reduced or destoroyed)
+			
+			
+			// Assign all pieces from opposing player to the winner
+			if(piece.getOwner() != null && ! piece.getOwner().getPlayerId().equals(winner.getPlayerId()))
+				winner.assignGamePieceToPlayer(piece);
+			
 			
 		}
 	}
