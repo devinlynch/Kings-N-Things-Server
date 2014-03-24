@@ -1,6 +1,8 @@
 package com.kings.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -175,5 +177,173 @@ public class HexLocation extends BoardLocation {
 		}
 		return set;
 	}
-
+	
+	public Set<GamePiece> getAllPiecesOnHexIncludingPiecesInStacks() {
+		Set<GamePiece> set = getGamePieces();
+		
+		Set<Stack> stacks = getStacks();
+		Iterator<Stack> it = getStacks().iterator();
+		while(it.hasNext()) {
+			Stack st = it.next();
+			set.addAll(st.getGamePieces());
+		}
+		
+		return set;
+	}
+	
+	public Set<GamePiece> getAllPiecesOnHexIncludingPiecesInStacksForPlayer(Player p) {
+		Set<GamePiece> set = getAllPiecesOnHexIncludingPiecesInStacks();
+		Iterator<GamePiece> it = set.iterator();
+		while(it.hasNext()) {
+			GamePiece piece = it.next();
+			if(piece.getOwner() != null && p.getPlayerId().equals(piece.getOwner().getPlayerId()))
+				set.add(piece);
+		}
+		
+		return set;
+	}
+	
+	/**
+	 * Get a set of counters in this location that are able to take damage in combat
+	 * @return
+	 */
+	public Set<Counter> getDamageablePiecesOnLocationForPlayer(Player p) {
+		Set<Counter> counters = new HashSet<Counter>();
+		
+		Set<GamePiece> allPieces = getAllPiecesOnHexIncludingPiecesInStacksForPlayer(p);
+		for(GamePiece gp : allPieces) {
+			if(gp.getOwner() != null && gp.getOwner().getPlayerId().equals(p.getPlayerId())) {
+				if(GamePiece.isGamePieceDamageable(gp)) {
+					counters.add((Counter)gp);
+				}
+			}
+		}
+		return counters;
+	}
+	
+	
+	public List<Integer> getAdjacentHexLocations() {
+		return getAdjacentHexIndices(getHexNumber());
+	}
+	
+	// Takes an index of the hex in the array of 37 hexes and returns
+	// the indices of surrounding hexes
+	public static List<Integer> getAdjacentHexIndices(int index) {
+		switch(index) {
+			case 0: {
+				return Arrays.asList(1,2,3,4,5,6);
+			}
+			case 1: {
+				return Arrays.asList(8,9,2,0,6,7);
+			}
+			case 2: {
+				return Arrays.asList(1,9,10,11,3,0);
+			}
+			case 3: {
+				return Arrays.asList(2,11,12,13,4,0);
+			}
+			case 4: {
+				return Arrays.asList(0,3,13,14,15,5);
+			}
+			case 5: {
+				return Arrays.asList(6,0,4,15,16,17);
+			}
+			case 6: {
+				return Arrays.asList(7,1,0,5,17,18);
+			}
+			case 7: {
+				return Arrays.asList(20,8,1,6,18,19);
+			}
+			case 8: {
+				return Arrays.asList(21,22,9,1,7,20);
+			}
+			case 9: {
+				return Arrays.asList(22,23,10,2,1,8);
+			}
+			case 10: {
+				return Arrays.asList(23,24,25,11,2,9);
+			}
+			case 11: {
+				return Arrays.asList(10,25,26,12,3,2);
+			}
+			case 12: {
+				return Arrays.asList(11,26,27,28,13,3);
+			}
+			case 13: {
+				return Arrays.asList(3,12,28,29,14,4);
+			}
+			case 14: {
+				return Arrays.asList(4,13,29,30,31,15);
+			}
+			case 15: {
+				return Arrays.asList(5,4,14,31,32,16);
+			}
+			case 16: {
+				return Arrays.asList(17,5,15,32,33,34);
+			}
+			case 17: {
+				return Arrays.asList(18,6,5,16,34,35);
+			}
+			case 18: {
+				return Arrays.asList(19,7,6,17,35,36);
+			}
+			case 19: {
+				return Arrays.asList(20,7,18,36);
+			}
+			case 20: {
+				return Arrays.asList(21,8,7,19);
+			}
+			case 21: {
+				return Arrays.asList(22,8,20);
+			}
+			case 22: {
+				return Arrays.asList(21,8,9,23);
+			}
+			case 23: {
+				return Arrays.asList(22,9,10,24);
+			}
+			case 24: {
+				return Arrays.asList(23,10,25);
+			}
+			case 25: {
+				return Arrays.asList(24,10,11,26);
+			}
+			case 26: {
+				return Arrays.asList(25,11,12,27);
+			}
+			case 27: {
+				return Arrays.asList(26,12,28);
+			}
+			case 28: {
+				return Arrays.asList(29,13,12,27);
+			}
+			case 29: {
+				return Arrays.asList(13,28,30,14);
+			}
+			case 30: {
+				return Arrays.asList(31,14,29);
+			}
+			case 31: {
+				return Arrays.asList(32,15,14,30);
+			}
+			case 32: {
+				return Arrays.asList(33,16,15,31);
+			}
+			case 33: {
+				return Arrays.asList(34,16,32);
+			}
+			case 34: {
+				return Arrays.asList(35,17,16,33);
+			}
+			case 35: {
+				return Arrays.asList(36,18,17,34);
+			}
+			case 36: {
+				return Arrays.asList(19,18,35);
+			}
+		}
+		
+		return null;
+	}
+	
 }

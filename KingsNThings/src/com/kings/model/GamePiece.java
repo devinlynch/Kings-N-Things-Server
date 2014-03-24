@@ -8,7 +8,6 @@ public abstract class GamePiece extends AbstractSerializedObject {
 	private BoardLocation location;
 	private Player owner;
 	private String name;
-	private boolean netralized;
 	
 	public GamePiece(String id, String name) {
 		this.id=id;
@@ -48,20 +47,14 @@ public abstract class GamePiece extends AbstractSerializedObject {
 		map.put("id", getId());
 		map.put("locationId", location!= null ? location.getId() : null);
 		map.put("ownerId", owner != null ? owner.getPlayerId() : null);
-		map.put("neutralized", netralized);
 		return map;
 	}
 	
-	public void neutralize() {
-		setNetralized(true);
+	public static boolean isGamePieceDamageable(GamePiece gp) {
+		if((gp instanceof Creature) || (gp instanceof Fort) || (gp instanceof CityVill) || (gp instanceof SpecialCharacter)) {
+			return true;
+		}
+		
+		return false;
 	}
-
-	public boolean isNetralized() {
-		return netralized;
-	}
-
-	public void setNetralized(boolean netralized) {
-		this.netralized = netralized;
-	}
-	
 }

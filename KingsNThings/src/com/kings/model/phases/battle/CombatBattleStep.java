@@ -2,6 +2,7 @@ package com.kings.model.phases.battle;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -30,7 +31,10 @@ public abstract class CombatBattleStep {
 	// Once the player tells the server which pieces they want to eliminate, this is set to true
 	private boolean attackerDidRoll;
 	private boolean defenderDidRoll;
-
+	private Set<String> attackerPiecesTakingHits;
+	private Set<String> defenderPiecesTakingHits;
+	private boolean wereHitsApplied;
+	
 	
 	public CombatBattleStep(String stepName) {
 		this.stepName=stepName;
@@ -46,10 +50,10 @@ public abstract class CombatBattleStep {
 		sendStepStartedMessage();
 	}
 	
-	public abstract Set<Counter> getAttackerCountersOnThisLocationForStep();
-	public abstract Set<Counter> getDefenderCountersOnThisLocationForStep();
+	protected abstract Set<Counter> getAttackerCountersOnThisLocationForStep();
+	protected abstract Set<Counter> getDefenderCountersOnThisLocationForStep();
 	
-	public void handleSetPiecesToRollNumbersAndIncrementHitCounter(boolean isAttacker) {
+	protected void handleSetPiecesToRollNumbersAndIncrementHitCounter(boolean isAttacker) {
 		Map<Counter, Integer> map = new HashMap<Counter, Integer>();
 		Set<Counter> pieces;
 		
@@ -83,7 +87,7 @@ public abstract class CombatBattleStep {
 	}
 		
 	
-	public void sendStepStartedMessage() {
+	protected void sendStepStartedMessage() {
 		GameMessage message = newStepGameMessageForAllPlayers("combatStepStarted");
 		
 		// Add attackers pieces to rolls map
@@ -114,16 +118,45 @@ public abstract class CombatBattleStep {
 		getGameState().queueUpGameMessageToSendToAllPlayers(message);
 	}
 	
-	public synchronized void playerDidRollAndTookDamage(Player p, Set<String> gamePiecesTakingHits) {
+	public synchronized void playerLockedInRollAndDamage(Player p, Set<String> gamePiecesTakingHits) throws NotYourTurnException {
+		if(p.getPlayerId().equals(getAttacker().getPlayerId())) {
+			attackerDidRoll=true;
+			attackerPiecesTakingHits=gamePiecesTakingHits;
+		} else if(p.getPlayerId().equals(getDefender().getPlayerId())) {
+			defenderDidRoll=true;
+			defenderPiecesTakingHits=gamePiecesTakingHits;
+		} else{
+			throw new NotYourTurnException();
+		}
+		
+		handleExecuteDamageTakenIfNeeded();
+	}
+	
+	public synchronized void handleExecuteDamageTakenIfNeeded() {
+		if(wereHitsApplied)
+			return;
+		
+		if(didAttackerAndDefenderRoll()) {
+			playerDidRollAndTookDamage(getAttacker(), attackerPiecesTakingHits);
+			playerDidRollAndTookDamage(getDefender(), defenderPiecesTakingHits);
+			wereHitsApplied=true;
+		}
+		
+		if(getLocationOfBattle().getDamageablePiecesOnLocationForPlayer(getAttacker()).size() <= 0
+				|| getLocationOfBattle().getDamageablePiecesOnLocationForPlayer(getDefender()).size()<=0){
+			round.handlePlayerWon();
+			return;
+		}
+		
+		end();
+	}
+	
+	protected void playerDidRollAndTookDamage(Player p, Set<String> gamePiecesTakingHits) {
 		boolean isAttacker = false;
 		if(p.getPlayerId().equals(getAttacker().getPlayerId())) {
 			isAttacker = true;
-			attackerDidRoll=true;
 		} else if(p.getPlayerId().equals(getDefender().getPlayerId())) {
 			isAttacker = false;
-			defenderDidRoll=true;
-		} else{
-			throw new NotYourTurnException();
 		}
 		
 		int numHitsLeftToBeTaken;
@@ -158,35 +191,11 @@ public abstract class CombatBattleStep {
 			}
 		}
 		
-		Set<Counter> countersLeft;
-		if(isAttacker)
-			countersLeft = getLocationOfBattle().getDamageablePiecesOnLocationForPlayer(getAttacker());
-		else
-			countersLeft = getLocationOfBattle().getDamageablePiecesOnLocationForPlayer(getDefender());
-		
 		GameMessage msg = newStepGameMessageForAllPlayers("playerTookDamageInBattle");
 		msg.addToData("damage", isAttacker ? attackerHitCount : defenderHitCount);
 		msg.addToData("playerId", p.getPlayerId());
-		msg.addToData("neutralizedPiecesIds", gamePiecesTakingHits);
+		msg.addToData("gamePiecesTakingHitsIds", gamePiecesTakingHits);
 		getGameState().queueUpGameMessageToSendToAllPlayers(msg);
-		
-		
-		if(countersLeft.size() <= 0 ) {
-			if(isAttacker) {
-				// The attacker ran out of pieces
-				handleDefenderWon();
-				return;
-			} else{
-				// The defender ran out of pieces
-				handleAttackerWon();
-				return;
-			}
-		}
-		
-		if(didAttackerAndDefenderRoll()) {
-			end();
-			return;
-		}
 	}
 	
 	public synchronized boolean didAttackerAndDefenderRoll() {
@@ -204,8 +213,8 @@ public abstract class CombatBattleStep {
 		round.handleNextStepIfNeeded();
 	}
 	
-	public abstract void handleStart();
-	public abstract void handleEnd();
+	protected abstract void handleStart();
+	protected abstract void handleEnd();
 
 	public boolean isStarted() {
 		return started;

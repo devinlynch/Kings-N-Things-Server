@@ -436,4 +436,25 @@ public class GameState extends AbstractSerializedObject {
 		}
 	}
 	
+	public int getIndexOfHexLocation(HexLocation hex) {
+		int i=0;
+		for(HexLocation hl : getHexlocations()) {
+			if(hl.getHexNumber() == hex.getHexNumber())
+				break;
+			i++;
+		}
+		return i;
+	}
+	
+	public List<HexLocation> getSurroundingHexLocations(HexLocation hex) {
+		List<Integer> surroundingIndices = hex.getAdjacentHexLocations();
+		List<HexLocation> locations = new ArrayList<HexLocation>();
+		for(Integer i : surroundingIndices) {
+			if(i < getHexlocations().size()) {
+				locations.add(getHexlocations().get(i));
+			}
+		}
+		return locations;
+	}
+	
 }
