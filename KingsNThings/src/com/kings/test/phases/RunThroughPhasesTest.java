@@ -381,13 +381,16 @@ public class RunThroughPhasesTest {
 		
 		GamePiece p4gp1 = gameState.getGamePiece("T_Mountains_047-01");
 		GamePiece p4gp2 = gameState.getGamePiece("T_Mountains_048-01");
-		GamePiece p4gp3= gameState.getGamePiece("T_Mountains_049-01");
+		GamePiece p4gp3	= gameState.getGamePiece("T_Mountains_049-01");
+		GamePiece p4gp4 = gameState.getGamePiece("T_Swamp_067-01");
 		player4.assignGamePieceToPlayer(p4gp1);
 		player4.assignGamePieceToPlayer(p4gp2);
 		player4.assignGamePieceToPlayer(p4gp3);
+		player4.assignGamePieceToPlayer(p4gp4);
 		hexLoc6.addGamePieceToLocation(p4gp1);
 		hexLoc6.addGamePieceToLocation(p4gp2);
 		hexLoc6.addGamePieceToLocation(p4gp3);
+		hexLoc6.addGamePieceToLocation(p4gp4);
 		
 		hexLoc6.capture(player3);
 		
@@ -597,13 +600,18 @@ public class RunThroughPhasesTest {
 		rangeStep.playerLockedInRollAndDamage(player4, player2RangeHits);
 		
 		assertEquals(3, hexLoc6.getAllPiecesOnHexIncludingPiecesInStacksForPlayer(player3).size());
-		assertEquals(1, hexLoc6.getAllPiecesOnHexIncludingPiecesInStacksForPlayer(player4).size());
+		assertEquals(2, hexLoc6.getAllPiecesOnHexIncludingPiecesInStacksForPlayer(player4).size());
 		
 		meleeStep = (MeleeCombatBattleStep)round.getSteps().get(round.getCurrentStep());
-		assertEquals(0, meleeStep.getAttackerHitCount());
-		assertEquals(0, meleeStep.getDefenderHitCount());
-		meleeStep.playerLockedInRollAndDamage(player3, new HashSet<String>());
-		meleeStep.playerLockedInRollAndDamage(player4, new HashSet<String>());
+		assertEquals(1, meleeStep.getAttackerHitCount());
+		assertEquals(1, meleeStep.getDefenderHitCount());
+		
+		player1MeleeHits = new HashSet<String>();
+		player1MeleeHits.add("T_Swamp_085-01");
+		meleeStep.playerLockedInRollAndDamage(player3, player1MeleeHits);
+		player1MeleeHits = new HashSet<String>();
+		player1MeleeHits.add("T_Swamp_067-01");
+		meleeStep.playerLockedInRollAndDamage(player4, player1MeleeHits);
 		
 		round.playerDidRetreatOrContinue(player3, true);
 		round.playerDidRetreatOrContinue(player4, false);
@@ -611,8 +619,8 @@ public class RunThroughPhasesTest {
 		assertTrue(round.isEnded());
 		assertTrue(battle.isOver());
 		
-		assertEquals(player3, wasserchlange.getOwner());
-		assertEquals(hexLoc7, wasserchlange.getLocation());
+		assertEquals(null, wasserchlange.getOwner());
+		assertEquals(gameState.getPlayingCup(), wasserchlange.getLocation());
 		assertEquals(player4, mine.getOwner());
 		assertEquals(hexLoc6, mine.getLocation());
 	}

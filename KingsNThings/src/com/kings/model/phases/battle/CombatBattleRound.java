@@ -218,7 +218,7 @@ public class CombatBattleRound {
 		}
 		
 		end();
-		battle.battleDidFinish(p, resolution);
+		battle.battleDidFinish(opposingPlayer, resolution);
 	}
 	
 	public enum PostBattlePieceStatus {

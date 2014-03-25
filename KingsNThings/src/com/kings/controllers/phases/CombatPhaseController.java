@@ -25,7 +25,7 @@ import com.kings.model.phases.exceptions.NotYourTurnException;
 public class CombatPhaseController extends PhaseController {
 	
 	
-	@RequestMapping(value="didRollInBattle")
+	/*@RequestMapping(value="didRollInBattle")
 	public @ResponseBody String combatFight(
 			@RequestParam String battleId,
 			HttpServletRequest req,
@@ -107,5 +107,5 @@ public class CombatPhaseController extends PhaseController {
 		} else{
 			return wrongPhaseMessage().toJson();
 		}
-	}
+	}*/
 }
