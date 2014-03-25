@@ -95,9 +95,17 @@ public class MovementPhase extends Phase {
 		getGameState().queueUpGameMessageToSendToAllPlayers(message);
 	}
 	
-	public synchronized void didCreateStack(String playerId, String hexLocationId, List<String> piecesToAddToStack) throws NotYourTurnException{
+	/**
+	 * Creates a stack for the player with the given pieces on the given {@link HexLocation}
+	 * @param playerId
+	 * @param hexLocationId
+	 * @param piecesToAddToStack
+	 * @return ID of the {@link Stack} that was created
+	 * @throws NotYourTurnException
+	 */
+	public synchronized String didCreateStack(String playerId, String hexLocationId, List<String> piecesToAddToStack) throws NotYourTurnException{
 		if(isOver())
-			return;
+			return null;
 
 		if( ! getPlayersInOrderOfTurn().get(nextPlayerToMove).getPlayerId().equals(playerId) ){
 			throw new NotYourTurnException();
@@ -120,6 +128,8 @@ public class MovementPhase extends Phase {
 		message.addToData("stack", createdStack.toSerializedFormat());
 		message.setPlayersToSendTo(otherPlayers);
 		getGameState().queueUpGameMessageToSendToAllPlayers(message);
+		
+		return createdStack.getId();
 	}
 	
 	public synchronized void didAddPiecesToStack(String playerId, String stackId, List<String> piecesToAddToStack) throws NotYourTurnException{
