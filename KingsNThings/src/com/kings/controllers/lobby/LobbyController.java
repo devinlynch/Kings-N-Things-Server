@@ -125,12 +125,7 @@ public class LobbyController extends AbstractLoggedInOnlyController {
 		if(lobby != null){
 			message.addToData("lobby", lobby);
 		} else{
-			Game game = getDataAccess().getGameByGameLobbyId(gameLobbyId);
-			if(game != null) {
-				message = game.getGameStartedMessage();
-			} else{
-				message.setError(new HttpResponseError(ResponseError.GENERIC_ERROR));
-			}
+			message.setError(new HttpResponseError(ResponseError.GENERIC_ERROR));
 		}
 		message.setCreatedDate(new Date());
 		return message.toJson();

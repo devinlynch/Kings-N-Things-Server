@@ -174,9 +174,11 @@ public class Game {
 	/**
 	 * Ends the game.  <b>Be careful when calling this, it destroys everything!  The game state will be destroyed FOREVER</b>
 	 */
-	public void end() {
+	public void end(boolean shouldAlertUsers) {
 		setActive(false);
-		alertUsersThatGameIsOver();
+		
+		if(shouldAlertUsers)
+			alertUsersThatGameIsOver();
 	}
 	
 	public void alertUsersThatGameIsOver() {

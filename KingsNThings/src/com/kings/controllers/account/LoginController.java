@@ -37,7 +37,7 @@ public class LoginController extends AbstractAccountController {
 		//TODO REMOVE
 		Game g = user.getGame();
 		if(g != null){
-			g.end();
+			g.end(false);
 			getDataAccess().save(g);
 		}
 		
