@@ -39,7 +39,7 @@ public class RangedCombatBattleStep extends CombatBattleStep {
 				}
 			} else if(c instanceof Fort) {
 				if(((Fort)c).getCombatType() == CombatType.RANGE) {
-					
+					rangedCounters.add(c);
 				}
 			} else if (c instanceof SpecialCharacter) {
 				if(((SpecialCharacter)c).getCombatType() == CombatType.RANGE) {

@@ -362,6 +362,8 @@ public class RunThroughPhasesTest {
 		hexLoc3.addStack(stack1);
 		hexLoc3.addStack(stack2);
 		
+		HexLocation hexLoc7 = gameState.getHexLocationsById("hexLocation_7");
+		hexLoc7.capture(player3);
 		
 		HexLocation hexLoc6 = gameState.getHexLocationsById("hexLocation_6");
 		GamePiece fort = gameState.getGamePiece("Fort_03-01");
@@ -370,6 +372,12 @@ public class RunThroughPhasesTest {
 		GamePiece elf = gameState.getGamePiece("T_Forest_091-01");
 		hexLoc6.addGamePieceToLocation(elf);
 		player3.assignGamePieceToPlayer(elf);
+		GamePiece mine = gameState.getGamePiece("specialIncomeCounter_09-01");
+		hexLoc6.addGamePieceToLocation(mine);
+		player3.assignGamePieceToPlayer(mine);
+		GamePiece wasserchlange = gameState.getGamePiece("T_Swamp_085-01");
+		hexLoc6.addGamePieceToLocation(wasserchlange);
+		player3.assignGamePieceToPlayer(wasserchlange);
 		
 		GamePiece p4gp1 = gameState.getGamePiece("T_Mountains_047-01");
 		GamePiece p4gp2 = gameState.getGamePiece("T_Mountains_048-01");
@@ -563,5 +571,49 @@ public class RunThroughPhasesTest {
 		assertEquals(player3, battle.getDefender());
 		assertTrue(round.isStarted());
 		assertTrue(round.getSteps().get(round.getCurrentStep()) instanceof MagicCombatBattleStep);
+		
+		magicStep = (MagicCombatBattleStep)round.getSteps().get(round.getCurrentStep());
+		assertTrue(magicStep.isStarted());
+
+		// They both have 1 magic counter
+		assertEquals(0, magicStep.getAttackerHitCount());
+		assertEquals(0, magicStep.getDefenderHitCount());
+		magicStep.playerLockedInRollAndDamage(player3, new HashSet<String>());
+		magicStep.playerLockedInRollAndDamage(player4, new HashSet<String>());
+		
+		rangeStep = (RangedCombatBattleStep)round.getSteps().get(round.getCurrentStep());
+		
+		assertEquals(2, rangeStep.getAttackerHitCount());
+		assertEquals(2, rangeStep.getDefenderHitCount());
+		
+		player1RangeHits = new HashSet<String>();
+		player1RangeHits.add("T_Forest_091-01");
+		player1RangeHits.add("Fort_03-01");
+		rangeStep.playerLockedInRollAndDamage(player3, player1RangeHits);
+		
+		player2RangeHits = new HashSet<String>();
+		player2RangeHits.add("T_Mountains_047-01");
+		player2RangeHits.add("T_Mountains_049-01");
+		rangeStep.playerLockedInRollAndDamage(player4, player2RangeHits);
+		
+		assertEquals(3, hexLoc6.getAllPiecesOnHexIncludingPiecesInStacksForPlayer(player3).size());
+		assertEquals(1, hexLoc6.getAllPiecesOnHexIncludingPiecesInStacksForPlayer(player4).size());
+		
+		meleeStep = (MeleeCombatBattleStep)round.getSteps().get(round.getCurrentStep());
+		assertEquals(0, meleeStep.getAttackerHitCount());
+		assertEquals(0, meleeStep.getDefenderHitCount());
+		meleeStep.playerLockedInRollAndDamage(player3, new HashSet<String>());
+		meleeStep.playerLockedInRollAndDamage(player4, new HashSet<String>());
+		
+		round.playerDidRetreatOrContinue(player3, true);
+		round.playerDidRetreatOrContinue(player4, false);
+		
+		assertTrue(round.isEnded());
+		assertTrue(battle.isOver());
+		
+		assertEquals(player3, wasserchlange.getOwner());
+		assertEquals(hexLoc7, wasserchlange.getLocation());
+		assertEquals(player4, mine.getOwner());
+		assertEquals(hexLoc6, mine.getLocation());
 	}
 }
