@@ -1,6 +1,8 @@
 package com.kings.model;
 
+import java.util.Iterator;
 import java.util.Map;
+
 
 public class Stack extends BoardLocation {
 	private HexLocation hexLocation;
@@ -33,8 +35,26 @@ public class Stack extends BoardLocation {
 	public Player getOwner() {
 		return owner;
 	}
+	
+	@Override
+	public void addGamePieceToLocation(GamePiece piece) {
+		super.addGamePieceToLocation(piece);
+		
+		if(getOwner() != null) {
+			getOwner().assignGamePieceToPlayer(piece);
+		}
+	}
 
+	
+	/**
+	 * Assigns the owner of the stack AS WEL AS assigns all pieces in the stack to the given player
+	 * @param owner
+	 */
 	public void setOwner(Player owner) {
 		this.owner = owner;
+		Iterator<GamePiece> it = getGamePieces().iterator();
+		while(it.hasNext()) {
+			owner.assignGamePieceToPlayer(it.next());
+		}
 	}
 }

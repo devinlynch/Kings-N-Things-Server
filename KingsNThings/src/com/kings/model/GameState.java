@@ -395,13 +395,16 @@ public class GameState extends AbstractSerializedObject {
 		return total;
 	}
 	
-	private int diceRollForTest=0;
+	private List<Integer> diceRollsForTest= new ArrayList<Integer>();;
 	public int getDiceRollForTest() {
-		return diceRollForTest;
+		if(diceRollsForTest.size() >0)
+			return diceRollsForTest.remove(0);
+		
+		return 1;
 	}
 	
-	public void setDiceRollForTest(int roll) {
-		this.diceRollForTest=roll;
+	public void addDiceRollForTest(int roll) {
+		this.diceRollsForTest.add(roll);
 	}
 	
 	public void gamePieceTookDamage(Counter piece) {

@@ -81,15 +81,7 @@ public class CombatPhase extends Phase {
 	}
 	
 	public void handleAllDoneBattles() {
-		boolean allOver = true;
-		for(CombatBattle battle : combatBattles) {
-			if(!battle.isOver())
-				allOver=false;
-		}
-		
-		if(allOver) {
-			end();
-		}
+		end();
 	}
 	
 	public CombatBattle getBattleById(String id) {

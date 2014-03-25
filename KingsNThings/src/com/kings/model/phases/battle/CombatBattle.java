@@ -3,19 +3,23 @@ package com.kings.model.phases.battle;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
 import com.kings.http.GameMessage;
+import com.kings.model.CityVill;
 import com.kings.model.Creature;
+import com.kings.model.Fort;
 import com.kings.model.GamePiece;
 import com.kings.model.GameState;
 import com.kings.model.HexLocation;
 import com.kings.model.Player;
 import com.kings.model.Stack;
 import com.kings.model.phases.CombatPhase;
+import com.kings.model.phases.battle.CombatBattleRound.PostBattlePieceStatus;
 import com.kings.util.Utils;
 
 public class CombatBattle {
@@ -73,12 +77,60 @@ public class CombatBattle {
 	}
 	
 	public void battleDidFinish(Player winner, BattleResolution resolution) {
-		this.isOver = true;
+		System.out.println("Combat Battle BattleId=["+getBattleId()+"] ended with resolution " + resolution.toString() + " and winner playerid="+winner.getPlayerId());
 		
+		Map<String, PostBattlePieceStatus> piecesStatuses =  new HashMap<String, CombatBattleRound.PostBattlePieceStatus>();
+		Iterator<GamePiece> it = getLocationOfBattle().getAllPiecesOnHexIncludingPiecesInStacks().iterator();
+		while(it.hasNext()) {
+			GamePiece piece = it.next();
+			
+			// For forts, city vills and other special income counters, see if damage took place.  If so, roll a die for the piece.
+			// A roll of 1 or 6 destroys the piece or if its a fort its reduced 1 level, otherwise damage from battle is restored
+			// (citadels are never reduced or destoroyed)
+			if(piece instanceof Fort) {
+				Fort fort = (Fort) piece;
+				int actualLevel = fort.getActualLevelNumWhenRestored();
+				int levelNow = fort.getLevelNum();
+				
+				if(levelNow < actualLevel) {
+					// Damage took place
+					int randomRoll = getGameState().rollDice(6);
+					
+					fort.reduceLevel();
+					if((randomRoll == 1 || randomRoll == 6) && actualLevel != 4) {
+						fort.setLevelNum(actualLevel-1);
+						piecesStatuses.put(fort.getId(), PostBattlePieceStatus.REDUCED_LEVEL);
+					} else{
+						piecesStatuses.put(fort.getId(), PostBattlePieceStatus.RESTORED);
+					}
+				}
+			} else if (piece instanceof CityVill) {
+				int randomRoll = getGameState().rollDice(6);
+				
+				if(randomRoll == 1 || randomRoll == 6) {
+					piecesStatuses.put(piece.getId(), PostBattlePieceStatus.DESTROYED);
+					getGameState().getPlayingCup().addGamePieceToLocation(piece);
+					continue;
+				} else{
+					piecesStatuses.put(piece.getId(), PostBattlePieceStatus.RESTORED);
+				}
+			}
+			
+			
+			// Assign all pieces from opposing player to the winner
+			if(piece.getOwner() != null && ! piece.getOwner().getPlayerId().equals(winner.getPlayerId()))
+				winner.assignGamePieceToPlayer(piece);
+		}
+		
+		
+		
+		
+		this.isOver = true;
 		GameMessage msg = getCombatPhase().newGameMessageForAllPlayers("battleOver");
 		msg.addToData("battle", this.toSerializedFormat());
 		msg.addToData("winnerId", winner.getPlayerId());
 		msg.addToData("resolution", resolution.toString());
+		msg.addToData("statusOfLeftoverPieces", piecesStatuses);
 		getGameState().queueUpGameMessageToSendToAllPlayers(msg);
 		
 		getCombatPhase().handleStartNextBattle();
@@ -140,4 +192,14 @@ public class CombatBattle {
 	public void setDefender(Player defender) {
 		this.defender = defender;
 	}
+
+	public CombatBattleRound getRound() {
+		return round;
+	}
+
+	public void setRound(CombatBattleRound round) {
+		this.round = round;
+	}
+	
+	
 }

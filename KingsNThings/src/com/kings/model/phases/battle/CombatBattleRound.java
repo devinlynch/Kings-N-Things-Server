@@ -1,6 +1,7 @@
 package com.kings.model.phases.battle;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -8,7 +9,9 @@ import java.util.Map;
 import java.util.Set;
 
 import com.kings.http.GameMessage;
+import com.kings.model.CityVill;
 import com.kings.model.Creature;
+import com.kings.model.Fort;
 import com.kings.model.GamePiece;
 import com.kings.model.HexLocation;
 import com.kings.model.Player;
@@ -50,6 +53,8 @@ public class CombatBattleRound {
 	}
 	
 	public void start() {
+		System.out.println("CombatRound started id=["+roundId+"] and BattleId=["+battle.getBattleId()+"]");
+		
 		started=true;
 		ended=false;
 		stepsAreOver=false;
@@ -61,13 +66,15 @@ public class CombatBattleRound {
 		
 		currentStep=0;
 		steps.clear();
-		MagicCombatBattleStep magicStep = new MagicCombatBattleStep();
-		RangedCombatBattleStep rangeStep = new RangedCombatBattleStep();
-		MeleeCombatBattleStep meleeStep = new MeleeCombatBattleStep();
+		MagicCombatBattleStep magicStep = new MagicCombatBattleStep(this);
+		RangedCombatBattleStep rangeStep = new RangedCombatBattleStep(this);
+		MeleeCombatBattleStep meleeStep = new MeleeCombatBattleStep(this);
 		
 		steps.add(magicStep);
 		steps.add(rangeStep);
 		steps.add(meleeStep);
+		
+		handleNextStepIfNeeded();
 	}
 	
 	public void handleNextStepIfNeeded() {
@@ -77,15 +84,19 @@ public class CombatBattleRound {
 		}
 		
 		CombatBattleStep step = steps.get(currentStep);
-		if( ! step.isEnded() ) {
+		if( step.isStarted() && ! step.isEnded() ) {
+			return;
+		} else if(step.isEnded()) {
+			currentStep++;
+		}
+		
+		if(currentStep > (steps.size()-1)){
+			handleStepsOver();
 			return;
 		}
 		
 		CombatBattleStep nextStep = steps.get(currentStep);
 		nextStep.start();
-		
-		currentStep++;
-
 	}
 	
 	protected void handleStepsOver() {
@@ -210,43 +221,32 @@ public class CombatBattleRound {
 		battle.battleDidFinish(p, resolution);
 	}
 	
+	public enum PostBattlePieceStatus {
+		DESTROYED,
+		REDUCED_LEVEL,
+		RESTORED
+	}
+	
 	public void handlePlayerWon() {
 		Player winner;
+		boolean attackerWon;
 		int numAttackerPieces = getBattle().getLocationOfBattle().getDamageablePiecesOnLocationForPlayer(getBattle().getAttacker()).size();
-		int numDefenderPieces = getBattle().getLocationOfBattle().getDamageablePiecesOnLocationForPlayer(getBattle().getDefender()).size();
 		
 		// If attacker lost all their peices, winner is automatically defender
 		if(numAttackerPieces == 0) {
 			winner = getBattle().getDefender();
+			attackerWon=false;
 		} else {
 			winner = getBattle().getAttacker();
+			attackerWon=true;
 		}
 
 		// The winning player now owns the hex
 		getBattle().getLocationOfBattle().capture(winner);
 		
-		Iterator<GamePiece> it = getBattle().getLocationOfBattle().getAllPiecesOnHexIncludingPiecesInStacks().iterator();
-		while(it.hasNext()) {
-			GamePiece piece = it.next();
-			
-			//TODO
-			// For forts, city vills and other special income counters, see if damage took place.  If so, roll a die for the piece.
-			// A roll of 1 or 6 destroys the piece or if its a fort its reduced 1 level, otherwise damage from battle is restored
-			// (citadels are never reduced or destoroyed)
-			
-			
-			// Assign all pieces from opposing player to the winner
-			if(piece.getOwner() != null && ! piece.getOwner().getPlayerId().equals(winner.getPlayerId()))
-				winner.assignGamePieceToPlayer(piece);
-			
-			
-		}
+		end();
+		battle.battleDidFinish(winner, attackerWon ? BattleResolution.ATTACKER_WON : BattleResolution.DEFENDER_WON);
 	}
-	
-	protected void putPieceBackIfNetralized() {
-		
-	}
-	
 	
 	public void handleNewRound() {
 		end();
@@ -254,6 +254,7 @@ public class CombatBattleRound {
 	}
 	
 	public void end() {
+		System.out.println("CombatRound ended id=["+roundId+"] and BattleId=["+battle.getBattleId()+"]");
 		ended=true;
 	}
 
@@ -304,6 +305,18 @@ public class CombatBattleRound {
 		message.addToData("attackerId", battle.getAttacker().getPlayerId());
 		message.addToData("defenderId", battle.getDefender().getPlayerId());
 		return message;
+	}
+
+	public int getCurrentStep() {
+		return currentStep;
+	}
+
+	public void setCurrentStep(int currentStep) {
+		this.currentStep = currentStep;
+	}
+
+	public boolean isStepsAreOver() {
+		return stepsAreOver;
 	}
 	
 }

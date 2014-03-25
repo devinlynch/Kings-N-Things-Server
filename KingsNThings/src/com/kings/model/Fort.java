@@ -56,6 +56,10 @@ public class Fort extends Counter {
 	public void restoreLevel() {
 		this.levelNum = actualLevelNumWhenRestored;
 	}
+	
+	public int getActualLevelNumWhenRestored() {
+		return actualLevelNumWhenRestored;
+	}
 
 	@Override
 	public int getCombatValueForCombat() throws DoesNotSupportCombatException {

@@ -16,6 +16,7 @@ import com.kings.model.HexLocation;
 import com.kings.model.Player;
 import com.kings.model.phases.exceptions.DoesNotSupportCombatException;
 import com.kings.model.phases.exceptions.NotYourTurnException;
+import com.kings.util.Utils;
 
 public abstract class CombatBattleStep {
 	private boolean started;
@@ -36,13 +37,17 @@ public abstract class CombatBattleStep {
 	private boolean wereHitsApplied;
 	
 	
-	public CombatBattleStep(String stepName) {
+	public CombatBattleStep(String stepName, CombatBattleRound round) {
 		this.stepName=stepName;
+		this.round=round;
 	}
 	
 	public void start() {
 		if(ended)
 			return;
+		
+		System.out.println("CombatBattleStep started id=["+stepName+"] and roundId=["+round.getRoundId()+"] and BattleId=["+getRound().getBattle().getBattleId()+"]");
+		
 		started=true;
 		handleSetPiecesToRollNumbersAndIncrementHitCounter(true);
 		handleSetPiecesToRollNumbersAndIncrementHitCounter(false);
@@ -96,10 +101,11 @@ public abstract class CombatBattleStep {
 		    Integer roll = attackingPiecesToRollNumbers.get(key);
 		    Map<String, Object> map = key.toSerializedFormat();
 		    map.put("roll", roll);
+		    map.put("gamePieceId", key.getId());
 		    attackerPiecesSet.add(map);
 		}
 		message.addToData("attackerGamePiecesToRolls", attackerPiecesSet);
-		message.addToData("attackerDamageablePieces", getLocationOfBattle().getDamageablePiecesOnLocationForPlayer(getAttacker()));
+		message.addToData("attackerDamageablePieces", Utils.gamePieceSetToSetOfIds(getLocationOfBattle().getDamageablePiecesOnLocationForPlayer(getAttacker())));
 		
 		// Add defender pieces to rolls map
 		Set<Map<String,Object>> defenderPiecesSet = new HashSet<Map<String,Object>>();
@@ -107,10 +113,11 @@ public abstract class CombatBattleStep {
 		    Integer roll = defendingPiecesToRollNumbers.get(key);
 		    Map<String, Object> map = key.toSerializedFormat();
 		    map.put("roll", roll);
+		    map.put("gamePieceId", key.getId());
 		    defenderPiecesSet.add(map);
 		}
 		message.addToData("defenderGamePiecesToRolls", defenderPiecesSet);
-		message.addToData("defenderDamageablePieces", getLocationOfBattle().getDamageablePiecesOnLocationForPlayer(getDefender()));
+		message.addToData("defenderDamageablePieces", Utils.gamePieceSetToSetOfIds(getLocationOfBattle().getDamageablePiecesOnLocationForPlayer(getDefender())));
 		
 		
 		message.addToData("attackerHitCount", attackerHitCount);
@@ -119,6 +126,10 @@ public abstract class CombatBattleStep {
 	}
 	
 	public synchronized void playerLockedInRollAndDamage(Player p, Set<String> gamePiecesTakingHits) throws NotYourTurnException {
+		System.out.println("CombatBattleStep id=["+stepName+"] and roundId=["+round.getRoundId()+"] and BattleId=["+getRound().getBattle().getBattleId()+"] - "
+				+ "player locked in their roll and pieces taking hits.  The player id is "+p.getPlayerId()+" and the pieces are " + gamePiecesTakingHits.toString());
+
+		
 		if(p.getPlayerId().equals(getAttacker().getPlayerId())) {
 			attackerDidRoll=true;
 			attackerPiecesTakingHits=gamePiecesTakingHits;
@@ -136,11 +147,13 @@ public abstract class CombatBattleStep {
 		if(wereHitsApplied)
 			return;
 		
-		if(didAttackerAndDefenderRoll()) {
-			playerDidRollAndTookDamage(getAttacker(), attackerPiecesTakingHits);
-			playerDidRollAndTookDamage(getDefender(), defenderPiecesTakingHits);
-			wereHitsApplied=true;
+		if( ! didAttackerAndDefenderRoll() ) {
+			return;
 		}
+		
+		playerDidRollAndTookDamage(getAttacker(), attackerPiecesTakingHits);
+		playerDidRollAndTookDamage(getDefender(), defenderPiecesTakingHits);
+		wereHitsApplied=true;
 		
 		if(getLocationOfBattle().getDamageablePiecesOnLocationForPlayer(getAttacker()).size() <= 0
 				|| getLocationOfBattle().getDamageablePiecesOnLocationForPlayer(getDefender()).size()<=0){
@@ -161,9 +174,9 @@ public abstract class CombatBattleStep {
 		
 		int numHitsLeftToBeTaken;
 		if(isAttacker)
-			numHitsLeftToBeTaken = attackerHitCount;
-		else
 			numHitsLeftToBeTaken = defenderHitCount;
+		else
+			numHitsLeftToBeTaken = attackerHitCount;
 		
 		for(String gamePieceId : gamePiecesTakingHits) {
 			GamePiece gp = getGameState().getGamePiece(gamePieceId);
@@ -209,6 +222,9 @@ public abstract class CombatBattleStep {
 	}
 	
 	public void end() {
+		System.out.println("CombatBattleStep ended id=["+stepName+"] and roundId=["+round.getRoundId()+"] and BattleId=["+getRound().getBattle().getBattleId()+"]");
+
+		
 		ended=true;
 		round.handleNextStepIfNeeded();
 	}
@@ -260,4 +276,21 @@ public abstract class CombatBattleStep {
 	public GameState getGameState() {
 		return round.getBattle().getGameState();
 	}
+
+	public int getAttackerHitCount() {
+		return attackerHitCount;
+	}
+
+	public void setAttackerHitCount(int attackerHitCount) {
+		this.attackerHitCount = attackerHitCount;
+	}
+
+	public int getDefenderHitCount() {
+		return defenderHitCount;
+	}
+
+	public void setDefenderHitCount(int defenderHitCount) {
+		this.defenderHitCount = defenderHitCount;
+	}
+	
 }

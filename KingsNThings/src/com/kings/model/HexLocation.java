@@ -179,9 +179,8 @@ public class HexLocation extends BoardLocation {
 	}
 	
 	public Set<GamePiece> getAllPiecesOnHexIncludingPiecesInStacks() {
-		Set<GamePiece> set = getGamePieces();
+		Set<GamePiece> set = new HashSet<GamePiece>(getGamePieces());
 		
-		Set<Stack> stacks = getStacks();
 		Iterator<Stack> it = getStacks().iterator();
 		while(it.hasNext()) {
 			Stack st = it.next();
@@ -192,15 +191,17 @@ public class HexLocation extends BoardLocation {
 	}
 	
 	public Set<GamePiece> getAllPiecesOnHexIncludingPiecesInStacksForPlayer(Player p) {
+		Set<GamePiece> newSet = new HashSet<GamePiece>();
+		
 		Set<GamePiece> set = getAllPiecesOnHexIncludingPiecesInStacks();
 		Iterator<GamePiece> it = set.iterator();
 		while(it.hasNext()) {
 			GamePiece piece = it.next();
 			if(piece.getOwner() != null && p.getPlayerId().equals(piece.getOwner().getPlayerId()))
-				set.add(piece);
+				newSet.add(piece);
 		}
 		
-		return set;
+		return newSet;
 	}
 	
 	/**
