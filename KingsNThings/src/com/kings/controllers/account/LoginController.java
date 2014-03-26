@@ -34,13 +34,6 @@ public class LoginController extends AbstractAccountController {
 		
 		User user = getUser(username);
 		
-		//TODO REMOVE
-		Game g = user.getGame();
-		if(g != null){
-			g.end(false);
-			getDataAccess().save(g);
-		}
-		
 		if(isLoggedIn(session)) {
 			message = alreadyLoggedInMessage();
 			message.setType(type);
@@ -53,6 +46,13 @@ public class LoginController extends AbstractAccountController {
 			message = badUsernamePassMessage();
 			message.setType(type);
 			return message.toJson();
+		}
+		
+		//TODO REMOVE
+		Game g = user.getGame();
+		if(g != null){
+			g.end(false);
+			getDataAccess().save(g);
 		}
 		
 		createSessionFromValidatedUsed(user, session);

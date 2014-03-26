@@ -77,7 +77,7 @@ public class BoardLocation extends AbstractSerializedObject {
 			pieces.add(piece.toSerializedFormat());
 		}
 		map.put("gamePieces", pieces);
-		
+		map.put("name", name);
 		
 		return map;
 	}

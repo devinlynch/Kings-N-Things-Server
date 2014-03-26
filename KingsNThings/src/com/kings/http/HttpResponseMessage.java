@@ -24,7 +24,7 @@ public class HttpResponseMessage implements Serializable {
 	}
 	
 	public HttpResponseMessage(HttpResponseError.ResponseError responseError) {
-		setCreatedDate(new Date());
+		this();
 		setError(new HttpResponseError(responseError));
 	}
 	

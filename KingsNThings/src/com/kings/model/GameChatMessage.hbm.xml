@@ -4,6 +4,7 @@
 <hibernate-mapping>
     <class name="com.kings.model.GameChatMessage" table="game_chat">
         <id name="gameChatMessageId" column="game_chat_id">
+        	<generator class="native" />
         </id>
         <property name="message" />
         <property name="createdDate" column="created_date"/>

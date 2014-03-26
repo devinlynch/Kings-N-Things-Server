@@ -4,9 +4,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.kings.database.DataAccess;
+import com.kings.http.HttpResponseMessage;
+import com.kings.http.HttpResponseError.ResponseError;
 import com.kings.model.HexLocation;
 import com.kings.model.SentMessage;
 import com.kings.model.User;
+import com.kings.util.Utils;
 
 public class TestFile {
 	public static void main(String[] args) {
@@ -22,14 +25,7 @@ public class TestFile {
 		System.out.println(list.size());*/
 		
 		
-		for(int i= 0; i<37; i++) {
-			List<Integer> l = HexLocation.getAdjacentHexIndices(i);
-			for(Integer z : l) {
-				List<Integer> l2 = HexLocation.getAdjacentHexIndices(z);
-				if(!l2.contains(i)) {
-					System.out.println("Check " +i+ " and " +z);
-				}
-			}
-		}
+		HttpResponseMessage m = new HttpResponseMessage(ResponseError.NOT_LOGGED_IN);
+		System.out.println(m.toJson());
 	}
 }

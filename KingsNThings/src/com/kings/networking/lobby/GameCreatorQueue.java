@@ -10,6 +10,7 @@ import com.kings.database.DataAccess;
 import com.kings.database.GameStateCache;
 import com.kings.model.Game;
 import com.kings.model.GameState;
+import com.kings.model.User;
 
 /**
  * A queue that runs and creates games from {@link GameLobby}'s 
@@ -91,6 +92,27 @@ public class GameCreatorQueue extends Thread {
 		System.out.println("Removed game lobby " + gameLobby.toString() + " from queue, turning into game");
 		
 		DataAccess access = getDataAccess();
+		
+		try{
+			for(UserWaiting uw : gameLobby.getUsers()) {
+				User u = uw.getUser();
+				Iterator<Game> it = u.getGames().iterator();
+				while(it.hasNext()) {
+					try{
+						Game g = it.next();
+						if(g.isActive()) {
+							g.end(true);
+						}
+					} catch(Exception e) {
+						System.err.println("Error ending existing user game");
+						e.printStackTrace();
+					}
+				}
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
 		try{
 			access.beginTransaction();
 			Game createdGame = gameLobby.becomeGame();
