@@ -1,11 +1,16 @@
 package com.kings.util;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Random;
+import java.util.Set;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.kings.model.Counter;
+import com.kings.model.GamePiece;
 
 public class Utils {
 
@@ -68,5 +73,14 @@ public class Utils {
 	 */
 	public synchronized static String generateRandomId(String start) {
 		return start+generateRandomId();
+	}
+	
+	public static Set<String> gamePieceSetToSetOfIds(Set<Counter> set) {
+		Iterator<Counter> it = set.iterator();
+		Set<String> returningSet = new HashSet<String>();
+		while(it.hasNext()) {
+			returningSet.add((it.next()).getId());
+		}
+		return returningSet;
 	}
 }

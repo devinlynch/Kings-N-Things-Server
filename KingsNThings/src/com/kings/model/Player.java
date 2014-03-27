@@ -301,12 +301,11 @@ public class Player extends AbstractSerializedObject {
 	}
 	
 	public HexLocation getNearestHexTo(HexLocation hex){
-		// TODO!  I am just returning any tile but the one given for now!
+		List<HexLocation> locations = getGameState().getSurroundingHexLocations(hex);
 		
-		for(HexLocation tile : getOwnedLocations()) {
-			if( ! tile.getId().equals(hex.getId()) ) {
-				return tile;
-			}
+		for(HexLocation _hex : locations) {
+			if(_hex.getOwner() != null && _hex.getOwner().getPlayerId().equals(getPlayerId()))
+				return _hex;
 		}
 		
 		return null;

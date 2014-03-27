@@ -3,15 +3,12 @@ package com.kings.model.phases;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Random;
-import java.util.Set;
 
 import com.kings.http.GameMessage;
 import com.kings.model.GameState;
 import com.kings.model.HexLocation;
 import com.kings.model.Player;
 import com.kings.model.phases.battle.CombatBattle;
-import com.kings.model.phases.exceptions.NotYourTurnException;
 
 public class CombatPhase extends Phase {
 	/*
@@ -84,15 +81,7 @@ public class CombatPhase extends Phase {
 	}
 	
 	public void handleAllDoneBattles() {
-		boolean allOver = true;
-		for(CombatBattle battle : combatBattles) {
-			if(!battle.isOver())
-				allOver=false;
-		}
-		
-		if(allOver) {
-			end();
-		}
+		end();
 	}
 	
 	public CombatBattle getBattleById(String id) {

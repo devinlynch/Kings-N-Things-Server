@@ -4,12 +4,17 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.kings.util.Utils;
+
 public class GameChatMessage extends AbstractSerializedObject {
 	private Game game;
 	private String gameChatMessageId;
 	private User user;
 	private String message;
 	private Date createdDate;
+	
+	public GameChatMessage() {
+	}
 	
 	public Game getGame() {
 		return game;

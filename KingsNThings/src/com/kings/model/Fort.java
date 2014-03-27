@@ -1,7 +1,10 @@
 package com.kings.model;
 
+import com.kings.model.phases.exceptions.DoesNotSupportCombatException;
+
 
 public class Fort extends Counter {
+	private int actualLevelNumWhenRestored;
 	private int levelNum;
 	private int cost;
 	private CombatType combatType;
@@ -9,6 +12,7 @@ public class Fort extends Counter {
 	public Fort(String id, String name, int levelNum, int cost, CombatType combatType) {
 		super(id, name);
 		this.levelNum=levelNum;
+		this.actualLevelNumWhenRestored=levelNum;
 		this.combatType=combatType;
 		this.cost=cost;
 	}
@@ -32,4 +36,33 @@ public class Fort extends Counter {
 		this.combatType = combatType;
 	}
 	
+	public boolean isTower(){
+		return getName().equalsIgnoreCase("Tower");
+	}
+	public boolean isKeep(){
+		return getName().equalsIgnoreCase("Keep");
+	}
+	public boolean isCastle(){
+		return getName().equalsIgnoreCase("Castle");
+	}
+	public boolean isCitadel(){
+		return getName().equalsIgnoreCase("Citadel");
+	}
+	
+	public void reduceLevel() {
+		levelNum--;
+	}
+	
+	public void restoreLevel() {
+		this.levelNum = actualLevelNumWhenRestored;
+	}
+	
+	public int getActualLevelNumWhenRestored() {
+		return actualLevelNumWhenRestored;
+	}
+
+	@Override
+	public int getCombatValueForCombat() throws DoesNotSupportCombatException {
+		return levelNum;
+	}
 }

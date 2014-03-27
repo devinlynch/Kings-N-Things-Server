@@ -15,6 +15,7 @@ import com.kings.http.GameMessage;
 import com.kings.model.factory.GameStateFactory;
 import com.kings.model.phases.Phase;
 import com.kings.model.phases.SetupPhase;
+import com.kings.util.Utils;
 
 public class GameState extends AbstractSerializedObject {
 	private String gameId;
@@ -376,6 +377,87 @@ public class GameState extends AbstractSerializedObject {
 
 	public void setTestMode(boolean isTestMode) {
 		this.isTestMode = isTestMode;
+	}
+	
+	/**
+	 * Rolls the given number of dice and returns the total value of the roll
+	 * @param numDice
+	 * @return
+	 */
+	public int rollDice(int numDice) {
+		if(isTestMode)
+			return getDiceRollForTest();
+		
+		int total = 0;
+		for(int i=0; i < numDice; i++)
+			total+= Utils.randInt(1, 6); 
+					
+		return total;
+	}
+	
+	private List<Integer> diceRollsForTest= new ArrayList<Integer>();;
+	public int getDiceRollForTest() {
+		if(diceRollsForTest.size() >0)
+			return diceRollsForTest.remove(0);
+		
+		return 1;
+	}
+	
+	public void addDiceRollForTest(int roll) {
+		this.diceRollsForTest.add(roll);
+	}
+	
+	public void gamePieceTookDamage(Counter piece) {
+		if(piece instanceof Fort) {
+			Fort f = (Fort) piece;
+			f.reduceLevel();
+			if(f.getLevelNum() <= 0) {
+				f.restoreLevel();
+				getPlayingCup().addGamePieceToLocation(piece);
+			}
+		} else if(piece instanceof CityVill) {
+			CityVill f = (CityVill) piece;
+			f.reduceLevel();
+			if(f.getCombatValue() <= 0) {
+				f.restoreLevel();
+				getPlayingCup().addGamePieceToLocation(piece);
+			}
+		} else if(piece instanceof Thing) {
+			getPlayingCup().addGamePieceToLocation(piece);
+			
+			if(piece.getOwner() != null) {
+				piece.getOwner().removeGamePiece(piece.getId());
+				piece.setOwner(null);
+			}
+		} else if(piece instanceof SpecialCharacter) {
+			getSideLocation().addGamePieceToLocation(piece);
+			
+			if(piece.getOwner() != null) {
+				piece.getOwner().removeGamePiece(piece.getId());
+				piece.setOwner(null);
+			}
+		}
+	}
+	
+	public int getIndexOfHexLocation(HexLocation hex) {
+		int i=0;
+		for(HexLocation hl : getHexlocations()) {
+			if(hl.getHexNumber() == hex.getHexNumber())
+				break;
+			i++;
+		}
+		return i;
+	}
+	
+	public List<HexLocation> getSurroundingHexLocations(HexLocation hex) {
+		List<Integer> surroundingIndices = hex.getAdjacentHexLocations();
+		List<HexLocation> locations = new ArrayList<HexLocation>();
+		for(Integer i : surroundingIndices) {
+			if(i < getHexlocations().size()) {
+				locations.add(getHexlocations().get(i));
+			}
+		}
+		return locations;
 	}
 	
 }

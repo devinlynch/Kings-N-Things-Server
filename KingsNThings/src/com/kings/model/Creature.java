@@ -1,5 +1,7 @@
 package com.kings.model;
 
+import com.kings.model.phases.exceptions.DoesNotSupportCombatException;
+
 
 public class Creature extends Thing {
 	private int combatValue;
@@ -30,5 +32,10 @@ public class Creature extends Thing {
 	}
 	public void setTerrainType(Terrain terrainType) {
 		this.terrainType = terrainType;
+	}
+
+	@Override
+	public int getCombatValueForCombat() throws DoesNotSupportCombatException {
+		return combatValue;
 	}
 }

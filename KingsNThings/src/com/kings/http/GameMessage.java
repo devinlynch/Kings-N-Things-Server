@@ -29,6 +29,7 @@ public class GameMessage {
 	private Date createdDate;
 	private String messageId;
 	private long delay;
+	private String gameId;
 	
 	public GameMessage(String type) {
 		setPlayersToSendTo(new HashSet<Player>());
@@ -49,15 +50,21 @@ public class GameMessage {
 	}
 
 	public void setPlayersToSendTo(Set<Player> playersToSendTo) {
-		this.playersToSendTo = playersToSendTo;
+		this.playersToSendTo = new HashSet<Player>();
+		for(Player p : playersToSendTo) {
+			addPlayerToSendTo(p);
+		}
 	}
 	
 	public void addPlayerToSendTo(Player player) {
+		setGameId(player.getGameState().getGameId());
 		getPlayersToSendTo().add(player);
 	}
 	
 	public void addPlayersToSendTo(List<Player> players) {
-		getPlayersToSendTo().addAll(players);
+		for(Player p: players){
+			addPlayerToSendTo(p);
+		}
 	}
 	
 	public String getType() {
@@ -87,6 +94,7 @@ public class GameMessage {
 		thisAsMap.put("data", dataMap);
 		thisAsMap.put("createdDate", getCreatedDate());
 		thisAsMap.put("messageId", messageId);
+		thisAsMap.put("gameId", gameId);
 		return Utils.toJson(thisAsMap);
 	}
 	
@@ -192,5 +200,13 @@ public class GameMessage {
 
 	public void setDelay(long delay) {
 		this.delay = delay;
+	}
+
+	public String getGameId() {
+		return gameId;
+	}
+
+	public void setGameId(String gameId) {
+		this.gameId = gameId;
 	}
 }

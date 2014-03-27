@@ -6,6 +6,7 @@ import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class SentMessage {
+	private String sentMessageId;
 	private Date sentDate;
 	private String messageId;
 	private String json;
@@ -91,6 +92,14 @@ public class SentMessage {
 
 	public void setQueued(boolean queued) {
 		this.queued = queued;
+	}
+
+	public String getSentMessageId() {
+		return sentMessageId;
+	}
+
+	public void setSentMessageId(String sentMessageId) {
+		this.sentMessageId = sentMessageId;
 	}
 
 }

@@ -48,7 +48,6 @@ public class GoldCollectionPhase extends Phase {
 	@Override
 	public void setupNextPhase() {
 		setNextPhase(new RecruitCharactersPhase(getGameState(), getPlayersInOrderOfTurn()));
-
 	}
 
 	@Override

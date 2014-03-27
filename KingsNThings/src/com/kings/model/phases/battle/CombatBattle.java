@@ -3,25 +3,31 @@ package com.kings.model.phases.battle;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
 import com.kings.http.GameMessage;
+import com.kings.model.CityVill;
 import com.kings.model.Creature;
+import com.kings.model.Fort;
 import com.kings.model.GamePiece;
 import com.kings.model.GameState;
 import com.kings.model.HexLocation;
 import com.kings.model.Player;
 import com.kings.model.Stack;
 import com.kings.model.phases.CombatPhase;
+import com.kings.model.phases.battle.CombatBattleRound.PostBattlePieceStatus;
 import com.kings.util.Utils;
 
 public class CombatBattle {
 	public enum BattleResolution{
-		RETREAT,
-		BATTLE_AGAIN
+		ATTACKER_RETREATED,
+		DEFENDER_REREATED,
+		ATTACKER_WON,
+		DEFENDER_WON
 	};
 	
 	
@@ -32,14 +38,7 @@ public class CombatBattle {
 	private Player attacker;
 	private Player defender;
 	private String battleId;
-	
-	int attackerHitCount;
-	int defenderHitCount;
-	
-	private boolean attackerDidRoll;
-	private boolean defenderDidRoll;
-	
- 	private boolean resolutionWasMade;
+	private CombatBattleRound round;
 	
 	public CombatBattle(HexLocation locationOfBattle, CombatPhase combatPhase) {
 		this.locationOfBattle = locationOfBattle;
@@ -55,46 +54,20 @@ public class CombatBattle {
 				break;
 			}
 		}
+		
+		round = new CombatBattleRound(this);
 	}
 	
 	public void start() {
 		System.out.println("CombatBattle started id=["+battleId+"]");
 		informAttackerAndDefenderOfBattle();
-		informAttackerItsTheirTurnToFight();
-		informDefenderItsTheirTurnToFight();
+		
+		round.start();
 	}
 	
-	
-	public void informAttackerItsTheirTurnToFight() {
-		GameMessage message = new GameMessage("yourTurnToAttack");
-		Map<Creature, Integer> creaturesToRolls = getCreatureToRollNumbersForAttacker();
-		
-		Set<Map<String,Object>> creaturesSet = new HashSet<Map<String,Object>>();
-		for (Creature key : creaturesToRolls.keySet()) {
-		    Integer roll = creaturesToRolls.get(key);
-		    Map<String, Object> map = key.toSerializedFormat();
-		    map.put("roll", roll);
-		    creaturesSet.add(map);
-		}
-		message.addToData("creaturesToRolls", creaturesSet);
-		message.addToData("attackerHitCount", attackerHitCount);
-		getGameState().queueUpGameMessageToSendToAllPlayers(message);
-	}
-	
-	public void informDefenderItsTheirTurnToFight() {
-		GameMessage message = new GameMessage("yourTurnToDefend");
-		Map<Creature, Integer> creaturesToRolls = getDefendingPiecesToRollNumbersForDefender();
-		
-		Set<Map<String,Object>> creaturesSet = new HashSet<Map<String,Object>>();
-		for (Creature key : creaturesToRolls.keySet()) {
-		    Integer roll = creaturesToRolls.get(key);
-		    Map<String, Object> map = key.toSerializedFormat();
-		    map.put("roll", roll);
-		    creaturesSet.add(map);
-		}
-		message.addToData("creaturesToRolls", creaturesSet);
-		message.addToData("defenderHitCount", defenderHitCount);
-		getGameState().queueUpGameMessageToSendToAllPlayers(message);
+	public void startNewRound() {
+		round = new CombatBattleRound(this);
+		round.start();
 	}
 	
 	public void informAttackerAndDefenderOfBattle() {
@@ -103,166 +76,65 @@ public class CombatBattle {
 		getGameState().queueUpGameMessageToSendToAllPlayers(msg);
 	}
 	
-	protected Map<Creature, Integer> getCreatureToRollNumbersForAttacker() {
-		Map<Creature, Integer> map = new HashMap<Creature, Integer>();
-		Set<Creature> creatures = locationOfBattle.getCreaturePiecesForPlayerIncludingCreaturesInStack(attacker);
+	public void battleDidFinish(Player winner, BattleResolution resolution) {
+		System.out.println("Combat Battle BattleId=["+getBattleId()+"] ended with resolution " + resolution.toString() + " and winner playerid="+winner.getPlayerId());
 		
-		for(Creature creature: creatures) {
-			Random r = new Random();
-			Integer randomnum = r.nextInt(6-1) + 1;
+		Map<String, PostBattlePieceStatus> piecesStatuses =  new HashMap<String, CombatBattleRound.PostBattlePieceStatus>();
+		Iterator<GamePiece> it = getLocationOfBattle().getAllPiecesOnHexIncludingPiecesInStacks().iterator();
+		while(it.hasNext()) {
+			GamePiece piece = it.next();
 			
-			if(getGameState().isTestMode()) {
-				randomnum=0;
+			// For forts, city vills and other special income counters, see if damage took place.  If so, roll a die for the piece.
+			// A roll of 1 or 6 destroys the piece or if its a fort its reduced 1 level, otherwise damage from battle is restored
+			// (citadels are never reduced or destoroyed)
+			if(piece instanceof Fort) {
+				Fort fort = (Fort) piece;
+				int actualLevel = fort.getActualLevelNumWhenRestored();
+				int levelNow = fort.getLevelNum();
+				
+				if(levelNow < actualLevel) {
+					// Damage took place
+					int randomRoll = getGameState().rollDice(6);
+					
+					fort.reduceLevel();
+					if((randomRoll == 1 || randomRoll == 6) && actualLevel != 4) {
+						fort.setLevelNum(actualLevel-1);
+						piecesStatuses.put(fort.getId(), PostBattlePieceStatus.REDUCED_LEVEL);
+					} else{
+						piecesStatuses.put(fort.getId(), PostBattlePieceStatus.RESTORED);
+					}
+				}
+			} else if (piece instanceof CityVill) {
+				int randomRoll = getGameState().rollDice(6);
+				
+				if(randomRoll == 1 || randomRoll == 6) {
+					piecesStatuses.put(piece.getId(), PostBattlePieceStatus.DESTROYED);
+					getGameState().getPlayingCup().addGamePieceToLocation(piece);
+					continue;
+				} else{
+					piecesStatuses.put(piece.getId(), PostBattlePieceStatus.RESTORED);
+				}
 			}
 			
-			if(randomnum <= creature.getCombatValue()) {
-				attackerHitCount++;
-			}
 			
-			map.put(creature, randomnum);
-		}
-		return map;
-	}
-	
-	protected Map<Creature, Integer> getDefendingPiecesToRollNumbersForDefender() {
-		//TODO for it2: need to have forts, cities, etc. 
-		
-		Map<Creature, Integer> map = new HashMap<Creature, Integer>();
-		Set<Creature> creatures = locationOfBattle.getCreaturePiecesForPlayerIncludingCreaturesInStack(defender);
-		
-		for(Creature creature: creatures) {
-			Random r = new Random();
-			Integer randomnum = r.nextInt(6-1) + 1;
-			
-			if(getGameState().isTestMode()) {
-				randomnum=0;
-			}
-			
-			if(randomnum <= creature.getCombatValue()) {
-				defenderHitCount++;
-			}
-			
-			map.put(creature, randomnum);
-		}
-		return map;
-	}
-	
-	public synchronized void playerDidRoll(Player p) {
-		if(p.getPlayerId().equals(attacker.getPlayerId())) {
-			attackerDidRoll();
-		} else if(p.getPlayerId().equals(defender.getPlayerId())) {
-			defenderDidRoll();
-		}
-	}
-	
-	public void attackerDidRoll() {
-		attackerDidRoll = true;
-		handleStartResolutionIfNeeded();
-	}
-	
-	public void defenderDidRoll() {
-		defenderDidRoll = true;
-		handleStartResolutionIfNeeded();
-	}
-	
-	protected synchronized void handleStartResolutionIfNeeded() {
-		if(defenderDidRoll && attackerDidRoll) {
-			GameMessage msg = new GameMessage("timeForBattleResolution");
-			msg.addPlayerToSendTo(attacker);
-			msg.addPlayerToSendTo(defender);
-			
-			msg.addToData("battle", this.toSerializedFormat());
-			msg.addUserSpecificData(attacker.getPlayerId(), "damageYouTook", defenderHitCount);
-			msg.addUserSpecificData(defender.getPlayerId(), "damageYouTook", attackerHitCount);
-			getGameState().queueUpGameMessageToSendToAllPlayers(msg);
-		}
-	}
-	
-	private boolean attackerDidTakeDamage;
-	private boolean defenderDidTakeDamage;
-	public synchronized void playerTookDamage(Player p, Set<String> gamePiecesTakingHits) {
-		for(String gamePieceId : gamePiecesTakingHits) {
-			GamePiece gp = getGameState().getGamePiece(gamePieceId);
-			if(gp != null) {
-				gp.neutralize();
-			}
+			// Assign all pieces from opposing player to the winner
+			if(piece.getOwner() != null && ! piece.getOwner().getPlayerId().equals(winner.getPlayerId()))
+				winner.assignGamePieceToPlayer(piece);
 		}
 		
-		boolean isAttacker =false;
-		if(p.getPlayerId().equals(attacker.getPlayerId())) {
-			attackerDidTakeDamage = true;
-			isAttacker=true;
-		} else{
-			defenderDidTakeDamage = true;
-		}
 		
-		GameMessage msg = getCombatPhase().newGameMessageForAllPlayers("playerTookDamageInBattle");
-		msg.addToData("damage", isAttacker ? attackerHitCount : defenderHitCount);
-		msg.addToData("playerId", p.getPlayerId());
-		msg.addToData("neutralizedPiecesIds", gamePiecesTakingHits);
+		
+		
+		this.isOver = true;
+		GameMessage msg = getCombatPhase().newGameMessageForAllPlayers("battleOver");
 		msg.addToData("battle", this.toSerializedFormat());
+		msg.addToData("winnerId", winner.getPlayerId());
+		msg.addToData("resolution", resolution.toString());
+		msg.addToData("statusOfLeftoverPieces", piecesStatuses);
 		getGameState().queueUpGameMessageToSendToAllPlayers(msg);
 		
-		
-		if(attackerDidTakeDamage && defenderDidTakeDamage) {
-			GameMessage msg2 = new GameMessage("timeForPostBattleResolution");
-			msg2.addPlayerToSendTo(attacker);
-			msg2.addPlayerToSendTo(defender);
-			msg2.addToData("battle", this.toSerializedFormat());
-			getGameState().queueUpGameMessageToSendToAllPlayers(msg2);
-		}
-	}
-	
-	public synchronized void playerMadeResolution(Player p, BattleResolution resolution) {
-		if(resolutionWasMade) {
-			// TODO
-		}
-		
-		if(resolution == BattleResolution.RETREAT) {
-			System.out.println("Player retreated");
-			// Retreat
-			if(p.getPlayerId().equals(attacker.getPlayerId())) {
-				handleRetreat(attacker);
-			} else if(p.getPlayerId().equals(defender.getPlayerId())) {
-				handleRetreat(defender);
-			}
-		} else {
-			// Battle again
-			System.out.println("Player wants to battle again, not supported right now");
-		}
-		
-		resolutionWasMade = true;
-		isOver = true;
 		getCombatPhase().handleStartNextBattle();
 	}
-	
-	protected void handleRetreat(Player player){
-		List<GamePiece> pieces = new ArrayList<GamePiece>(locationOfBattle.getPiecesForPlayer(player));
-		List<Stack> stacks = new ArrayList<Stack>(locationOfBattle.getStacksForPlayer(player));
-		HexLocation nearestHex = player.getNearestHexTo(locationOfBattle);
-		
-		Set<Map<String, Object>> retreatedPieces = new HashSet<Map<String,Object>>();
-		Set<Map<String, Object>> retreatedStacks = new HashSet<Map<String,Object>>();
-
-		for(GamePiece piece : pieces) {
-			nearestHex.addGamePieceToLocation(piece);
-			retreatedPieces.add(piece.toSerializedFormat());
-		}
-		
-		for(Stack stack : stacks) {
-			nearestHex.addStack(stack);
-			retreatedStacks.add(stack.toSerializedFormat());
-		}
-		
-		GameMessage msg = getCombatPhase().newGameMessageForAllPlayers("playerRetreatedFromBattle");
-		msg.addToData("battle", this.toSerializedFormat());
-		msg.addToData("retreatedPlayerId", player.getPlayerId());
-		msg.addToData("retreatedToHexId", nearestHex.toSerializedFormat());
-		msg.addToData("piecesRetreated", retreatedPieces);
-		msg.addToData("stacksRetreated", retreatedStacks);
-		getGameState().queueUpGameMessageToSendToAllPlayers(msg);
-	}
-	
 	
 	public HashMap<String, Object> toSerializedFormat() {
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -270,6 +142,9 @@ public class CombatBattle {
 		map.put("attacker", attacker.toSerializedFormat());
 		map.put("defender", defender.toSerializedFormat());
 		map.put("isOver", isOver);
+		map.put("hexLocations", getGameState().getHexLocationsInSerializedFormat());
+		map.put("sideLocation", getGameState().getSideLocation().toSerializedFormat());
+		map.put("playingCup", getGameState().getPlayingCup().toSerializedFormat());
 		return map;
 	}
 	
@@ -297,23 +172,15 @@ public class CombatBattle {
 	public void setOver(boolean isOver) {
 		this.isOver = isOver;
 	}
-
-
 	public Player getAttacker() {
 		return attacker;
 	}
-
-
 	public void setAttacker(Player attacker) {
 		this.attacker = attacker;
 	}
-
-
 	public String getBattleId() {
 		return battleId;
 	}
-
-
 	public void setBattleId(String battleId) {
 		this.battleId = battleId;
 	}
@@ -326,61 +193,13 @@ public class CombatBattle {
 		this.defender = defender;
 	}
 
-	public int getAttackerHitCount() {
-		return attackerHitCount;
+	public CombatBattleRound getRound() {
+		return round;
 	}
 
-	public void setAttackerHitCount(int attackerHitCount) {
-		this.attackerHitCount = attackerHitCount;
+	public void setRound(CombatBattleRound round) {
+		this.round = round;
 	}
-
-	public int getDefenderHitCount() {
-		return defenderHitCount;
-	}
-
-	public void setDefenderHitCount(int defenderHitCount) {
-		this.defenderHitCount = defenderHitCount;
-	}
-
-	public boolean isAttackerDidRoll() {
-		return attackerDidRoll;
-	}
-
-	public void setAttackerDidRoll(boolean attackerDidRoll) {
-		this.attackerDidRoll = attackerDidRoll;
-	}
-
-	public boolean isDefenderDidRoll() {
-		return defenderDidRoll;
-	}
-
-	public void setDefenderDidRoll(boolean defenderDidRoll) {
-		this.defenderDidRoll = defenderDidRoll;
-	}
-
-	public boolean isResolutionWasMade() {
-		return resolutionWasMade;
-	}
-
-	public void setResolutionWasMade(boolean resolutionWasMade) {
-		this.resolutionWasMade = resolutionWasMade;
-	}
-
-	public boolean isAttackerDidTakeDamage() {
-		return attackerDidTakeDamage;
-	}
-
-	public void setAttackerDidTakeDamage(boolean attackerDidTakeDamage) {
-		this.attackerDidTakeDamage = attackerDidTakeDamage;
-	}
-
-	public boolean isDefenderDidTakeDamage() {
-		return defenderDidTakeDamage;
-	}
-
-	public void setDefenderDidTakeDamage(boolean defenderDidTakeDamage) {
-		this.defenderDidTakeDamage = defenderDidTakeDamage;
-	}
-
+	
 	
 }

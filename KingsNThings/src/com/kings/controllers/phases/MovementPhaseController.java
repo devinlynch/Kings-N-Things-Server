@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kings.controllers.account.NotLoggedInException;
+import com.kings.http.HttpResponseMessage;
 import com.kings.model.GameState;
 import com.kings.model.Player;
 import com.kings.model.phases.MovementPhase;
@@ -85,8 +86,12 @@ public class MovementPhaseController extends PhaseController {
 
 			if(p instanceof MovementPhase) {
 				MovementPhase sPhase = (MovementPhase) p;
-				sPhase.didCreateStack(player.getPlayerId(), hexLocationId, gamePiecesToAdd);
-				return successMessage().toJson();
+				String createdStackId = sPhase.didCreateStack(player.getPlayerId(), hexLocationId, gamePiecesToAdd);
+				
+				HttpResponseMessage msg = successMessage();
+				msg.addToData("createdStackId", createdStackId);
+				
+				return msg.toJson();
 			} else{
 				return wrongPhaseMessage().toJson();
 			}

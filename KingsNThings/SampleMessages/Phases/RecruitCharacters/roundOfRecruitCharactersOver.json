@@ -1,0 +1,18 @@
+{
+   "data":{
+      "didRecruit":true,
+      "specialCharacter":{
+         "id":"specialcharacter_04",
+         "ownerId":null,
+         "locationId":"side",
+         "neutralized":false
+      },
+      "playerId":"player4",
+      "numPreRolls":0,
+      "numPostRolls":1,
+      "theRoll":9
+   },
+   "messageId":"gamemessage1395501091166hvb3vj2qi035wkpu1r",
+   "type":"roundOfRecruitCharactersOver",
+   "createdDate":1395501091166
+}
