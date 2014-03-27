@@ -17,6 +17,8 @@ public class SpecialAbility {
 
 	public SpecialAbility(String id, String name) {
 		super();
+		this.id=id;
+		this.name=name;
 	}
 
 	

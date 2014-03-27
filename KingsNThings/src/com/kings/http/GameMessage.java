@@ -62,7 +62,9 @@ public class GameMessage {
 	}
 	
 	public void addPlayersToSendTo(List<Player> players) {
-		getPlayersToSendTo().addAll(players);
+		for(Player p: players){
+			addPlayerToSendTo(p);
+		}
 	}
 	
 	public String getType() {
