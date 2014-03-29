@@ -1,0 +1,13 @@
+{
+   "gameId":"1",
+   "data":{
+      "playerIdTryingToRetreat":"player3",
+      "battleId":"battle13961098810494n9jwkd62zt0",
+      "defenderId":"player3",
+      "attackerId":"player4",
+      "roundId":"battle_battle13961098810494n9jwkd62zt0_round1396109881049i0ayzcaxpgh0"
+   },
+   "messageId":"gamemessage1396109881517htde5v12vrq",
+   "type":"retreatCouldNotTakePlace",
+   "createdDate":1396109881517
+}

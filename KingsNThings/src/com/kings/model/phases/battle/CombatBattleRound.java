@@ -55,6 +55,9 @@ public class CombatBattleRound {
 	public void start() {
 		System.out.println("CombatRound started id=["+roundId+"] and BattleId=["+battle.getBattleId()+"]");
 		
+		GameMessage roundStartedMessage = newRoundMessageForAllPlayers("combatRoundStarted");
+		getBattle().getGameState().queueUpGameMessageToSendToAllPlayers(roundStartedMessage);
+		
 		started=true;
 		ended=false;
 		stepsAreOver=false;

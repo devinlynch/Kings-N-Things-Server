@@ -34,7 +34,9 @@ public class AbstractLoggedInOnlyController extends AbstractDatabaseController {
 			getDataAccess().rollback();
 			throw new NotLoggedInException();
 		} else{
-			String hostName = request.getParameter("hostName");
+			
+			
+			String hostName = request.getRemoteAddr();
 			String portString = request.getParameter("port");
 			
 			Integer port = null;

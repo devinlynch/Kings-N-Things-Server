@@ -27,8 +27,10 @@ public class InGameController extends PhaseController {
 			User user = getUser(req);
 			Game game = user.getGame();
 			
-			game.end(true);
-			getDataAccess().save(game);
+			if(game != null) {
+				game.end(true);
+				getDataAccess().save(game);
+			}
 		} catch(Exception e) {
 			e.printStackTrace();
 			return genericError().toJson();
