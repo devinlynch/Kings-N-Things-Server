@@ -17,7 +17,7 @@
 	  <bean class="com.kings.controllers.phases.CombatPhaseController" />
  	  <bean class="com.kings.controllers.MessageController" />
  	  <bean class="com.kings.controllers.phases.InGameController" />
- 	  
+ 	  <bean class="com.kings.controllers.phases.RecruitCharactersPhaseController" />
  	  
  	  
 	  <bean id="handlerMapping" class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">

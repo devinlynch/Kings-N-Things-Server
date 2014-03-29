@@ -1,0 +1,18 @@
+{
+   "gameId":"1",
+   "data":{
+      "battleId":"battle1396107903005csdvtcan2gzrrd66wwn",
+      "playerId":"player1",
+      "damage":1,
+      "gamePiecesTakingHitsIds":[
+         "T_Jungle_005-01"
+      ],
+      "defenderId":"player2",
+      "attackerId":"player1",
+      "roundId":"battle_battle1396107903005csdvtcan2gzrrd66wwn_round1396107903007dgtwxlmu5hpbtf",
+      "stepName":"magicStep"
+   },
+   "messageId":"gamemessage13961079030679g54oe12vgsirlnfd2k",
+   "type":"playerTookDamageInBattle",
+   "createdDate":1396107903067
+}

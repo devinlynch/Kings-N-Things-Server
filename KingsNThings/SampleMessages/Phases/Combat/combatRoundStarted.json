@@ -1,0 +1,12 @@
+{
+   "gameId":"1",
+   "data":{
+      "battleId":"battle1396109722580mk9j52pie3txl4skr",
+      "defenderId":"player2",
+      "attackerId":"player1",
+      "roundId":"battle_battle1396109722580mk9j52pie3txl4skr_round13961097227856fck1ucxalbweqevzv"
+   },
+   "messageId":"gamemessage13961097227859rvnhozxv6i4wf1b",
+   "type":"combatRoundStarted",
+   "createdDate":1396109722785
+}

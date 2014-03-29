@@ -69,7 +69,7 @@ public class RunThroughPhasesTest {
 		return game.getGameState();
 	}
 	
-	@Test
+	//@Test
 	public void testRunThroughGame() throws Exception{
 		GameState gs = getNewGameState();
 		

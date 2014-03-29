@@ -57,6 +57,7 @@ public class RecruitCharactersPhaseRound {
 			return;
 		}
 		message.addToData("availableSpecialCharacters", specialCharctersAvailableSerialized);
+		message.addToData("playerGold", player.getGold());
 		message.addPlayerToSendTo(player);
 		getGameState().queueUpGameMessageToSendToAllPlayers(message);
 	}
@@ -74,6 +75,8 @@ public class RecruitCharactersPhaseRound {
 		
 		
 		rollValue = getGameState().rollDice(2);
+		//TODOREMOVE
+		rollValue=7;
 		
 		if(recruitingCharacterId != null){
 			specialCharacterRecruiting = (SpecialCharacter) getGameState().getSideLocation().getGamePieceById(recruitingCharacterId);
@@ -108,6 +111,7 @@ public class RecruitCharactersPhaseRound {
 		message.addToData("numPreRolls", preRollChanges);
 		message.addToData("didRecruit", didRecruit);
 		message.addToData("specialCharacter", specialCharacterRecruiting.toSerializedFormat());
+		message.addToData("playerGold", player.getGold());
 		message.addUserSpecificData(player.getPlayerId(), "isMe", true);
 		getGameState().queueUpGameMessageToSendToAllPlayers(message);
 		
@@ -157,6 +161,7 @@ public class RecruitCharactersPhaseRound {
 		message.addToData("numPostRolls", postRollChanges);
 		message.addToData("didRecruit", didRecruit);
 		message.addToData("specialCharacter", specialCharacterRecruiting.toSerializedFormat());
+		message.addToData("playerGold", player.getGold());
 		message.addUserSpecificData(player.getPlayerId(), "isMe", true);
 		getGameState().queueUpGameMessageToSendToAllPlayers(message);
 	}
