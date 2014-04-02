@@ -23,7 +23,12 @@ public class HttpResponseError {
 		USER_ALREADY_IN_GAME,
 		WRONG_PHASE,
 		NOT_YOUR_TURN,
-		BAD_MOVE
+		BAD_MOVE,
+		BATTLE_DOES_NOT_EXIST,
+		BATTLE_OVER,
+		BATTLE_NOT_STARTED,
+		WRONG_ROUND,
+		WRONG_ROUND_STATE
 	}
 
 	public ResponseError getResponseError() {

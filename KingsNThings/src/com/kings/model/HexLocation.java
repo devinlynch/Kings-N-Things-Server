@@ -19,7 +19,7 @@ public class HexLocation extends BoardLocation {
 	
 	public HexLocation(String id, int hexNumber) {
 		super(id, "Hex Location");
-		setName("Hex Location");
+		setName("Hex Location " + hexNumber);
 		stacks = new HashSet<Stack>();
 		this.setHexNumber(hexNumber);
 	}

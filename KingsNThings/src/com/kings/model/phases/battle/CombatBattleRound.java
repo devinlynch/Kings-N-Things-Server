@@ -3,15 +3,12 @@ package com.kings.model.phases.battle;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import com.kings.http.GameMessage;
-import com.kings.model.CityVill;
 import com.kings.model.Creature;
-import com.kings.model.Fort;
 import com.kings.model.GamePiece;
 import com.kings.model.HexLocation;
 import com.kings.model.Player;
@@ -30,6 +27,15 @@ public class CombatBattleRound {
 	private boolean ended;
 	private String roundId;
 	private CombatBattle battle;
+	public enum BattleRoundState{
+		NOT_STARTED,
+		MAGIC_STEP,
+		RANGE_STEP,
+		MELEE_STEP,
+		WAITING_ON_RETREAT_OR_CONTINUE,
+		ROUND_ENDED
+	}
+	private BattleRoundState state;
 	
 	/*
 	 * Step specific vars
@@ -50,6 +56,7 @@ public class CombatBattleRound {
 		setBattle(battle);
 		roundId = Utils.generateRandomId("battle_"+battle.getBattleId()+"_round");
 		steps = new ArrayList<CombatBattleStep>();
+		setState(BattleRoundState.NOT_STARTED);
 	}
 	
 	public void start() {
@@ -104,6 +111,7 @@ public class CombatBattleRound {
 	
 	protected void handleStepsOver() {
 		stepsAreOver=true;
+		state = BattleRoundState.WAITING_ON_RETREAT_OR_CONTINUE;
 	}
 	
 	public synchronized void playerDidRetreatOrContinue(Player p, boolean isRetreating) throws MoveNotValidException, NotYourTurnException {
@@ -235,7 +243,7 @@ public class CombatBattleRound {
 		boolean attackerWon;
 		int numAttackerPieces = getBattle().getLocationOfBattle().getDamageablePiecesOnLocationForPlayer(getBattle().getAttacker()).size();
 		
-		// If attacker lost all their peices, winner is automatically defender
+		// If attacker lost all their pieces, winner is automatically defender
 		if(numAttackerPieces == 0) {
 			winner = getBattle().getDefender();
 			attackerWon=false;
@@ -257,6 +265,7 @@ public class CombatBattleRound {
 	}
 	
 	public void end() {
+		state = BattleRoundState.ROUND_ENDED;
 		System.out.println("CombatRound ended id=["+roundId+"] and BattleId=["+battle.getBattleId()+"]");
 		ended=true;
 	}
@@ -321,5 +330,22 @@ public class CombatBattleRound {
 	public boolean isStepsAreOver() {
 		return stepsAreOver;
 	}
+
+	public BattleRoundState getState() {
+		return state;
+	}
+
+	public void setState(BattleRoundState state) {
+		this.state = state;
+	}
 	
+	
+	public HashMap<String, Object> toSerializedFormat() {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("battleId", getBattle().getBattleId());
+		map.put("roundId", getRoundId());
+		map.put("state", getState().toString());
+		map.put("isOver", isEnded());
+		return map;
+	}
 }

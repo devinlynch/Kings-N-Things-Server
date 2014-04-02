@@ -46,6 +46,8 @@ public abstract class CombatBattleStep {
 		if(ended)
 			return;
 		
+		handleStart();
+		
 		System.out.println("CombatBattleStep started id=["+stepName+"] and roundId=["+round.getRoundId()+"] and BattleId=["+getRound().getBattle().getBattleId()+"]");
 		
 		started=true;
