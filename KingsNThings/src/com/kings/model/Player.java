@@ -22,6 +22,7 @@ public class Player extends AbstractSerializedObject {
 	private GameState gameState;
 	private Set<SentMessage> sentMessages;
 	private Integer gold;
+	private boolean ai;
 
 	private Set<HexLocation> ownedLocations;
 	
@@ -149,6 +150,7 @@ public class Player extends AbstractSerializedObject {
 		map.put("rack2", rack2.toSerializedFormat());
 		map.put("gamePieces", getGamePiecesInSerializedFormat());
 		map.put("ownedHexIds", getOwnedHexesInSerializedFormat());
+		map.put("isAi", isAi());
 		return map;
 	}
 	
@@ -309,5 +311,13 @@ public class Player extends AbstractSerializedObject {
 		}
 		
 		return null;
+	}
+
+	public boolean isAi() {
+		return ai;
+	}
+
+	public void setAi(boolean ai) {
+		this.ai = ai;
 	}
 }

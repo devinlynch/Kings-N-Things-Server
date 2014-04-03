@@ -145,4 +145,13 @@ public class BoardLocation extends AbstractSerializedObject {
 		return null;
 	}
 	
+	
+	public Creature getAnyCreature() {
+		for(GamePiece gp: getGamePieces()) {
+			if(gp instanceof Creature)
+				return (Creature)gp;
+		}
+		return null;
+	}
+	
 }

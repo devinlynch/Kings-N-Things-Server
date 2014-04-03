@@ -6,6 +6,7 @@ import java.util.Set;
 
 import com.kings.http.GameMessage;
 import com.kings.model.BoardLocation;
+import com.kings.model.Creature;
 import com.kings.model.GamePiece;
 import com.kings.model.GameState;
 import com.kings.model.HexLocation;
@@ -70,7 +71,7 @@ public class MovementPhase extends Phase {
 
 	public synchronized void didMoveGamePiece(String playerId, String boardLocationId, String gamePieceId) throws NotYourTurnException{
 		// TODO some error checking really needs to take place here
-
+		
 		if(isOver())
 			return;
 
@@ -93,6 +94,55 @@ public class MovementPhase extends Phase {
 		message.addToData("gamePieceId",gamePieceId);
 		message.setPlayersToSendTo(otherPlayers);
 		getGameState().queueUpGameMessageToSendToAllPlayers(message);
+	}
+	
+	public synchronized Set<String> didExploreHex(String playerId, String hexLocationId, String gamePieceId, String stackId, int rollNumber) throws NotYourTurnException{
+		if(isOver())
+			return null;
+
+		if( ! getPlayersInOrderOfTurn().get(nextPlayerToMove).getPlayerId().equals(playerId) ){
+			throw new NotYourTurnException();
+		}
+
+		Player player = getGameState().getPlayerByPlayerId(playerId);
+		HexLocation loc = getGameState().getHexLocationsById(hexLocationId);
+		
+		if(gamePieceId != null){
+			didMoveGamePiece(playerId, hexLocationId, gamePieceId);
+		}
+		
+		if(stackId != null){
+			didMoveStack(playerId, hexLocationId, stackId);
+		}
+		
+		boolean didCapture = false;
+		if(rollNumber <= 1 || rollNumber >= 6) {
+			didCapture = true;
+		}
+		
+		Set<String> defendingPiecesAdded =  new HashSet<String>();
+		if(didCapture) {
+			loc.capture(player);
+		} else {
+			for(int i=0; i < rollNumber ; i ++) {
+				Creature crea = getGameState().getPlayingCup().getAnyCreature();
+				if(crea == null)
+					break;
+				defendingPiecesAdded.add(crea.getId());
+			}
+		}
+
+		Set<Player> otherPlayers = new HashSet<Player>(getPlayersInOrderOfTurn());
+		otherPlayers.remove(player);
+		
+		GameMessage message = new GameMessage("playerExploredHex");
+		message.addToData("playerId", playerId);
+		message.addToData("hexLocationId", hexLocationId);
+		message.addToData("defendingPieceIds",defendingPiecesAdded);
+		message.setPlayersToSendTo(otherPlayers);
+		getGameState().queueUpGameMessageToSendToAllPlayers(message);
+		
+		return defendingPiecesAdded;
 	}
 	
 	/**

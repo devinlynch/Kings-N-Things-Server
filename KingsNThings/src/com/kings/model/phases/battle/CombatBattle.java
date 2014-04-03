@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.kings.http.GameMessage;
+import com.kings.model.AIPlayer;
 import com.kings.model.CityVill;
 import com.kings.model.Fort;
 import com.kings.model.GamePiece;
@@ -36,6 +37,7 @@ public class CombatBattle {
 	private CombatBattleRound round;
 	private boolean started;
 	private BattleResolution resolution;
+	private boolean isAIDefender;
 	
 	public CombatBattle(HexLocation locationOfBattle, CombatPhase combatPhase) {
 		this.locationOfBattle = locationOfBattle;
@@ -50,6 +52,11 @@ public class CombatBattle {
 				setAttacker(p);
 				break;
 			}
+		}
+		
+		if(defender == null) {
+			isAIDefender = true;
+			defender = new AIPlayer(null, gameState, "ai");
 		}
 		
 		resolution = BattleResolution.IN_PROGRESS;
@@ -150,6 +157,7 @@ public class CombatBattle {
 		map.put("round", getRound().toSerializedFormat());
 		map.put("battleId", getBattleId());
 		map.put("resolution", resolution.toString());
+		map.put("isAIDefender", isAIDefender);
 		return map;
 	}
 	
@@ -212,6 +220,14 @@ public class CombatBattle {
 
 	public void setStarted(boolean started) {
 		this.started = started;
+	}
+
+	public boolean isAIDefender() {
+		return isAIDefender;
+	}
+
+	public void setAIDefender(boolean isAIDefender) {
+		this.isAIDefender = isAIDefender;
 	}
 	
 	

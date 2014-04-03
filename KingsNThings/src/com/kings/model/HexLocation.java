@@ -213,8 +213,14 @@ public class HexLocation extends BoardLocation {
 		
 		Set<GamePiece> allPieces = getAllPiecesOnHexIncludingPiecesInStacksForPlayer(p);
 		for(GamePiece gp : allPieces) {
-			if(gp.getOwner() != null && gp.getOwner().getPlayerId().equals(p.getPlayerId())) {
-				if(GamePiece.isGamePieceDamageable(gp)) {
+			if(!p.isAi()) {
+				if(gp.getOwner() != null && gp.getOwner().getPlayerId().equals(p.getPlayerId())) {
+					if(GamePiece.isGamePieceDamageable(gp)) {
+						counters.add((Counter)gp);
+					}
+				}
+			} else{
+				if(gp.getOwner()==null) {
 					counters.add((Counter)gp);
 				}
 			}

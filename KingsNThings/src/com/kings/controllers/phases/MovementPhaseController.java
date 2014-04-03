@@ -65,6 +65,33 @@ public class MovementPhaseController extends PhaseController {
 
 		}
 		
+		@RequestMapping(value="exploreHex")
+		public @ResponseBody String moveStack(
+			@RequestParam String hexLocationId,
+			@RequestParam(required=false) String stackId,
+			@RequestParam(required=false) String gamePieceId,
+			@RequestParam int rollNumber,
+			HttpServletRequest req,
+			HttpServletResponse res) throws NotLoggedInException, NotYourTurnException{
+
+			if(stackId == null && gamePieceId == null) {
+				return successMessage().toJson();
+			}
+
+			GameState state = getGameState(req);
+			Player player = getPlayer(req);
+			Phase p = state.getCurrentPhase();
+
+			if (p instanceof MovementPhase) {
+				MovementPhase sPhase = (MovementPhase) p;
+				sPhase.didExploreHex(player.getPlayerId(), hexLocationId, gamePieceId, stackId, rollNumber);
+				return successMessage().toJson();
+			} else{
+				return wrongPhaseMessage().toJson();
+			}
+
+		}
+		
 		@RequestMapping(value="createStack")
 		public @ResponseBody String createStack(
 			@RequestParam String hexLocationId,

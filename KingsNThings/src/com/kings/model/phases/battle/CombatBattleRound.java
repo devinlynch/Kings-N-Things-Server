@@ -253,7 +253,9 @@ public class CombatBattleRound {
 		}
 
 		// The winning player now owns the hex
-		getBattle().getLocationOfBattle().capture(winner);
+		if(!battle.isAIDefender() || (battle.isAIDefender() && winner.equals(battle.getAttacker())))
+			getBattle().getLocationOfBattle().capture(winner);
+			
 		
 		end();
 		battle.battleDidFinish(winner, attackerWon ? BattleResolution.ATTACKER_WON : BattleResolution.DEFENDER_WON);

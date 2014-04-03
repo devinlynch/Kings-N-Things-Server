@@ -55,6 +55,7 @@ public abstract class CombatBattleStep {
 		handleSetPiecesToRollNumbersAndIncrementHitCounter(false);
 
 		sendStepStartedMessage();
+		handleAIMoveIfNeeded();
 	}
 	
 	protected abstract Set<Counter> getAttackerCountersOnThisLocationForStep();
@@ -211,6 +212,16 @@ public abstract class CombatBattleStep {
 		msg.addToData("playerId", p.getPlayerId());
 		msg.addToData("gamePiecesTakingHitsIds", gamePiecesTakingHits);
 		getGameState().queueUpGameMessageToSendToAllPlayers(msg);
+	}
+	
+	public void handleAIMoveIfNeeded() {
+		if(getRound().getBattle().isAIDefender()) {
+			try {
+				playerLockedInRollAndDamage(getRound().getBattle().getDefender(), null);
+			} catch (NotYourTurnException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public synchronized boolean didAttackerAndDefenderRoll() {
