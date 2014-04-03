@@ -217,7 +217,7 @@ public abstract class CombatBattleStep {
 	public void handleAIMoveIfNeeded() {
 		if(getRound().getBattle().isAIDefender()) {
 			try {
-				playerLockedInRollAndDamage(getRound().getBattle().getDefender(), null);
+				playerLockedInRollAndDamage(getRound().getBattle().getDefender(), new HashSet<String>());
 			} catch (NotYourTurnException e) {
 				e.printStackTrace();
 			}

@@ -30,8 +30,8 @@ public class Player extends AbstractSerializedObject {
 		this.playerId = playerId;
 		this.gamePieces = new HashMap<String,GamePiece>();
 		this.gameState=gameState;
-		this.setUsername(user.getUsername());
-		this.setUserId(user.getUserId());
+		this.setUsername(user != null ? user.getUsername() : null);
+		this.setUserId(user != null ? user.getUserId() : null);
 		this.setSentMessages(new HashSet<SentMessage>());
 		rack1 = new Rack(playerId+"_rack1");
 		rack2 = new Rack(playerId+"_rack2");

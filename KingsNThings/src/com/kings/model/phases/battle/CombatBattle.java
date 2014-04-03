@@ -48,7 +48,7 @@ public class CombatBattle {
 		defender = locationOfBattle.getOwner();
 		List<Player> playersOnHex = locationOfBattle.getPlayersWhoAreOnMe();
 		for(Player p: playersOnHex) {
-			if(!p.equals(defender)) {
+			if(defender == null || !p.equals(defender)) {
 				setAttacker(p);
 				break;
 			}

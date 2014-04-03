@@ -112,6 +112,20 @@ public class CombatBattleRound {
 	protected void handleStepsOver() {
 		stepsAreOver=true;
 		state = BattleRoundState.WAITING_ON_RETREAT_OR_CONTINUE;
+		handlePlayForAIIFNeeded();
+	}
+	
+	protected void handlePlayForAIIFNeeded() {
+		if(battle.isAIDefender()) {
+			try {
+				// AI never retreats
+				playerDidRetreatOrContinue(battle.getDefender(), false);
+			} catch (MoveNotValidException e) {
+				e.printStackTrace();
+			} catch (NotYourTurnException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public synchronized void playerDidRetreatOrContinue(Player p, boolean isRetreating) throws MoveNotValidException, NotYourTurnException {

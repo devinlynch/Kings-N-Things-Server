@@ -624,4 +624,126 @@ public class RunThroughPhasesTest {
 		assertEquals(player4, mine.getOwner());
 		assertEquals(hexLoc6, mine.getLocation());
 	}
+	
+	
+	@Test
+	public void testCombat2() throws Exception {
+		GameState gameState = getNewGameState();
+		Player player1 = gameState.getPlayerByPlayerId("player1");
+		
+		
+		gameState.setCurrentPhase(new MovementPhase(gameState, gameState.getCurrentPhase().getPlayersInOrderOfTurn(), false));
+		MovementPhase mp = (MovementPhase) gameState.getCurrentPhase();
+		
+		HexLocation hexLoc1 = gameState.getHexLocationsById("hexLocation_1");
+
+		
+		// Stack 1
+		Stack stack1 = new Stack("stack1");
+		stack1.setOwner(player1);
+		stack1.addGamePieceToLocation(gameState.getGamePiece("T_Jungle_005-01"));
+		stack1.addGamePieceToLocation(gameState.getGamePiece("T_Mountains_034-01"));
+		stack1.addGamePieceToLocation(gameState.getGamePiece("T_Desert_114-01"));
+		stack1.addGamePieceToLocation(gameState.getGamePiece("T_Desert_115-01"));
+		stack1.addGamePieceToLocation(gameState.getGamePiece("T_Forest_100-01"));
+		stack1.addGamePieceToLocation(gameState.getGamePiece("T_Plains_014-01"));
+		stack1.addGamePieceToLocation(gameState.getGamePiece("T_Frozen_Waste_054-01"));
+		stack1.addGamePieceToLocation(gameState.getGamePiece("T_Frozen_Waste_063-01"));
+		stack1.addGamePieceToLocation(gameState.getGamePiece("T_Frozen_Waste_058-01"));
+		stack1.addGamePieceToLocation(gameState.getGamePiece("T_Jungle_004-01"));
+		hexLoc1.addStack(stack1);
+		mp.didExploreHex("player1", "hexLocation_3", null, "stack1", 5);
+		
+
+		HexLocation hexLoc3 = gameState.getHexLocationsById("hexLocation_3");
+		/*hexLoc3.addGamePieceToLocation(gameState.getGamePiece("T_Swamp_066-01"));
+		hexLoc3.addGamePieceToLocation(gameState.getGamePiece("T_Swamp_083-01"));
+		hexLoc3.addGamePieceToLocation(gameState.getGamePiece("T_Forest_090-01"));
+		hexLoc3.addGamePieceToLocation(gameState.getGamePiece("T_Forest_087-01"));
+		hexLoc3.addGamePieceToLocation(gameState.getGamePiece("T_Forest_101-01"));*/
+		
+		
+		
+		
+		gameState.addDiceRollForTest(1);
+		gameState.setCurrentPhase(new CombatPhase(gameState, gameState.getCurrentPhase().getPlayersInOrderOfTurn()));
+		assertEquals("combat", gameState.getCurrentPhase().getPhaseId());
+		CombatPhase cp = (CombatPhase)gameState.getCurrentPhase();
+		cp.start();
+		
+		
+		/**
+		 * First Battle
+		 */
+		
+		Set<GamePiece> gps = hexLoc3.getAllPiecesOnHexIncludingPiecesInStacksForPlayer(null);
+		for(GamePiece gp: gps) {
+			System.out.println(gp.getId());
+		}
+		
+		assertEquals(10, hexLoc3.getAllPiecesOnHexIncludingPiecesInStacksForPlayer(player1).size());
+		assertEquals(5, hexLoc3.getAllPiecesOnHexIncludingPiecesInStacksForPlayer(null).size());
+		
+		CombatBattle battle = cp.getCombatBattles().get(0);
+		CombatBattleRound round = battle.getRound();
+		
+		assertEquals(player1, battle.getAttacker());
+		assertTrue(battle.isAIDefender());
+		assertTrue(round.isStarted());
+		assertTrue(round.getSteps().get(round.getCurrentStep()) instanceof MagicCombatBattleStep);
+		
+		/**
+		 * Magic Step
+		 */
+		MagicCombatBattleStep magicStep = (MagicCombatBattleStep)round.getSteps().get(round.getCurrentStep());
+		assertTrue(magicStep.isStarted());
+
+		assertEquals(1, magicStep.getAttackerHitCount());
+		
+		Set<String> player1MagicHits = new HashSet<String>();
+		player1MagicHits.add("T_Jungle_005-01");
+		magicStep.playerLockedInRollAndDamage(player1, player1MagicHits);
+		
+
+		/**
+		 * Range Step
+		 */
+		RangedCombatBattleStep rangeStep = (RangedCombatBattleStep)round.getSteps().get(round.getCurrentStep());
+		assertTrue(magicStep.isEnded());
+		assertTrue(rangeStep.isStarted());
+		
+		assertEquals(2, rangeStep.getAttackerHitCount());
+		
+		Set<String> player1RangeHits = new HashSet<String>();
+		player1RangeHits.add("T_Mountains_034-01");
+		rangeStep.playerLockedInRollAndDamage(player1, player1RangeHits);
+		
+		assertEquals(8, hexLoc3.getAllPiecesOnHexIncludingPiecesInStacksForPlayer(player1).size());
+		assertEquals(2, hexLoc3.getAllPiecesOnHexIncludingPiecesInStacksForPlayer(null).size());
+		
+		
+		/**
+		 * Melee
+		 */
+		MeleeCombatBattleStep meleeStep = (MeleeCombatBattleStep)round.getSteps().get(round.getCurrentStep());
+		assertTrue(rangeStep.isEnded());
+		assertTrue(meleeStep.isStarted());
+		
+		assertEquals(5, meleeStep.getAttackerHitCount());
+		
+		
+		Set<String> player1MeleeHits = new HashSet<String>();
+		player1MeleeHits.add("T_Desert_114-01");
+		player1MeleeHits.add("T_Desert_115-01");
+		player1MeleeHits.add("T_Forest_100-01");
+		player1MeleeHits.add("T_Plains_014-01");
+		player1MeleeHits.add("T_Frozen_Waste_054-01");
+		meleeStep.playerLockedInRollAndDamage(player1, player1MeleeHits);
+		
+		assertEquals(3, hexLoc3.getAllPiecesOnHexIncludingPiecesInStacksForPlayer(player1).size());
+		assertEquals(0, hexLoc3.getAllPiecesOnHexIncludingPiecesInStacksForPlayer(null).size());
+		
+		assertTrue(battle.isOver());
+		assertEquals(player1, battle.getLocationOfBattle().getOwner());
+	}
 }

@@ -129,6 +129,7 @@ public class MovementPhase extends Phase {
 				if(crea == null)
 					break;
 				defendingPiecesAdded.add(crea.getId());
+				loc.addGamePieceToLocation(crea);
 			}
 		}
 
