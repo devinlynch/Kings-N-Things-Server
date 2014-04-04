@@ -75,8 +75,6 @@ public class RecruitCharactersPhaseRound {
 		
 		
 		rollValue = getGameState().rollDice(2);
-		//TODOREMOVE
-		rollValue=7;
 		
 		if(recruitingCharacterId != null){
 			specialCharacterRecruiting = (SpecialCharacter) getGameState().getSideLocation().getGamePieceById(recruitingCharacterId);

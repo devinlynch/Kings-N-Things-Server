@@ -9,6 +9,7 @@ import com.kings.model.Creature;
 import com.kings.model.Fort;
 import com.kings.model.Player;
 import com.kings.model.SpecialCharacter;
+import com.kings.model.phases.battle.CombatBattleRound.BattleRoundState;
 
 public class RangedCombatBattleStep extends CombatBattleStep {
 
@@ -53,7 +54,7 @@ public class RangedCombatBattleStep extends CombatBattleStep {
 
 	@Override
 	public void handleStart() {
-		// TODO Auto-generated method stub
+		getRound().setState(BattleRoundState.RANGE_STEP);
 
 	}
 

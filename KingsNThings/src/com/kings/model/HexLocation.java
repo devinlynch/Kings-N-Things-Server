@@ -19,7 +19,7 @@ public class HexLocation extends BoardLocation {
 	
 	public HexLocation(String id, int hexNumber) {
 		super(id, "Hex Location");
-		setName("Hex Location");
+		setName("Hex Location " + hexNumber);
 		stacks = new HashSet<Stack>();
 		this.setHexNumber(hexNumber);
 	}
@@ -122,14 +122,14 @@ public class HexLocation extends BoardLocation {
 		List<Player> players = new ArrayList<Player>();
 		for(GamePiece gp: getGamePieces()) {
 			Player p = gp.getOwner();
-			if(!players.contains(p)) {
+			if(p!= null && !players.contains(p)) {
 				players.add(p);
 			}
 		}
 		
 		for(Stack stack: getStacks()) {
 			Player p = stack.getOwner();
-			if(!players.contains(p)) {
+			if(p!=null && !players.contains(p)) {
 				players.add(p);
 			}
 		}
@@ -197,7 +197,9 @@ public class HexLocation extends BoardLocation {
 		Iterator<GamePiece> it = set.iterator();
 		while(it.hasNext()) {
 			GamePiece piece = it.next();
-			if(piece.getOwner() != null && p.getPlayerId().equals(piece.getOwner().getPlayerId()))
+			if(p!=null && !p.isAi() && piece.getOwner() != null && p.getPlayerId().equals(piece.getOwner().getPlayerId()))
+				newSet.add(piece);
+			else if((p==null || p.isAi()) && piece.getOwner()==null)
 				newSet.add(piece);
 		}
 		
@@ -213,8 +215,14 @@ public class HexLocation extends BoardLocation {
 		
 		Set<GamePiece> allPieces = getAllPiecesOnHexIncludingPiecesInStacksForPlayer(p);
 		for(GamePiece gp : allPieces) {
-			if(gp.getOwner() != null && gp.getOwner().getPlayerId().equals(p.getPlayerId())) {
-				if(GamePiece.isGamePieceDamageable(gp)) {
+			if(p !=null && !p.isAi()) {
+				if(gp.getOwner() != null && gp.getOwner().getPlayerId().equals(p.getPlayerId())) {
+					if(GamePiece.isGamePieceDamageable(gp)) {
+						counters.add((Counter)gp);
+					}
+				}
+			} else{
+				if(gp.getOwner()==null) {
 					counters.add((Counter)gp);
 				}
 			}

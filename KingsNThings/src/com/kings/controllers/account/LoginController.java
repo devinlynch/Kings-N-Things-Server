@@ -68,6 +68,22 @@ public class LoginController extends AbstractAccountController {
 		
 		return message.toJson();
 	}
+	
+	@RequestMapping(value="logout", method=RequestMethod.POST)
+	public @ResponseBody String login(
+				HttpServletRequest req,
+				HttpServletResponse res){
+		
+		HttpResponseMessage message = null;
+		HttpSession session = req.getSession();
+		String type = "logout";
+		
+		session.invalidate();
+		
+		message = new HttpResponseMessage();
+		message.setType(type);
+		return message.toJson();
+	}
 		
 	/**
 	 * Returns true if the given non encrypted password is the same as the Users stored password

@@ -39,7 +39,7 @@ public abstract class Phase {
 		setupNextPhase();
 		handlePhaseOver();
 		gameState.setCurrentPhase(nextPhase);
-		nextPhase.handleStart();
+		nextPhase.start();
 	}
 	
 	public void sendPhaseOverMessage() {

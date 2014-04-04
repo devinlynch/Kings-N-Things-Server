@@ -1,29 +1,25 @@
 package com.kings.model.phases.battle;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
-import java.util.Set;
 
 import com.kings.http.GameMessage;
+import com.kings.model.AIPlayer;
 import com.kings.model.CityVill;
-import com.kings.model.Creature;
 import com.kings.model.Fort;
 import com.kings.model.GamePiece;
 import com.kings.model.GameState;
 import com.kings.model.HexLocation;
 import com.kings.model.Player;
-import com.kings.model.Stack;
 import com.kings.model.phases.CombatPhase;
 import com.kings.model.phases.battle.CombatBattleRound.PostBattlePieceStatus;
 import com.kings.util.Utils;
 
 public class CombatBattle {
 	public enum BattleResolution{
+		IN_PROGRESS,
 		ATTACKER_RETREATED,
 		DEFENDER_REREATED,
 		ATTACKER_WON,
@@ -39,6 +35,9 @@ public class CombatBattle {
 	private Player defender;
 	private String battleId;
 	private CombatBattleRound round;
+	private boolean started;
+	private BattleResolution resolution;
+	private boolean isAIDefender;
 	
 	public CombatBattle(HexLocation locationOfBattle, CombatPhase combatPhase) {
 		this.locationOfBattle = locationOfBattle;
@@ -49,16 +48,23 @@ public class CombatBattle {
 		defender = locationOfBattle.getOwner();
 		List<Player> playersOnHex = locationOfBattle.getPlayersWhoAreOnMe();
 		for(Player p: playersOnHex) {
-			if(!p.equals(defender)) {
+			if(defender == null || !p.equals(defender)) {
 				setAttacker(p);
 				break;
 			}
 		}
 		
+		if(defender == null) {
+			isAIDefender = true;
+			defender = new AIPlayer(null, gameState, "ai");
+		}
+		
+		resolution = BattleResolution.IN_PROGRESS;
 		round = new CombatBattleRound(this);
 	}
 	
 	public void start() {
+		setStarted(true);
 		System.out.println("CombatBattle started id=["+battleId+"]");
 		informAttackerAndDefenderOfBattle();
 		
@@ -133,18 +139,25 @@ public class CombatBattle {
 		msg.addToData("statusOfLeftoverPieces", piecesStatuses);
 		getGameState().queueUpGameMessageToSendToAllPlayers(msg);
 		
+		this.resolution = resolution;
+		
 		getCombatPhase().handleStartNextBattle();
 	}
 	
 	public HashMap<String, Object> toSerializedFormat() {
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("locationOfBattle", locationOfBattle.toSerializedFormat());
+		map.put("locationOfBattleId", locationOfBattle.getId());
 		map.put("attacker", attacker.toSerializedFormat());
 		map.put("defender", defender.toSerializedFormat());
 		map.put("isOver", isOver);
+		map.put("isStarted", isStarted());
 		map.put("hexLocations", getGameState().getHexLocationsInSerializedFormat());
 		map.put("sideLocation", getGameState().getSideLocation().toSerializedFormat());
 		map.put("playingCup", getGameState().getPlayingCup().toSerializedFormat());
+		map.put("round", getRound().toSerializedFormat());
+		map.put("battleId", getBattleId());
+		map.put("resolution", resolution.toString());
+		map.put("isAIDefender", isAIDefender);
 		return map;
 	}
 	
@@ -199,6 +212,22 @@ public class CombatBattle {
 
 	public void setRound(CombatBattleRound round) {
 		this.round = round;
+	}
+
+	public boolean isStarted() {
+		return started;
+	}
+
+	public void setStarted(boolean started) {
+		this.started = started;
+	}
+
+	public boolean isAIDefender() {
+		return isAIDefender;
+	}
+
+	public void setAIDefender(boolean isAIDefender) {
+		this.isAIDefender = isAIDefender;
 	}
 	
 	

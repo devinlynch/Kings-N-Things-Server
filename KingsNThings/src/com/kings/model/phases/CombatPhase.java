@@ -65,6 +65,9 @@ public class CombatPhase extends Phase {
 			if(playersOnHex.size() > 1) {
 				CombatBattle battle = new CombatBattle(hexLocation, this);
 				combatBattles.add(battle);
+			} else if(playersOnHex.size() == 1 && hexLocation.getDamageablePiecesOnLocationForPlayer(null).size() > 0) {
+				CombatBattle battle = new CombatBattle(hexLocation, this);
+				combatBattles.add(battle);
 			}
 		}
 		return combatBattles;
