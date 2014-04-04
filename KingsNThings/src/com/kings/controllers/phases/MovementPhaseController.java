@@ -1,6 +1,7 @@
 package com.kings.controllers.phases;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -66,11 +67,10 @@ public class MovementPhaseController extends PhaseController {
 		}
 		
 		@RequestMapping(value="exploreHex")
-		public @ResponseBody String moveStack(
+		public @ResponseBody String exploreHex(
 			@RequestParam String hexLocationId,
 			@RequestParam(required=false) String stackId,
 			@RequestParam(required=false) String gamePieceId,
-			@RequestParam int rollNumber,
 			HttpServletRequest req,
 			HttpServletResponse res) throws NotLoggedInException, NotYourTurnException{
 
@@ -83,9 +83,15 @@ public class MovementPhaseController extends PhaseController {
 			Phase p = state.getCurrentPhase();
 
 			if (p instanceof MovementPhase) {
+				int rollNumber = state.rollDice(1);
+				
 				MovementPhase sPhase = (MovementPhase) p;
-				sPhase.didExploreHex(player.getPlayerId(), hexLocationId, gamePieceId, stackId, rollNumber);
-				return successMessage().toJson();
+				Set<String> defendingPieces = sPhase.didExploreHex(player.getPlayerId(), hexLocationId, gamePieceId, stackId, rollNumber);
+				HttpResponseMessage msg = successMessage();
+				msg.addToData("defendingPieceIds", defendingPieces);
+				msg.addToData("didCapture", rollNumber <= 1 || rollNumber >= 6);
+				
+				return msg.toJson();
 			} else{
 				return wrongPhaseMessage().toJson();
 			}

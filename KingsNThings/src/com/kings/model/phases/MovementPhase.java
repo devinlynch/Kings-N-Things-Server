@@ -133,14 +133,14 @@ public class MovementPhase extends Phase {
 			}
 		}
 
-		Set<Player> otherPlayers = new HashSet<Player>(getPlayersInOrderOfTurn());
-		otherPlayers.remove(player);
 		
-		GameMessage message = new GameMessage("playerExploredHex");
+		GameMessage message = newGameMessageForAllPlayers("playerExploredHex");
 		message.addToData("playerId", playerId);
-		message.addToData("hexLocationId", hexLocationId);
+		message.addToData("hexLocationId", loc.getId());
+		message.addToData("hexLocation", loc.toSerializedFormat());
 		message.addToData("defendingPieceIds",defendingPiecesAdded);
-		message.setPlayersToSendTo(otherPlayers);
+		message.addToData("didCapture", didCapture);
+		message.addUserSpecificData(playerId, "isMe", true);
 		getGameState().queueUpGameMessageToSendToAllPlayers(message);
 		
 		return defendingPiecesAdded;
