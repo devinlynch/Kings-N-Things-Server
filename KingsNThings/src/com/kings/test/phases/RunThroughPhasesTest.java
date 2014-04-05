@@ -573,16 +573,6 @@ public class RunThroughPhasesTest {
 		assertEquals(player4, battle.getAttacker());
 		assertEquals(player3, battle.getDefender());
 		assertTrue(round.isStarted());
-		assertTrue(round.getSteps().get(round.getCurrentStep()) instanceof MagicCombatBattleStep);
-		
-		magicStep = (MagicCombatBattleStep)round.getSteps().get(round.getCurrentStep());
-		assertTrue(magicStep.isStarted());
-
-		// They both have 1 magic counter
-		assertEquals(0, magicStep.getAttackerHitCount());
-		assertEquals(0, magicStep.getDefenderHitCount());
-		magicStep.playerLockedInRollAndDamage(player3, new HashSet<String>());
-		magicStep.playerLockedInRollAndDamage(player4, new HashSet<String>());
 		
 		rangeStep = (RangedCombatBattleStep)round.getSteps().get(round.getCurrentStep());
 		

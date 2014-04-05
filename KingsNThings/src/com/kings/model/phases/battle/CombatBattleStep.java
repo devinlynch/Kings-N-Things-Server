@@ -53,6 +53,12 @@ public abstract class CombatBattleStep {
 		started=true;
 		handleSetPiecesToRollNumbersAndIncrementHitCounter(true);
 		handleSetPiecesToRollNumbersAndIncrementHitCounter(false);
+		
+		if(attackingPiecesToRollNumbers.isEmpty() && defendingPiecesToRollNumbers.isEmpty()) {
+			System.out.println("There were no pieces for step " + stepName +" for either player, ending this step");
+			end();
+			return;
+		}
 
 		sendStepStartedMessage();
 		handleAIMoveIfNeeded();
@@ -211,6 +217,7 @@ public abstract class CombatBattleStep {
 		msg.addToData("damage", isAttacker ? attackerHitCount : defenderHitCount);
 		msg.addToData("playerId", p.getPlayerId());
 		msg.addToData("gamePiecesTakingHitsIds", gamePiecesTakingHits);
+		msg.addToData("locationOfBattle", getRound().getBattle().getLocationOfBattle().toSerializedFormat());
 		getGameState().queueUpGameMessageToSendToAllPlayers(msg);
 	}
 	

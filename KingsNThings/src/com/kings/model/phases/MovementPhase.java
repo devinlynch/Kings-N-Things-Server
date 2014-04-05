@@ -1,7 +1,9 @@
 package com.kings.model.phases;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.kings.http.GameMessage;
@@ -24,6 +26,10 @@ public class MovementPhase extends Phase {
 		setPhaseId("movement");
 		nextPlayerToMove = 0;
 		this.isInitialMovement = isInitialMovement;
+		alreadyExploredHexesForPlayers = new HashMap<String, Set<String>>();
+		for(Player p : playersInOrderOfTurn) {
+			alreadyExploredHexesForPlayers.put(p.getPlayerId(), new HashSet<String>());
+		}
 	}
 
 	@Override
@@ -96,6 +102,7 @@ public class MovementPhase extends Phase {
 		getGameState().queueUpGameMessageToSendToAllPlayers(message);
 	}
 	
+	private Map<String, Set<String>> alreadyExploredHexesForPlayers;
 	public synchronized Set<String> didExploreHex(String playerId, String hexLocationId, String gamePieceId, String stackId, int rollNumber) throws NotYourTurnException{
 		if(isOver())
 			return null;
@@ -113,6 +120,12 @@ public class MovementPhase extends Phase {
 		
 		if(stackId != null){
 			didMoveStack(playerId, hexLocationId, stackId);
+		}
+		
+		
+		if(alreadyExploredHexesForPlayers.get(playerId) != null && alreadyExploredHexesForPlayers.get(playerId).contains(hexLocationId)) {
+			System.out.println("Player " + playerId +  " already explored " + hexLocationId);
+			return new HashSet<String>();
 		}
 		
 		boolean didCapture = false;
@@ -133,6 +146,10 @@ public class MovementPhase extends Phase {
 			}
 		}
 
+		if(alreadyExploredHexesForPlayers.get(playerId) == null) {
+			alreadyExploredHexesForPlayers.put(playerId, new HashSet<String>());
+		}
+		alreadyExploredHexesForPlayers.get(playerId).add(hexLocationId);
 		
 		GameMessage message = newGameMessageForAllPlayers("playerExploredHex");
 		message.addToData("playerId", playerId);
