@@ -16,7 +16,6 @@ public class Player extends AbstractSerializedObject {
 	private String username;
 	private String userId;
 	private Rack rack1;
-	private Rack rack2;
 	private Map<String,GamePiece> gamePieces;
 	@JsonIgnore
 	private GameState gameState;
@@ -34,11 +33,9 @@ public class Player extends AbstractSerializedObject {
 		this.setUserId(user != null ? user.getUserId() : null);
 		this.setSentMessages(new HashSet<SentMessage>());
 		rack1 = new Rack(playerId+"_rack1");
-		rack2 = new Rack(playerId+"_rack2");
 		gold=0;
 		this.ownedLocations = new HashSet<HexLocation>();
 		gameState.addBoardLocation(rack1.getId(), rack1);
-		gameState.addBoardLocation(rack2.getId(), rack2);
 	}
 	
 	public String getPlayerId() {
@@ -87,14 +84,6 @@ public class Player extends AbstractSerializedObject {
 
 	public void setRack1(Rack rack1) {
 		this.rack1 = rack1;
-	}
-
-	public Rack getRack2() {
-		return rack2;
-	}
-
-	public void setRack2(Rack rack2) {
-		this.rack2 = rack2;
 	}
 
 	public Integer getGold() {
@@ -147,7 +136,6 @@ public class Player extends AbstractSerializedObject {
 		map.put("userId", userId);
 		map.put("gold", gold);
 		map.put("rack1", rack1.toSerializedFormat());
-		map.put("rack2", rack2.toSerializedFormat());
 		map.put("gamePieces", getGamePiecesInSerializedFormat());
 		map.put("ownedHexIds", getOwnedHexesInSerializedFormat());
 		map.put("isAi", isAi());
@@ -169,13 +157,7 @@ public class Player extends AbstractSerializedObject {
 	
 	public void assignGamePieceToPlayerRack(GamePiece gamePiece) {
 		assignGamePieceToPlayer(gamePiece);
-		if(!rack1.isFull()) {
-			rack1.addGamePieceToLocation(gamePiece);
-		} else if(!rack2.isFull()) {
-			rack2.addGamePieceToLocation(gamePiece);
-		} else{
-			//TODO HANDLE FULL RACKS
-		}
+		rack1.addGamePieceToLocation(gamePiece);
 	}
 	
 	public void addGold(int gold) {
@@ -292,10 +274,6 @@ public class Player extends AbstractSerializedObject {
 	public Set<Thing> getAllThingsInRacks() {
 		Set<Thing> things = new HashSet<Thing>();
 		for(GamePiece gp: rack1.getGamePieces()){
-			if(gp instanceof Thing)
-				things.add((Thing)gp);
-		}
-		for(GamePiece gp: rack2.getGamePieces()){
 			if(gp instanceof Thing)
 				things.add((Thing)gp);
 		}

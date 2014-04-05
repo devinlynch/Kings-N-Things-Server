@@ -4,7 +4,7 @@ import java.util.Map;
 
 public class Rack extends BoardLocation {
 	//TODO: MAKE SURE CORRECT LIMIT
-	public static final int LIMIT = 10;
+	public static final int LIMIT = 100;
 	
 	public Rack(String id) {
 		super(id, "Rack");

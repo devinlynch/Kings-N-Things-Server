@@ -99,6 +99,7 @@ public class RecruitCharactersPhaseRound {
 		didRecruit = false;
 		if( (rollValue+preRollChanges) >= (specialCharacterRecruiting.getCombatValue()*2) ) {
 			didRecruit = true;
+			getPlayer().assignGamePieceToPlayerRack(specialCharacterRecruiting);
 		}
 		
 		didRoll = true;
@@ -139,6 +140,7 @@ public class RecruitCharactersPhaseRound {
 		
 		if( (rollValue+preRollChanges+postRollChanges) >= (specialCharacterRecruiting.getCombatValue()*2) ) {
 			didRecruit = true;
+			getPlayer().assignGamePieceToPlayerRack(specialCharacterRecruiting);
 		}
 		
 		end();

@@ -211,7 +211,7 @@ public class RunThroughPhasesTest {
 		rcPhase.postRoll(p4.getPlayerId(), 1);
 		assertTrue(rcPhase.getRoundForPlayer(p4.getPlayerId()).isDidRecruit());
 		assertTrue(rcPhase.getRoundForPlayer(p4.getPlayerId()).isRoundOver());
-
+		assertEquals(p4, p4RCSPC.getOwner());
 		
 		/**
 		 * Recruit Things

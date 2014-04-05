@@ -140,7 +140,6 @@ public class scripttest {
 		rtPhase.didRecruitAndPlaceThing("player1", "T_Mountains_034-01", "player1_rack2", true);
 		rtPhase.didRecruitAndPlaceThing("player1", "T_Mountains_038-01", "player1_rack2", true);
 		assertEquals(1, p1.getRack1().getGamePieces().size());
-		assertEquals(2, p1.getRack2().getGamePieces().size());
 		assertEquals(9, (int)p1.getGold());
 		
 		rtPhase.playerIsReadyForNextPhase("player1");
