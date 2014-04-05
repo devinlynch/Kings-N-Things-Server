@@ -112,6 +112,10 @@ public class CombatBattleRound {
 	protected void handleStepsOver() {
 		stepsAreOver=true;
 		state = BattleRoundState.WAITING_ON_RETREAT_OR_CONTINUE;
+		
+		GameMessage msg = newRoundMessageForAllPlayers("roundResulutionTime");
+		getBattle().getGameState().queueUpGameMessageToSendToAllPlayers(msg);
+		
 		handlePlayForAIIFNeeded();
 	}
 	
@@ -154,7 +158,7 @@ public class CombatBattleRound {
 	}
 	
 	protected synchronized void handlePostRound() {
-		if( !didAttackerMakeMoveForRetreatOrContinue && !didDefenderMakeMoveForRetreatOrContinue )
+		if( !didAttackerMakeMoveForRetreatOrContinue || !didDefenderMakeMoveForRetreatOrContinue )
 			return;
 		
 		

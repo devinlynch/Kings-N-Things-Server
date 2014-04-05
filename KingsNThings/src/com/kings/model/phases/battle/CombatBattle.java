@@ -47,6 +47,11 @@ public class CombatBattle {
 		
 		defender = locationOfBattle.getOwner();
 		List<Player> playersOnHex = locationOfBattle.getPlayersWhoAreOnMe();
+		
+		if(playersOnHex.size() <= 1) {
+			defender = null;
+		}
+		
 		for(Player p: playersOnHex) {
 			if(defender == null || !p.equals(defender)) {
 				setAttacker(p);
@@ -137,6 +142,7 @@ public class CombatBattle {
 		msg.addToData("winnerId", winner.getPlayerId());
 		msg.addToData("resolution", resolution.toString());
 		msg.addToData("statusOfLeftoverPieces", piecesStatuses);
+		msg.addToData("battleId", getBattleId());
 		getGameState().queueUpGameMessageToSendToAllPlayers(msg);
 		
 		this.resolution = resolution;
