@@ -83,7 +83,7 @@ public class GameStateFactory {
 				
 				if(tile.getTerrain() != null && tile.getTerrain().getId().equals(Terrain.SEA_TERRAIN.getId())) {
 					List<HexLocation> surrounding = gameState.getSurroundingHexLocations(loc);
-					if(anyLocationContainSea(surrounding)) {
+					if(loc.isStartingLocation() || anyLocationContainSea(surrounding)) {
 						z++;
 						continue;
 					}

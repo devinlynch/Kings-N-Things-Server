@@ -355,4 +355,8 @@ public class HexLocation extends BoardLocation {
 		return null;
 	}
 	
+	public boolean isStartingLocation() {
+		return getHexNumber() == 19 || getHexNumber() == 32 || getHexNumber() == 28 || getHexNumber() == 23;
+	}
+	
 }
