@@ -34,6 +34,7 @@ public class GameState extends AbstractSerializedObject {
 	private Map<String, BoardLocation> boardLocations;
 	private int phaseTurn;
 	private boolean isTestMode;
+	private Set<Player> playersWithCitadelsLastConsPhase;
 	
 	
 	public PlayingCup getPlayingCup() {
@@ -458,6 +459,42 @@ public class GameState extends AbstractSerializedObject {
 			}
 		}
 		return locations;
+	}
+
+	public Set<Player> getPlayersWithCitadelsOnBoard() {
+		Set<Player> players = new HashSet<Player>();
+		for(Player p: getPlayers()) {
+			Set<Fort> forts  = p.getFortPieces();
+			for(Fort f: forts) {
+				if(f.isCitadel()) {
+					players.add(p);
+				}
+			}
+		}
+		return players;
+	}
+
+	public Set<Player> getPlayersWithCitadelsLastConsPhase() {
+		return playersWithCitadelsLastConsPhase;
+	}
+
+	public void setPlayersWithCitadelsLastConsPhase(
+			Set<Player> playersWithCitadelsLastConsPhase) {
+		this.playersWithCitadelsLastConsPhase = playersWithCitadelsLastConsPhase;
+	}
+	
+	public void playerWon(Player winner) {
+		GameMessage msg = new GameMessage("playerWon");
+		msg.addToData("winnerId", winner.getPlayerId());
+		msg.addPlayersToSendTo(new ArrayList<Player>(getPlayers()));
+		queueUpGameMessageToSendToAllPlayers(msg);
+		try{
+			DataAccess access = new DataAccess();
+			Game g = access.get(Game.class, getGameId());
+			g.end(false);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 }

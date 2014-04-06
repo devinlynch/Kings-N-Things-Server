@@ -38,6 +38,27 @@ public class RecruitThingsPhaseController extends PhaseController {
 		}
 	}
 	
+	@RequestMapping(value="tradedThing")
+	public @ResponseBody String readyForPlacement(
+			@RequestParam String oldThingId,
+			@RequestParam String newThingId,
+			HttpServletRequest req,
+			HttpServletResponse res) throws NotLoggedInException{
+
+		GameState state = getGameState(req);
+		Player player = getPlayer(req);
+		
+		Phase p = state.getCurrentPhase();
+		
+		if(p instanceof RecruitThingsPhase) {
+			RecruitThingsPhase sPhase = (RecruitThingsPhase) p;
+			sPhase.didTradeThing(player.getPlayerId(), oldThingId, newThingId);
+			return successMessage().toJson();
+		} else{
+			return wrongPhaseMessage().toJson();
+		}
+	}
+	
 	@RequestMapping(value="readyForNextPhase")
 	public @ResponseBody String readyForPlacement(
 			HttpServletRequest req,

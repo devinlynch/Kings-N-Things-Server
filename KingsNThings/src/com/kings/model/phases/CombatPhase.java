@@ -99,7 +99,7 @@ public class CombatPhase extends Phase {
 
 	@Override
 	public void setupNextPhase() {
-		setNextPhase(new GoldCollectionPhase(getGameState(), getPlayersInOrderOfTurn()));
+		setNextPhase(new ConstructionPhase(getGameState(), getPlayersInOrderOfTurn()));
 	}
 
 	@Override
