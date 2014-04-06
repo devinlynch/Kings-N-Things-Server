@@ -37,18 +37,15 @@ public class Fort extends Counter {
 	}
 	
 	public boolean isTower(){
-		return getName().equalsIgnoreCase("Tower");
+		return actualLevelNumWhenRestored==1;
 	}
 	public boolean isKeep(){
-		return getName().equalsIgnoreCase("Keep");
+		return actualLevelNumWhenRestored==2;
 	}
 	public boolean isCastle(){
-		return getName().equalsIgnoreCase("Castle");
+		return actualLevelNumWhenRestored==3;
 	}
-	public boolean isCitadel(){
-		return getName().equalsIgnoreCase("Citadel");
-	}
-	
+
 	public void reduceLevel() {
 		levelNum--;
 	}
@@ -64,5 +61,9 @@ public class Fort extends Counter {
 	@Override
 	public int getCombatValueForCombat() throws DoesNotSupportCombatException {
 		return levelNum;
+	}
+	
+	public boolean isCitadel() {
+		return actualLevelNumWhenRestored == 4;
 	}
 }

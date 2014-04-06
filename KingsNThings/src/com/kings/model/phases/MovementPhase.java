@@ -227,7 +227,7 @@ public class MovementPhase extends Phase {
 	}
 	
 	public synchronized void playerIsDoneMakingMoves(String playerId) throws NotYourTurnException {
-		if( ! getPlayersInOrderOfTurn().get(nextPlayerToMove).getPlayerId().equals(playerId) ){
+		if( nextPlayerToMove > getPlayersInOrderOfTurn().size()-1 || ! getPlayersInOrderOfTurn().get(nextPlayerToMove).getPlayerId().equals(playerId) ){
 			throw new NotYourTurnException();
 		}
 		

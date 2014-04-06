@@ -21,6 +21,7 @@ import com.kings.model.SpecialCharacter;
 import com.kings.model.Stack;
 import com.kings.model.User;
 import com.kings.model.phases.CombatPhase;
+import com.kings.model.phases.ConstructionPhase;
 import com.kings.model.phases.GoldCollectionPhase;
 import com.kings.model.phases.MovementPhase;
 import com.kings.model.phases.PlacementPhase;
@@ -220,8 +221,8 @@ public class RunThroughPhasesTest {
 		assertEquals("recruitThings", gs.getCurrentPhase().getPhaseId());
 		RecruitThingsPhase rtPhase = (RecruitThingsPhase)gs.getCurrentPhase(); 
 		rtPhase.didRecruitAndPlaceThing("player1", "T_Mountains_050-01", "player1_rack1", true);
-		rtPhase.didRecruitAndPlaceThing("player1", "T_Mountains_034-01", "player1_rack2", false);
-		rtPhase.didRecruitAndPlaceThing("player1", "T_Mountains_038-01", "player1_rack2", false);
+		rtPhase.didRecruitAndPlaceThing("player1", "T_Mountains_034-01", "player1_rack1", false);
+		rtPhase.didRecruitAndPlaceThing("player1", "T_Mountains_038-01", "player1_rack1", false);
 		//assertEquals(1, p1.getRack1().getGamePieces().size());
 		//assertEquals(2, p1.getRack2().getGamePieces().size());
 		assertEquals(9, (int)p1.getGold());
@@ -279,6 +280,10 @@ public class RunThroughPhasesTest {
 		
 		CombatPhase cp = (CombatPhase)gs.getCurrentPhase();
 		CombatBattle battle = cp.getCombatBattles().get(0);
+		
+		cp.end();
+		
+		assertTrue(gs.getCurrentPhase() instanceof ConstructionPhase);
 		
 		// Send chat message
 		HttpResponseMessage chatMsg = game.sendChatMessage(u1, "Hi Chat!", null);

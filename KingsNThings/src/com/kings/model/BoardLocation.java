@@ -136,6 +136,18 @@ public class BoardLocation extends AbstractSerializedObject {
 		return things;
 	}
 	
+	public List<Fort> getFortsWithLevel(int level) {
+		List<Fort> things = new ArrayList<Fort>();
+		for(Fort f: getForts()) {
+			if(f.getActualLevelNumWhenRestored() == level) {
+				things.add(f);
+			}
+		}
+		return things;
+	}
+	
+	
+	
 	public GamePiece getGamePieceById(String id) {
 		for(GamePiece p: getGamePieces()) {
 			if(id.equals(p.getId())) {
@@ -150,6 +162,14 @@ public class BoardLocation extends AbstractSerializedObject {
 		for(GamePiece gp: getGamePieces()) {
 			if(gp instanceof Creature)
 				return (Creature)gp;
+		}
+		return null;
+	}
+	
+	public GamePiece getAnyPiecExceptForts() {
+		for(GamePiece gp: getGamePieces()) {
+			if(! (gp instanceof Fort))
+				return gp;
 		}
 		return null;
 	}

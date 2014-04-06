@@ -1,8 +1,11 @@
 package com.kings.model.factory;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -45,7 +48,11 @@ public class GameStateFactory {
 		
 		addPiecesToDefaultLocations(gameState);
 		assignDefaultGamePiecesAndGoldToPlayers(gameState);
-		setHexTilesOnLocationsForDemo(gameState);
+		
+		if(gameState.isTestMode())
+			setHexTilesOnLocationsForDemo(gameState);
+		else
+			setRandomHexTiles(gameState);
 		
 		switch(numberOfPlayers){
 			case 2: {
@@ -58,6 +65,48 @@ public class GameStateFactory {
 		}
 		
 		return gameState;
+	}
+	
+	public static void setRandomHexTiles(GameState gameState) {
+		List<HexTile> tiles = new ArrayList<HexTile>(gameState.getSideLocation().getHexTiles());
+		Collections.shuffle(tiles);
+		
+		for(int i=0; i<= 36; i++) {
+			HexLocation loc = gameState.getHexlocations().get(i);
+			
+			int z=0;
+			while (true) {
+				if(z >= tiles.size())
+					break;
+				
+				HexTile tile = tiles.get(z);
+				
+				if(tile.getTerrain() != null && tile.getTerrain().getId().equals(Terrain.SEA_TERRAIN.getId())) {
+					List<HexLocation> surrounding = gameState.getSurroundingHexLocations(loc);
+					if(anyLocationContainSea(surrounding)) {
+						z++;
+						continue;
+					}
+				}
+				
+				tiles.remove(z);
+				loc.setHexTile(tile);
+				break;
+			}
+		}
+	}
+	
+	public static boolean anyLocationContainSea(List<HexLocation> locs) {
+		for(HexLocation l : locs) {
+			if(hasSeaOnit(l)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static boolean hasSeaOnit(HexLocation l) {
+		return l.getHexTile() != null && l.getHexTile().getTerrain() != null && l.getHexTile().getTerrain().getId().equals(Terrain.SEA_TERRAIN.getId());
 	}
 	
 	public static void setHexTilesOnLocationsForDemo(GameState gameState) {
@@ -112,12 +161,24 @@ public class GameStateFactory {
 			
 			// Give gold
 			gameState.getBank().payoutGoldToPlayer(10, player);
-			giveRandomPiecesToPlayer(player, 10, gameState);
+			
+			if(gameState.isTestMode()){
+				givePredefinedPiecesToPlayer(player, 10, gameState);
+			} else{
+				giveRandomPiecesToPlayer(player, 10, gameState);
+			}
 			i++;
 		}
 	}
 	
 	public static void giveRandomPiecesToPlayer(Player player, int numPieces, GameState gameState) {
+		for(int i=0; i<numPieces; i++) {
+			GamePiece p = gameState.getPlayingCup().getAnyPiecExceptForts();
+			player.assignGamePieceToPlayerRack(p);
+		}
+	}
+	
+	public static void givePredefinedPiecesToPlayer(Player player, int numPieces, GameState gameState) {
 		//TODO this is only for demo!   random creatures should be assigned
 		
 		if(player.getPlayerId().equals("player1")){
@@ -524,10 +585,10 @@ public class GameStateFactory {
 		map.put("forest-tile-04", new HexTile("forest-tile-04", "forestTile",Terrain.FOREST_TERRAIN));
 		map.put("forest-tile-05", new HexTile("forest-tile-05", "forestTile",Terrain.FOREST_TERRAIN));
 		map.put("forest-tile-06", new HexTile("forest-tile-06", "forestTile",Terrain.FOREST_TERRAIN));
-		map.put("forest-tile-07", new HexTile("forest-tile-06", "forestTile",Terrain.FOREST_TERRAIN));
-		map.put("forest-tile-08", new HexTile("forest-tile-06", "forestTile",Terrain.FOREST_TERRAIN));
-		map.put("forest-tile-09", new HexTile("forest-tile-06", "forestTile",Terrain.FOREST_TERRAIN));
-		map.put("forest-tile-10", new HexTile("forest-tile-06", "forestTile",Terrain.FOREST_TERRAIN));
+		map.put("forest-tile-07", new HexTile("forest-tile-07", "forestTile",Terrain.FOREST_TERRAIN));
+		map.put("forest-tile-08", new HexTile("forest-tile-08", "forestTile",Terrain.FOREST_TERRAIN));
+		map.put("forest-tile-09", new HexTile("forest-tile-09", "forestTile",Terrain.FOREST_TERRAIN));
+		map.put("forest-tile-10", new HexTile("forest-tile-10", "forestTile",Terrain.FOREST_TERRAIN));
 
 		map.put("frozen-tile-01", new HexTile("frozen-tile-01", "frozenTile",Terrain.FROZEN_TERRAIN));
 		map.put("frozen-tile-02", new HexTile("frozen-tile-02", "frozenTile",Terrain.FROZEN_TERRAIN));
