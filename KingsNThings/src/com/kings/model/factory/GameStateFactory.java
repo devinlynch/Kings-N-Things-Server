@@ -40,9 +40,9 @@ public class GameStateFactory {
 			throw new Exception("Number of players must be between 2 and 4");
 		
 		boolean is23PlayerGame = numberOfPlayers<4;
-		int numTiles = 36;
+		int numTiles = 37;
 		if(is23PlayerGame) {
-			numTiles = 18;
+			numTiles = 19;
 		} 
 		
 		addHexLocations(gameState, numTiles);
