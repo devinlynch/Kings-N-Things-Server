@@ -9,6 +9,7 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kings.database.DataAccess;
+import com.kings.http.GameMessage;
 import com.kings.http.HttpResponseMessage;
 
 public class Game {
@@ -176,6 +177,10 @@ public class Game {
 	 */
 	public void end(boolean shouldAlertUsers) {
 		setActive(false);
+		
+		for(SentMessage m : getSentMessages()) {
+			m.setQueued(false);
+		}
 		
 		if(shouldAlertUsers)
 			alertUsersThatGameIsOver();

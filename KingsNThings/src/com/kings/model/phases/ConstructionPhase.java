@@ -63,13 +63,17 @@ public class ConstructionPhase extends Phase {
 		BoardLocation location = fort.getLocation();
 		
 		int cost = 5;
+		int citadelCost = 20;
+		if(getPlayersInOrderOfTurn().size() < 4)
+			citadelCost = 15;
+		
 		if (fort.getActualLevelNumWhenRestored() == 1 && player.getGold() >= 5) {
 			newFort = pCup.getFortsWithLevel(2).get(0);
 		} else if (fort.getActualLevelNumWhenRestored() == 2 && player.getGold() >= 5) {
 			newFort = pCup.getFortsWithLevel(3).get(0);
-		} else if (fort.getActualLevelNumWhenRestored() == 3 && player.getGold() >= 20) {
+		} else if (fort.getActualLevelNumWhenRestored() == 3 && player.getGold() >= citadelCost) {
 			newFort = pCup.getFortsWithLevel(4).get(0);
-			cost=20;
+			cost=citadelCost;
 		} else{
 			throw new Exception();
 		}

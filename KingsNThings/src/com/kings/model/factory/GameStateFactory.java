@@ -39,20 +39,20 @@ public class GameStateFactory {
 		if(numberOfPlayers < 1 || numberOfPlayers > 4)
 			throw new Exception("Number of players must be between 2 and 4");
 		
-		boolean is23PlayerGame = numberOfPlayers==2 || numberOfPlayers==3;
+		boolean is23PlayerGame = numberOfPlayers<4;
+		int numTiles = 37;
 		if(is23PlayerGame) {
-			addHexLocations(gameState, 37);
-		} else{
-			addHexLocations(gameState, 37);
-		}
+			numTiles = 19;
+		} 
 		
+		addHexLocations(gameState, numTiles);
 		addPiecesToDefaultLocations(gameState);
 		assignDefaultGamePiecesAndGoldToPlayers(gameState);
 		
 		if(gameState.isTestMode())
 			setHexTilesOnLocationsForDemo(gameState);
 		else
-			setRandomHexTiles(gameState);
+			setRandomHexTiles(gameState, numTiles);
 		
 		switch(numberOfPlayers){
 			case 2: {
@@ -67,11 +67,11 @@ public class GameStateFactory {
 		return gameState;
 	}
 	
-	public static void setRandomHexTiles(GameState gameState) {
+	public static void setRandomHexTiles(GameState gameState, int numTiles) {
 		List<HexTile> tiles = new ArrayList<HexTile>(gameState.getSideLocation().getHexTiles());
 		Collections.shuffle(tiles);
 		
-		for(int i=0; i<= 36; i++) {
+		for(int i=0; i<= (numTiles-1); i++) {
 			HexLocation loc = gameState.getHexlocations().get(i);
 			
 			int z=0;
