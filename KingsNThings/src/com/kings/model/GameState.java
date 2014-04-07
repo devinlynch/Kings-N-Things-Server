@@ -324,10 +324,13 @@ public class GameState extends AbstractSerializedObject {
 			}
 			
 			List<String> thisPlayersThingsToRecruit = new ArrayList<String>();
-			for(int i = 0; i < thisPlayersTotalNumberOfRecruitmentThings; i++) {
-				Thing thing = playingCupPieces.get(new Random().nextInt(playingCupPieces.size()));
-				playingCupPieces.remove(thing);
-				thisPlayersThingsToRecruit.add(thing.getId());
+			
+			if(!playingCupPieces.isEmpty()){
+				for(int i = 0; i < thisPlayersTotalNumberOfRecruitmentThings; i++) {
+					Thing thing = playingCupPieces.get(new Random().nextInt(playingCupPieces.size()));
+					playingCupPieces.remove(thing);
+					thisPlayersThingsToRecruit.add(thing.getId());
+				}
 			}
 			map.put(p, thisPlayersThingsToRecruit);
 		}

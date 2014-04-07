@@ -56,7 +56,7 @@ public class RecruitThingsPhase extends Phase {
 		informPlayersAboutRecruitAndPlacement(playerId, thingId, locationId, type);
 	}
 	
-	public void didTradeThing(String playerId, String oldThingId, String newThingId) {
+	public Thing didTradeThing(String playerId, String oldThingId, String newThingId) {
 		Player player = getGameState().getPlayerByPlayerId(playerId);
 		
 		Thing oldThing = (Thing)getGameState().getGamePiece(oldThingId);
@@ -71,6 +71,8 @@ public class RecruitThingsPhase extends Phase {
 		msg.addToData("oldThing", oldThing.toSerializedFormat());
 		msg.addToData("locationId", player.getRack1().getId());
 		getGameState().queueUpGameMessageToSendToAllPlayers(msg);
+		
+		return newThing;
 	}
 	
 	public void informPlayersAboutRecruitAndPlacement(String playerId, String thingId, String locationId, String type) {

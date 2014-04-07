@@ -8,8 +8,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kings.controllers.account.NotLoggedInException;
+import com.kings.http.GameMessage;
+import com.kings.http.HttpResponseMessage;
 import com.kings.model.GameState;
 import com.kings.model.Player;
+import com.kings.model.Thing;
 import com.kings.model.phases.Phase;
 import com.kings.model.phases.RecruitThingsPhase;
 
@@ -52,8 +55,10 @@ public class RecruitThingsPhaseController extends PhaseController {
 		
 		if(p instanceof RecruitThingsPhase) {
 			RecruitThingsPhase sPhase = (RecruitThingsPhase) p;
-			sPhase.didTradeThing(player.getPlayerId(), oldThingId, newThingId);
-			return successMessage().toJson();
+			Thing newThing = sPhase.didTradeThing(player.getPlayerId(), oldThingId, newThingId);
+			HttpResponseMessage msg = successMessage();
+			msg.addToData("newThing", newThing.toSerializedFormat());
+			return msg.toJson();
 		} else{
 			return wrongPhaseMessage().toJson();
 		}
