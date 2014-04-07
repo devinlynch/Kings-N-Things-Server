@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.kings.database.GameStateCache;
 import com.kings.http.HttpResponseMessage;
 import com.kings.http.HttpResponseError.ResponseError;
 import com.kings.model.Game;
@@ -51,6 +52,7 @@ public class LoginController extends AbstractAccountController {
 		//TODO REMOVE
 		Game g = user.getGame();
 		if(g != null){
+			GameStateCache.getInstance().removeGameStateForGame(g.getGameId());
 			g.end(false);
 			getDataAccess().save(g);
 		}

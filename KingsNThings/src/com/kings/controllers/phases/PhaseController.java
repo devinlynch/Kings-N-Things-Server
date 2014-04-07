@@ -20,7 +20,11 @@ public class PhaseController extends AbstractLoggedInOnlyController {
 	public GameState getGameState(HttpServletRequest req) {
 		User user = getUser(req);
 		Game game = user.getGame();
-		return GameStateCache.getInstance().getGameState(game.getGameId());
+		GameState gs= null;
+		if(game != null)
+			gs = GameStateCache.getInstance().getGameState(game.getGameId());
+		
+		return gs;
 	}
 	
 	public Player getPlayer(HttpServletRequest req) {
