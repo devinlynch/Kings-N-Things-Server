@@ -68,8 +68,11 @@ public class SetupPhase extends Phase {
 
 	@Override
 	public void setupNextPhase() {
-		setNextPhase(new PlacementPhase(getGameState(), getPlayersInOrderOfTurn()));
-	}
+		if(!getGameState().isDemo())
+			setNextPhase(new PlacementPhase(getGameState(), getPlayersInOrderOfTurn()));
+		else
+			setNextPhase(new GoldCollectionPhase(getGameState(), getPlayersInOrderOfTurn()));
+	}	
 
 	@Override
 	public GameMessage getPhaseStartedMessage() {

@@ -29,6 +29,7 @@ public class Game {
 		gameState = new GameState();
 		sentMessages = new ArrayList<SentMessage>();
 		chatMessages = new ArrayList<GameChatMessage>();
+		setDemo(true);
 	}
 	
 	public void addUsers(Set<User> players) {
@@ -53,11 +54,7 @@ public class Game {
 	
 	protected GameState handleStart(boolean isTest) throws Exception {
 		GameState gameState;
-		if(isDemo()){
-			gameState = DemoGameState.createGameStateFromGame(this);
-		} else{
-			gameState = GameState.createGameStateFromGame(this);
-		}
+		gameState = GameState.createGameStateFromGame(this);
 		setGameState(gameState);
 		setStartedDate(new Date());
 		setActive(true);

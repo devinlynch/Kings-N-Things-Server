@@ -131,6 +131,7 @@ public class CombatPhaseController extends PhaseController {
 	}
 	
 	
+
 	
 	public HttpResponseMessage battleDoesNotExistMessage() {
 		HttpResponseMessage msg = new HttpResponseMessage(ResponseError.BATTLE_DOES_NOT_EXIST);

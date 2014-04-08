@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import com.kings.http.GameMessage;
+import com.kings.model.GamePiece;
 import com.kings.model.GameState;
 import com.kings.model.HexLocation;
 import com.kings.model.Player;
@@ -71,6 +72,25 @@ public class CombatPhase extends Phase {
 			}
 		}
 		return combatBattles;
+	}
+	
+	public void calloutBluff(Player player, String pieceId) {
+		if(pieceId==null)
+			return;
+		
+		GamePiece p = getGameState().getGamePiece(pieceId);
+		
+		if(p==null || p.getOwner() == null)
+			return;
+		
+		Player owner  = p.getOwner();
+		getGameState().getPlayingCup().addGamePieceToLocation(p);
+		owner.removeGamePiece(pieceId);
+		
+		GameMessage msg = newGameMessageForAllPlayers("calledOutBluff");
+		msg.addToData("playerCallingBluffId", player.getPlayerId());
+		msg.addToData("playerCalledOutId", owner.getPlayerId());
+		msg.addToData("calledOutPiece", p.toSerializedFormat());
 	}
 	
 	public void handleStartNextBattle() {

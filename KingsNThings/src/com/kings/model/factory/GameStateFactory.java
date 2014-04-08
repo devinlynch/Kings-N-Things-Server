@@ -41,7 +41,7 @@ public class GameStateFactory {
 		
 		boolean is23PlayerGame = numberOfPlayers<4;
 		int numTiles = 37;
-		if(is23PlayerGame) {
+		if(is23PlayerGame && ! gameState.isDemo()) {
 			numTiles = 19;
 		} 
 		
@@ -49,9 +49,10 @@ public class GameStateFactory {
 		addPiecesToDefaultLocations(gameState);
 		assignDefaultGamePiecesAndGoldToPlayers(gameState);
 		
-		if(gameState.isTestMode())
-			setHexTilesOnLocationsForDemo(gameState);
-		else
+		if(gameState.isDemo()){
+			setHexTilesOnLocationsForDemo2(gameState);
+			handleDemo2Settings(gameState);
+		}else
 			setRandomHexTiles(gameState, numTiles);
 		
 		switch(numberOfPlayers){
@@ -120,11 +121,11 @@ public class GameStateFactory {
  		gameState.getHexlocations().get(7).setHexTile((HexTile)gameState.getGamePiece("plains-tile-02"));
  		gameState.getHexlocations().get(8).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-02"));
  		gameState.getHexlocations().get(9).setHexTile((HexTile)gameState.getGamePiece("mountain-tile-01"));
- 		gameState.getHexlocations().get(10).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-03"));
+ 		gameState.getHexlocations().get(10).setHexTile((HexTile)gameState.getGamePiece("forest-tile-03"));
  		gameState.getHexlocations().get(11).setHexTile((HexTile)gameState.getGamePiece("swamp-tile-02"));
  		gameState.getHexlocations().get(12).setHexTile((HexTile)gameState.getGamePiece("desert-tile-01"));
  		gameState.getHexlocations().get(13).setHexTile((HexTile)gameState.getGamePiece("swamp-tile-03"));
- 		gameState.getHexlocations().get(14).setHexTile((HexTile)gameState.getGamePiece("forest-tile-03"));
+ 		gameState.getHexlocations().get(14).setHexTile((HexTile)gameState.getGamePiece("forest-tile-04"));
  		gameState.getHexlocations().get(15).setHexTile((HexTile)gameState.getGamePiece("desert-tile-02"));
  		gameState.getHexlocations().get(16).setHexTile((HexTile)gameState.getGamePiece("plains-tile-03"));
  		gameState.getHexlocations().get(17).setHexTile((HexTile)gameState.getGamePiece("mountain-tile-02"));
@@ -134,9 +135,9 @@ public class GameStateFactory {
  		gameState.getHexlocations().get(21).setHexTile((HexTile)gameState.getGamePiece("jungle-tile-03"));
  		gameState.getHexlocations().get(22).setHexTile((HexTile)gameState.getGamePiece("swamp-tile-05"));
  		gameState.getHexlocations().get(23).setHexTile((HexTile)gameState.getGamePiece("desert-tile-03"));
- 		gameState.getHexlocations().get(24).setHexTile((HexTile)gameState.getGamePiece("forest-tile-04"));
+ 		gameState.getHexlocations().get(24).setHexTile((HexTile)gameState.getGamePiece("forest-tile-05"));
  		gameState.getHexlocations().get(25).setHexTile((HexTile)gameState.getGamePiece("plains-tile-04"));
- 		gameState.getHexlocations().get(26).setHexTile((HexTile)gameState.getGamePiece("forest-tile-05"));
+ 		gameState.getHexlocations().get(26).setHexTile((HexTile)gameState.getGamePiece("forest-tile-06"));
  		gameState.getHexlocations().get(27).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-04"));
  		gameState.getHexlocations().get(28).setHexTile((HexTile)gameState.getGamePiece("jungle-tile-05"));
  		gameState.getHexlocations().get(29).setHexTile((HexTile)gameState.getGamePiece("mountain-tile-04"));
@@ -144,9 +145,110 @@ public class GameStateFactory {
  		gameState.getHexlocations().get(31).setHexTile((HexTile)gameState.getGamePiece("plains-tile-05"));
  		gameState.getHexlocations().get(32).setHexTile((HexTile)gameState.getGamePiece("jungle-tile-04"));
  		gameState.getHexlocations().get(33).setHexTile((HexTile)gameState.getGamePiece("mountain-tile-05"));
- 		gameState.getHexlocations().get(34).setHexTile((HexTile)gameState.getGamePiece("forest-tile-08"));
+ 		gameState.getHexlocations().get(34).setHexTile((HexTile)gameState.getGamePiece("forest-tile-06"));
  		gameState.getHexlocations().get(35).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-05"));
  		gameState.getHexlocations().get(36).setHexTile((HexTile)gameState.getGamePiece("desert-tile-05"));
+	}
+	
+	
+	public static void setHexTilesOnLocationsForDemo2(GameState gameState) {
+		gameState.getHexlocations().get(0).setHexTile((HexTile)gameState.getGamePiece("swamp-tile-01"));
+ 		gameState.getHexlocations().get(1).setHexTile((HexTile)gameState.getGamePiece("sea-tile-01"));
+ 		gameState.getHexlocations().get(2).setHexTile((HexTile)gameState.getGamePiece("plains-tile-01"));
+ 		gameState.getHexlocations().get(3).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-01"));
+ 		gameState.getHexlocations().get(4).setHexTile((HexTile)gameState.getGamePiece("desert-tile-01"));
+ 		gameState.getHexlocations().get(5).setHexTile((HexTile)gameState.getGamePiece("forest-tile-01"));
+ 		gameState.getHexlocations().get(6).setHexTile((HexTile)gameState.getGamePiece("mountain-tile-01"));
+ 		gameState.getHexlocations().get(7).setHexTile((HexTile)gameState.getGamePiece("desert-tile-02"));
+ 		gameState.getHexlocations().get(8).setHexTile((HexTile)gameState.getGamePiece("swamp-tile-02"));
+ 		gameState.getHexlocations().get(9).setHexTile((HexTile)gameState.getGamePiece("mountain-tile-02"));
+ 		gameState.getHexlocations().get(10).setHexTile((HexTile)gameState.getGamePiece("forest-tile-02"));
+ 		gameState.getHexlocations().get(11).setHexTile((HexTile)gameState.getGamePiece("desert-tile-03"));
+ 		gameState.getHexlocations().get(12).setHexTile((HexTile)gameState.getGamePiece("forest-tile-03"));
+ 		gameState.getHexlocations().get(13).setHexTile((HexTile)gameState.getGamePiece("forest-tile-04"));
+ 		gameState.getHexlocations().get(14).setHexTile((HexTile)gameState.getGamePiece("mountain-tile-03"));
+ 		gameState.getHexlocations().get(15).setHexTile((HexTile)gameState.getGamePiece("plains-tile-02"));
+ 		gameState.getHexlocations().get(16).setHexTile((HexTile)gameState.getGamePiece("sea-tile-02"));
+ 		gameState.getHexlocations().get(17).setHexTile((HexTile)gameState.getGamePiece("mountain-tile-04"));
+ 		gameState.getHexlocations().get(18).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-02"));
+ 		gameState.getHexlocations().get(19).setHexTile((HexTile)gameState.getGamePiece("swamp-tile-03"));
+ 		gameState.getHexlocations().get(20).setHexTile((HexTile)gameState.getGamePiece("plains-tile-03"));
+ 		gameState.getHexlocations().get(21).setHexTile((HexTile)gameState.getGamePiece("sea-tile-03"));
+ 		gameState.getHexlocations().get(22).setHexTile((HexTile)gameState.getGamePiece("jungle-tile-01"));
+ 		gameState.getHexlocations().get(23).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-03"));
+ 		gameState.getHexlocations().get(24).setHexTile((HexTile)gameState.getGamePiece("plains-tile-04"));
+ 		gameState.getHexlocations().get(25).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-04"));
+ 		gameState.getHexlocations().get(26).setHexTile((HexTile)gameState.getGamePiece("swamp-tile-04"));
+ 		gameState.getHexlocations().get(27).setHexTile((HexTile)gameState.getGamePiece("desert-tile-04"));
+ 		gameState.getHexlocations().get(28).setHexTile((HexTile)gameState.getGamePiece("desert-tile-05"));
+ 		gameState.getHexlocations().get(29).setHexTile((HexTile)gameState.getGamePiece("frozen-tile-05"));
+ 		gameState.getHexlocations().get(30).setHexTile((HexTile)gameState.getGamePiece("mountain-tile-05"));
+ 		gameState.getHexlocations().get(31).setHexTile((HexTile)gameState.getGamePiece("forest-tile-05"));
+ 		gameState.getHexlocations().get(32).setHexTile((HexTile)gameState.getGamePiece("swamp-tile-05"));
+ 		gameState.getHexlocations().get(33).setHexTile((HexTile)gameState.getGamePiece("sea-tile-04"));
+ 		gameState.getHexlocations().get(34).setHexTile((HexTile)gameState.getGamePiece("swamp-tile-06"));
+ 		gameState.getHexlocations().get(35).setHexTile((HexTile)gameState.getGamePiece("forest-tile-06"));
+ 		gameState.getHexlocations().get(36).setHexTile((HexTile)gameState.getGamePiece("plains-tile-05"));
+	}
+	
+	public static void handleDemo2Settings(GameState gameState){
+		gameState.getHexlocations().get(0).setOwner(gameState.getPlayerByPlayerId("player1"));
+		gameState.getHexlocations().get(0).addGamePieceToLocation(gameState.getGamePiece("Fort_02-01"));
+		gameState.getGamePiece("Fort_02-01").setOwner(gameState.getPlayerByPlayerId("player1"));
+		
+ 		//gameState.getHexlocations().get(1).setOwner(gameState.getPlayerByPlayerId("player1"));
+		
+ 		gameState.getHexlocations().get(2).setOwner(gameState.getPlayerByPlayerId("player1"));
+ 		gameState.getHexlocations().get(2).addGamePieceToLocation(gameState.getGamePiece("Fort_01-01"));
+		gameState.getGamePiece("Fort_01-01").setOwner(gameState.getPlayerByPlayerId("player1"));
+		Set<GamePiece> stackPieces = new HashSet<GamePiece>();
+		stackPieces.add(gameState.getGamePiece("T_Desert_118-01"));
+		gameState.getHexlocations().get(2).createAndAddNewStackWithPieces(gameState.getPlayerByPlayerId("player1"), stackPieces);
+		
+ 		
+ 		gameState.getHexlocations().get(3).setOwner(gameState.getPlayerByPlayerId("player2"));
+ 		gameState.getHexlocations().get(3).addGamePieceToLocation(gameState.getGamePiece("Fort_02-02"));
+		gameState.getGamePiece("Fort_02-02").setOwner(gameState.getPlayerByPlayerId("player2"));
+ 		
+ 		
+ 		gameState.getHexlocations().get(4).setOwner(gameState.getPlayerByPlayerId("player2"));
+ 		gameState.getHexlocations().get(5).setOwner(gameState.getPlayerByPlayerId("player3"));
+ 		//gameState.getHexlocations().get(6).setOwner(gameState.getPlayerByPlayerId("player1"));
+ 		gameState.getHexlocations().get(7).setOwner(gameState.getPlayerByPlayerId("player4"));
+ 		gameState.getHexlocations().get(8).setOwner(gameState.getPlayerByPlayerId("player1"));
+ 		gameState.getHexlocations().get(9).setOwner(gameState.getPlayerByPlayerId("player1"));
+ 		gameState.getHexlocations().get(10).setOwner(gameState.getPlayerByPlayerId("player1"));
+ 		gameState.getHexlocations().get(11).setOwner(gameState.getPlayerByPlayerId("player2"));
+ 		gameState.getHexlocations().get(12).setOwner(gameState.getPlayerByPlayerId("player2"));
+ 		gameState.getHexlocations().get(13).setOwner(gameState.getPlayerByPlayerId("player2"));
+ 		gameState.getHexlocations().get(14).setOwner(gameState.getPlayerByPlayerId("player3"));
+ 		gameState.getHexlocations().get(15).setOwner(gameState.getPlayerByPlayerId("player3"));
+ 		//gameState.getHexlocations().get(16).setOwner(gameState.getPlayerByPlayerId("player1"));
+ 		//gameState.getHexlocations().get(17).setOwner(gameState.getPlayerByPlayerId("player1"));
+ 		gameState.getHexlocations().get(18).setOwner(gameState.getPlayerByPlayerId("player4"));
+ 		gameState.getHexlocations().get(19).setOwner(gameState.getPlayerByPlayerId("player4"));
+ 		gameState.getHexlocations().get(20).setOwner(gameState.getPlayerByPlayerId("player4"));
+ 		//gameState.getHexlocations().get(21).setOwner(gameState.getPlayerByPlayerId("player1"));
+ 		gameState.getHexlocations().get(22).setOwner(gameState.getPlayerByPlayerId("player1"));
+ 		gameState.getHexlocations().get(23).setOwner(gameState.getPlayerByPlayerId("player1"));
+ 		gameState.getHexlocations().get(24).setOwner(gameState.getPlayerByPlayerId("player1"));
+ 		gameState.getHexlocations().get(25).setOwner(gameState.getPlayerByPlayerId("player2"));
+ 		gameState.getHexlocations().get(26).setOwner(gameState.getPlayerByPlayerId("player2"));
+ 		gameState.getHexlocations().get(27).setOwner(gameState.getPlayerByPlayerId("player2"));
+ 		gameState.getHexlocations().get(28).setOwner(gameState.getPlayerByPlayerId("player2"));
+ 		gameState.getHexlocations().get(29).setOwner(gameState.getPlayerByPlayerId("player2"));
+ 		gameState.getHexlocations().get(30).setOwner(gameState.getPlayerByPlayerId("player3"));
+ 		gameState.getHexlocations().get(31).setOwner(gameState.getPlayerByPlayerId("player3"));
+ 		gameState.getHexlocations().get(32).setOwner(gameState.getPlayerByPlayerId("player3"));
+ 		//gameState.getHexlocations().get(33).setOwner(gameState.getPlayerByPlayerId("player1"));
+ 		gameState.getHexlocations().get(34).setOwner(gameState.getPlayerByPlayerId("player4"));
+ 		gameState.getHexlocations().get(35).setOwner(gameState.getPlayerByPlayerId("player4"));
+ 		gameState.getHexlocations().get(36).setOwner(gameState.getPlayerByPlayerId("player4"));
+ 		
+ 		
+ 		
+ 		
+ 		
 	}
 	
 	public static void assignDefaultGamePiecesAndGoldToPlayers(GameState gameState) {
@@ -156,14 +258,19 @@ public class GameStateFactory {
 			// Give fort
 			Player player = it.next();
 			String fortId="Fort_01-0"+i;
-			GamePiece fort = gameState.getGamePiece(fortId);
-			player.assignGamePieceToPlayerRack(fort);
+			
+			if( ! gameState.isDemo() ){
+				GamePiece fort = gameState.getGamePiece(fortId);
+				player.assignGamePieceToPlayerRack(fort);
+			}
 			
 			// Give gold
 			gameState.getBank().payoutGoldToPlayer(10, player);
 			
 			if(gameState.isTestMode()){
 				givePredefinedPiecesToPlayer(player, 10, gameState);
+			} else if(gameState.isDemo()) {
+				// DO NOTHING
 			} else{
 				giveRandomPiecesToPlayer(player, 10, gameState);
 			}

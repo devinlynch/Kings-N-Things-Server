@@ -35,6 +35,7 @@ public class GameState extends AbstractSerializedObject {
 	private int phaseTurn;
 	private boolean isTestMode;
 	private Set<Player> playersWithCitadelsLastConsPhase;
+	private boolean demo;
 	
 	
 	public PlayingCup getPlayingCup() {
@@ -74,6 +75,7 @@ public class GameState extends AbstractSerializedObject {
 	}
 	
 	protected static void initializeNewGameState(GameState gameState, Game game) throws Exception {
+		gameState.setDemo(game.isDemo());
 		gameState.setGameId(game.getGameId());
 		
 		int i=1;
@@ -498,6 +500,14 @@ public class GameState extends AbstractSerializedObject {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public boolean isDemo() {
+		return demo;
+	}
+
+	public void setDemo(boolean demo) {
+		this.demo = demo;
 	}
 	
 }
