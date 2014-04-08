@@ -511,4 +511,16 @@ public class GameState extends AbstractSerializedObject {
 		this.demo = demo;
 	}
 	
+	public void assignPieceToPlayerRackAndNotifyEveryone(GamePiece piece, Player player) {
+		if(piece == null || player ==  null)
+			return;
+		
+		player.assignGamePieceToPlayerRack(piece);
+		
+		GameMessage msg = new GameMessage("updatedGamePiece");
+		msg.addPlayersToSendTo(new ArrayList<Player>(getPlayers()));
+		msg.addToData("gamePiece", piece.toSerializedFormat());
+		queueUpGameMessageToSendToAllPlayers(msg);
+	}
+	
 }
