@@ -1,5 +1,6 @@
 package com.kings.model.phases.battle;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -13,6 +14,7 @@ import com.kings.model.GamePiece;
 import com.kings.model.GameState;
 import com.kings.model.HexLocation;
 import com.kings.model.Player;
+import com.kings.model.Stack;
 import com.kings.model.phases.CombatPhase;
 import com.kings.model.phases.battle.CombatBattleRound.PostBattlePieceStatus;
 import com.kings.util.Utils;
@@ -134,6 +136,15 @@ public class CombatBattle {
 		}
 		
 		
+		List<String> destroyedStacks =  new ArrayList<String>();
+		Iterator<Stack> stackIterator = new ArrayList<Stack>(getLocationOfBattle().getStacks()).iterator();
+		while(it.hasNext()) {
+			Stack stack = stackIterator.next();
+			if(stack.getGamePieces().isEmpty()) {
+				destroyedStacks.add(stack.getId());
+				stack.destroy();
+			}
+		}
 		
 		
 		this.isOver = true;
@@ -143,6 +154,7 @@ public class CombatBattle {
 		msg.addToData("resolution", resolution.toString());
 		msg.addToData("statusOfLeftoverPieces", piecesStatuses);
 		msg.addToData("battleId", getBattleId());
+		msg.addToData("destroyedStackIds", destroyedStacks);
 		getGameState().queueUpGameMessageToSendToAllPlayers(msg);
 		
 		this.resolution = resolution;
