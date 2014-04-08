@@ -54,6 +54,11 @@ public class HexLocation extends BoardLocation {
 		stack.setHexLocation(this);
 	}
 	
+	public void removeStack(Stack stack) {
+		getStacks().remove(stack);
+		stack.setHexLocation(null);
+	}
+	
 	public Stack createAndAddNewStackWithPieces(Player owner, Set<GamePiece> gamePieces) {
 		Stack stack = new Stack(Utils.generateRandomId("stack"));
 		stack.setOwner(owner);
