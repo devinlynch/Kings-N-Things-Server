@@ -263,6 +263,7 @@ public class GameState extends AbstractSerializedObject {
 		map.put("bank", getBank().toSerializedFormat());
 		map.put("sideLocation", getSideLocation().toSerializedFormat());
 		map.put("hexLocations", getHexLocationsInSerializedFormat());
+		map.put("isDemo", isDemo());
 		return map;
 	}
 
