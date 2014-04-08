@@ -29,7 +29,7 @@ public class Game {
 		gameState = new GameState();
 		sentMessages = new ArrayList<SentMessage>();
 		chatMessages = new ArrayList<GameChatMessage>();
-		setDemo(true);
+		//setDemo(true);
 	}
 	
 	public void addUsers(Set<User> players) {

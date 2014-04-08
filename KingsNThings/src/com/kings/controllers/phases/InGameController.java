@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.kings.http.HttpResponseMessage;
 import com.kings.model.Game;
 import com.kings.model.GameChatMessage;
+import com.kings.model.GamePiece;
+import com.kings.model.GameState;
+import com.kings.model.Player;
 import com.kings.model.User;
 
 @RequestMapping("game")
@@ -57,7 +60,28 @@ public class InGameController extends PhaseController {
 			return genericError().toJson();
 		}
 		
+		try{
+			GameState gameState = getGameState(req);
+			Player player = getPlayer(req);
+			handleCheatChatMessage(message, player, gameState);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
 		return successMessage().toJson();
+	}
+	
+	public void handleCheatChatMessage(String message, Player player, GameState gameState) {
+		if(message == null || gameState == null || player == null)
+			return;
+		
+		if(message.toLowerCase().startsWith("giveme:")) {
+			String gamePieceId = message.substring("giveme:".length()).trim();
+			GamePiece piece  = gameState.getGamePiece(gamePieceId);
+			if(piece != null) {
+				gameState.assignPieceToPlayerRackAndNotifyEveryone(piece, player);
+			}
+		}
 	}
 	
 	
