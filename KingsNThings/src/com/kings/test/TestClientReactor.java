@@ -62,7 +62,7 @@ public class TestClientReactor {
 	@Test
 	public void test2() throws IOException, GameLobbyAlreadyFullException {
 		HttpResponseMessage m = new HttpResponseMessage();
-		GameLobby lobby = new GameLobby();
+		GameLobby lobby = new GameLobby(false);
 		lobby.setNumberOfPlayersWanted(4);
 		lobby.setPrivate(true);
 		User u = new User();

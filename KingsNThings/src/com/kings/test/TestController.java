@@ -75,7 +75,7 @@ public class TestController {
 		User testUser = new User();
 		testUser.setUserId(""+new Date().getTime());
 		testUser.setUsername("t-"+new Date().getTime());
-		UserWaiting userWaiting = new UserWaitingSearchGame(testUser, usernameOfHost);
+		UserWaiting userWaiting = new UserWaitingSearchGame(testUser, usernameOfHost, false);
 		UserWaitingQueue.addUserWaitingToQueue(userWaiting);
 		
 		return "Added";

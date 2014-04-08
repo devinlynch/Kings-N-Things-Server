@@ -29,7 +29,7 @@ public class GameMatcherTest {
 		users.add(uw1);
 		users.add(uw2);
 		
-		GameLobby gl1 = new GameLobby();
+		GameLobby gl1 = new GameLobby(false);
 		gl1.setNumberOfPlayersWanted(3);
 		gl1.setUsers(users);
 		

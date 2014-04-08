@@ -11,8 +11,9 @@ import com.kings.model.User;
 public class UserWaitingSearchGame extends UserWaiting {
 	private String usernameOfPlayerSearchingFor;
 
-	public UserWaitingSearchGame(User user, String usernameOfPlayerSearchingFor) {
+	public UserWaitingSearchGame(User user, String usernameOfPlayerSearchingFor, boolean demo) {
 		super();
+		setDemo(demo);
 		setUser(user);
 		setUsernameOfPlayerSearchingFor(usernameOfPlayerSearchingFor);
 	}

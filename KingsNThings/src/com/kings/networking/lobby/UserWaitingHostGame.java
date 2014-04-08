@@ -9,8 +9,9 @@ import com.kings.model.User;
  *
  */
 public class UserWaitingHostGame extends UserWaiting {
-	public UserWaitingHostGame(User user, int numberOfPlayersWanted) {
+	public UserWaitingHostGame(User user, int numberOfPlayersWanted, boolean demo) {
 		super(user, numberOfPlayersWanted);
+		setDemo(demo);
 	}
 	
 	@Override

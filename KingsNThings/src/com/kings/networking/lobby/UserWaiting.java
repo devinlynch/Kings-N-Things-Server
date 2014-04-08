@@ -18,6 +18,7 @@ public class UserWaiting {
 	private int numberOfPlayersWanted;
 	private Date startedWaitingDate;
 	private Date lastMessageReceivedDate;
+	private boolean demo;
 	
 	public UserWaiting(){
 		setStartedWaitingDate(new Date());
@@ -96,5 +97,13 @@ public class UserWaiting {
 		message.addToData("didJoinLobby", true);
 		message.addToData("lobby", lobby);
 		getUser().sendMessage(message, new DataAccess());
+	}
+
+	public boolean isDemo() {
+		return demo;
+	}
+
+	public void setDemo(boolean demo) {
+		this.demo = demo;
 	}
 }
