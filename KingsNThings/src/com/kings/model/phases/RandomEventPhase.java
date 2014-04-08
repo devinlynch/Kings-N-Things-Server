@@ -81,7 +81,9 @@ public class RandomEventPhase extends Phase {
 			clientLog+= "They were unsuccessful with recruiting "+recruitForPiece.getName()+".";
 		}
 
-		sendRandomEventMessage(player, clientLog, new ArrayList<GamePiece>(), new ArrayList<BoardLocation>());
+		List<GamePiece> affectedPieces = new ArrayList<GamePiece>();
+		affectedPieces.add(randomEventPiece);
+		sendRandomEventMessage(player, clientLog, affectedPieces, new ArrayList<BoardLocation>());
 	}
 	
 	public void sendRandomEventMessage(Player playerWhoMadeMove, String clientLog, List<GamePiece> affectedPieces, List<BoardLocation> affectedLocations) {
