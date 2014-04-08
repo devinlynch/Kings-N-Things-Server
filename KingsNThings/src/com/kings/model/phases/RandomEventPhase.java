@@ -25,7 +25,6 @@ public class RandomEventPhase extends Phase {
 	@Override
 	public void handleStart() {
 		// TODO Auto-generated method stub
-		end();
 	}
 	
 	public synchronized void playerIsDoneMakingMoves(Player p) {
