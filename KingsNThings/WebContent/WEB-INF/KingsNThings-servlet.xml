@@ -19,6 +19,7 @@
  	  <bean class="com.kings.controllers.phases.InGameController" />
  	  <bean class="com.kings.controllers.phases.RecruitCharactersPhaseController" />
  	  <bean class="com.kings.controllers.phases.ConstructionPhaseController" />
+ 	  <bean class="com.kings.controllers.phases.RandomEventPhaseController" />
  	  
 	  <bean id="handlerMapping" class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
 	    <property name="interceptors">

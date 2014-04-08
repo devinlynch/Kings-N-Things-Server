@@ -355,8 +355,11 @@ public class HexLocation extends BoardLocation {
 		return null;
 	}
 	
-	public boolean isStartingLocation() {
-		return getHexNumber() == 19 || getHexNumber() == 32 || getHexNumber() == 28 || getHexNumber() == 23;
+	public boolean isStartingLocation(GameState gs) {
+		if(gs.getPlayers().size() >= 4)
+			return getHexNumber() == 19 || getHexNumber() == 32 || getHexNumber() == 28 || getHexNumber() == 23;
+		else
+			return getHexNumber() == 8 || getHexNumber() == 18 || getHexNumber() == 16 || getHexNumber() == 14 || getHexNumber() == 12 || getHexNumber() == 10;
 	}
 	
 }

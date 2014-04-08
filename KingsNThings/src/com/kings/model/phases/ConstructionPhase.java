@@ -172,7 +172,9 @@ public class ConstructionPhase extends Phase {
 		}
 		
 		getGameState().setPlayersWithCitadelsLastConsPhase(playersCurrentlyWithCits);
-		setPlayersInOrderOfTurn(recalculateOrder(getPlayersInOrderOfTurn()));
+		
+		if(getPlayersInOrderOfTurn().size() >= 4)
+			setPlayersInOrderOfTurn(recalculateOrder(getPlayersInOrderOfTurn()));
 	}
 
 	@Override
