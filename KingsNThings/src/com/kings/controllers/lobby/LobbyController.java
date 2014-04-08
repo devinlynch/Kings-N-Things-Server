@@ -29,6 +29,7 @@ public class LobbyController extends AbstractLoggedInOnlyController {
 	
 	@RequestMapping(value="joinLobby")
 	public @ResponseBody String joinLobby(
+		@RequestParam(required=false) boolean isDemo,
 		@RequestParam int numberOfPreferredPlayers,
 		HttpServletRequest req,
 		HttpServletResponse res) throws NotLoggedInException{
@@ -40,6 +41,7 @@ public class LobbyController extends AbstractLoggedInOnlyController {
 		}
 		
 		UserWaiting userWaiting = new UserWaiting(user, numberOfPreferredPlayers);
+		userWaiting.setDemo(isDemo);
 		UserWaitingQueue.addUserWaitingToQueue(userWaiting);
 		
 		HttpResponseMessage message = new HttpResponseMessage();
@@ -50,6 +52,7 @@ public class LobbyController extends AbstractLoggedInOnlyController {
 	@RequestMapping(value="hostLobby")
 	public @ResponseBody String hostLobby(
 		@RequestParam int numberOfPreferredPlayers,
+		@RequestParam(required=false) boolean isDemo,
 		HttpServletRequest req,
 		HttpServletResponse res) throws NotLoggedInException{
 		
@@ -59,7 +62,7 @@ public class LobbyController extends AbstractLoggedInOnlyController {
 			return userAlreadyinGameMessage(game).toJson();
 		}
 		
-		UserWaiting userWaiting = new UserWaitingHostGame(user, numberOfPreferredPlayers);
+		UserWaiting userWaiting = new UserWaitingHostGame(user, numberOfPreferredPlayers, isDemo);
 		UserWaitingQueue.addUserWaitingToQueue(userWaiting);
 		
 		HttpResponseMessage message = new HttpResponseMessage();
@@ -69,6 +72,7 @@ public class LobbyController extends AbstractLoggedInOnlyController {
 	@RequestMapping(value="searchLobby")
 	public @ResponseBody String searchLobby(
 		@RequestParam String usernameOfHost,
+		@RequestParam(required=false) boolean isDemo,
 		HttpServletRequest req,
 		HttpServletResponse res) throws NotLoggedInException{
 		
@@ -78,7 +82,7 @@ public class LobbyController extends AbstractLoggedInOnlyController {
 			return userAlreadyinGameMessage(game).toJson();
 		}
 		
-		UserWaiting userWaiting = new UserWaitingSearchGame(user, usernameOfHost);
+		UserWaiting userWaiting = new UserWaitingSearchGame(user, usernameOfHost, isDemo);
 		UserWaitingQueue.addUserWaitingToQueue(userWaiting);
 		
 		HttpResponseMessage message = new HttpResponseMessage();

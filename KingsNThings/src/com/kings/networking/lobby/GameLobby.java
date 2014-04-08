@@ -24,10 +24,12 @@ public class GameLobby {
 	private Game game;
 	private boolean isPrivate;
 	private User host;
+	private boolean demo;
 	
-	public GameLobby() {
+	public GameLobby(boolean demo) {
 		users = new HashSet<UserWaiting>();
 		setGameLobbyId(Utils.generateRandomId());
+		this.demo=demo;
 	}
 	
 	public Set<UserWaiting> getUsers() {
@@ -139,5 +141,13 @@ public class GameLobby {
 
 	public void setGameLobbyId(String gameLobbyId) {
 		this.gameLobbyId = gameLobbyId;
+	}
+
+	public boolean isDemo() {
+		return demo;
+	}
+
+	public void setDemo(boolean demo) {
+		this.demo = demo;
 	}
 }

@@ -93,7 +93,7 @@ public class GameMatcher extends Thread {
 		
 		GameLobby lobby= null;
 		if(userWaiting.isUserWaitingHostGame()) {
-			lobby = new GameLobby();
+			lobby = new GameLobby(userWaiting.isDemo());
 			lobby.setNumberOfPlayersWanted(userWaiting.getNumberOfPlayersWanted());
 			lobby.setHost(user);
 			lobby.setPrivate(true);
@@ -197,7 +197,7 @@ public class GameMatcher extends Thread {
 	}
 	
 	protected GameLobby createAndAddNewGameLobbyFromUserWaiting(UserWaiting userWaiting) {
-		GameLobby lobby = new GameLobby();
+		GameLobby lobby = new GameLobby(userWaiting.isDemo());
 		lobby.setNumberOfPlayersWanted(userWaiting.getNumberOfPlayersWanted());
 		addGameLobby(lobby);
 		return lobby;

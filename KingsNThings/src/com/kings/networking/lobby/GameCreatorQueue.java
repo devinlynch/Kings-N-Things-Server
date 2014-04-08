@@ -116,6 +116,7 @@ public class GameCreatorQueue extends Thread {
 		try{
 			access.beginTransaction();
 			Game createdGame = gameLobby.becomeGame();
+			createdGame.setDemo(gameLobby.isDemo());
 			access.save(createdGame);
 			
 			String gameId = createdGame.getGameId();
