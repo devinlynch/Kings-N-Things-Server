@@ -1,5 +1,6 @@
 package com.kings.model.phases.battle;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -187,11 +188,14 @@ public abstract class CombatBattleStep {
 		else
 			numHitsLeftToBeTaken = attackerHitCount;
 		
+		
+		List<Map<String, Object>> serializedPieces = new ArrayList<Map<String,Object>>();
 		for(String gamePieceId : gamePiecesTakingHits) {
 			GamePiece gp = getGameState().getGamePiece(gamePieceId);
 			if(gp != null && gp instanceof Counter) {
 				getGameState().gamePieceTookDamage((Counter)gp);
 				numHitsLeftToBeTaken--;
+				serializedPieces.add(gp.toSerializedFormat());
 			}
 		}
 		
@@ -217,6 +221,7 @@ public abstract class CombatBattleStep {
 		msg.addToData("damage", isAttacker ? attackerHitCount : defenderHitCount);
 		msg.addToData("playerId", p.getPlayerId());
 		msg.addToData("gamePiecesTakingHitsIds", gamePiecesTakingHits);
+		msg.addToData("gamePiecesTakingHitsSerialized", serializedPieces);
 		msg.addToData("locationOfBattle", getRound().getBattle().getLocationOfBattle().toSerializedFormat());
 		getGameState().queueUpGameMessageToSendToAllPlayers(msg);
 	}

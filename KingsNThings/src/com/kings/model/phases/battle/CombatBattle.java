@@ -138,7 +138,7 @@ public class CombatBattle {
 		
 		List<String> destroyedStacks =  new ArrayList<String>();
 		Iterator<Stack> stackIterator = new ArrayList<Stack>(getLocationOfBattle().getStacks()).iterator();
-		while(it.hasNext()) {
+		while(stackIterator.hasNext()) {
 			Stack stack = stackIterator.next();
 			if(stack.getGamePieces().isEmpty()) {
 				destroyedStacks.add(stack.getId());
