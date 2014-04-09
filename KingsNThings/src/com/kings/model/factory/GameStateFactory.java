@@ -53,7 +53,7 @@ public class GameStateFactory {
 
 		if (gameState.isDemo()) {
 			setHexTilesOnLocationsForDemo2(gameState);
-			handleDemo2Settings(gameState);
+			handleDemo3Settings(gameState);
 		} else
 			setRandomHexTiles(gameState, numTiles);
 
@@ -419,6 +419,246 @@ public class GameStateFactory {
 		}
 
 	}
+	
+	public static void handleDemo3Settings(GameState gameState) {
+		if (gameState.getPlayerByPlayerId("player1") != null) {
+			gameState.getHexlocations().get(0).setOwner(gameState.getPlayerByPlayerId("player1"));
+			gameState.getHexlocations().get(0).capture(gameState.getPlayerByPlayerId("player1"));
+			gameState.getHexlocations().get(0).addGamePieceToLocation(gameState.getGamePiece("Fort_02-01"));
+			gameState.getPlayerByPlayerId("player1").assignGamePieceToPlayer(gameState.getGamePiece("Fort_02-01"));
+		}
+
+		// gameState.getHexlocations().get(1).setOwner(gameState.getPlayerByPlayerId("player1"));
+		if (gameState.getPlayerByPlayerId("player1") != null) {
+			gameState.getHexlocations().get(2).setOwner(gameState.getPlayerByPlayerId("player1"));
+			gameState.getHexlocations().get(2).capture(gameState.getPlayerByPlayerId("player1"));
+			gameState.getHexlocations().get(2).addGamePieceToLocation(gameState.getGamePiece("Fort_01-01"));
+			gameState.getPlayerByPlayerId("player1").assignGamePieceToPlayer(gameState.getGamePiece("Fort_01-01"));
+			Set<GamePiece> stackPieces = new HashSet<GamePiece>();
+			stackPieces.add(gameState.getGamePiece("T_Forest_102-01"));
+			stackPieces.add(gameState.getGamePiece("T_Forest_094-01"));
+			stackPieces.add(gameState.getGamePiece("T_Swamp_069-01"));
+			stackPieces.add(gameState.getGamePiece("T_Desert_115-01"));
+			stackPieces.add(gameState.getGamePiece("T_Forest_100-01"));
+			stackPieces.add(gameState.getGamePiece("T_Plains_014-01"));
+			stackPieces.add(gameState.getGamePiece("T_Frozen_Waste_054-01"));
+			stackPieces.add(gameState.getGamePiece("T_Frozen_Waste_063-01"));
+			stackPieces.add(gameState.getGamePiece("T_Swamp_081-01"));
+			stackPieces.add(gameState.getGamePiece("T_Jungle_004-01"));
+			gameState.getHexlocations().get(2).createAndAddNewStackWithPieces(gameState.getPlayerByPlayerId("player1"), stackPieces);
+		}
+
+		if (gameState.getPlayerByPlayerId("player2") != null) {
+			gameState.getHexlocations().get(3).setOwner(gameState.getPlayerByPlayerId("player2"));
+			gameState.getHexlocations().get(3).capture(gameState.getPlayerByPlayerId("player2"));
+			gameState.getHexlocations().get(3).addGamePieceToLocation(gameState.getGamePiece("Fort_01-02"));
+			gameState.getPlayerByPlayerId("player2").assignGamePieceToPlayer(gameState.getGamePiece("Fort_01-02"));
+			Set<GamePiece> stackPieces = new HashSet<GamePiece>();
+			stackPieces.add(gameState.getGamePiece("T_Swamp_066-01"));
+			stackPieces.add(gameState.getGamePiece("T_Swamp_076-01"));
+			stackPieces.add(gameState.getGamePiece("T_Swamp_083-01"));
+			stackPieces.add(gameState.getGamePiece("T_Forest_090-01"));
+			stackPieces.add(gameState.getGamePiece("T_Forest_087-01"));
+			stackPieces.add(gameState.getGamePiece("T_Desert_113-01"));
+			stackPieces.add(gameState.getGamePiece("T_Desert_117-01"));
+			stackPieces.add(gameState.getGamePiece("T_Swamp_080-01"));
+			stackPieces.add(gameState.getGamePiece("T_Jungle_002-01"));
+			stackPieces.add(gameState.getGamePiece("T_Jungle_007-01"));
+			gameState.getHexlocations().get(3).createAndAddNewStackWithPieces(gameState.getPlayerByPlayerId("player2"), stackPieces);
+		}
+
+		if (gameState.getPlayerByPlayerId("player2") != null) {
+			gameState.getHexlocations().get(4).setOwner(gameState.getPlayerByPlayerId("player2"));
+			gameState.getHexlocations().get(4).capture(gameState.getPlayerByPlayerId("player2"));
+		}
+
+		if (gameState.getPlayerByPlayerId("player3") != null) {
+			gameState.getHexlocations().get(5).setOwner(gameState.getPlayerByPlayerId("player3"));
+			gameState.getHexlocations().get(5).capture(gameState.getPlayerByPlayerId("player3"));
+			Set<GamePiece> stackPieces = new HashSet<GamePiece>();
+			stackPieces.add(gameState.getGamePiece("T_Forest_098-01"));
+			stackPieces.add(gameState.getGamePiece("T_Forest_103-01"));
+			stackPieces.add(gameState.getGamePiece("T_Forest_091-01"));		
+			stackPieces.add(gameState.getGamePiece("T_Forest_096-01"));
+			gameState.getHexlocations().get(5).createAndAddNewStackWithPieces(gameState.getPlayerByPlayerId("player3"), stackPieces);
+		}
+
+		// gameState.getHexlocations().get(6).setOwner(gameState.getPlayerByPlayerId("player1"));
+
+		if (gameState.getPlayerByPlayerId("player4") != null) {
+			gameState.getHexlocations().get(7).setOwner(gameState.getPlayerByPlayerId("player4"));
+			gameState.getHexlocations().get(7).capture(gameState.getPlayerByPlayerId("player4"));
+		}
+
+		if (gameState.getPlayerByPlayerId("player1") != null) {
+			gameState.getHexlocations().get(8).setOwner(gameState.getPlayerByPlayerId("player1"));
+			gameState.getHexlocations().get(8).capture(gameState.getPlayerByPlayerId("player1"));
+		}
+
+		if (gameState.getPlayerByPlayerId("player1") != null) {
+			gameState.getHexlocations().get(9).setOwner(gameState.getPlayerByPlayerId("player1"));
+			gameState.getHexlocations().get(9).capture(gameState.getPlayerByPlayerId("player1"));
+			gameState.getHexlocations().get(9).addGamePieceToLocation(gameState.getGamePiece("Fort_03-01"));
+			gameState.getGamePiece("Fort_03-01").setOwner(gameState.getPlayerByPlayerId("player1"));
+		}
+
+		if (gameState.getPlayerByPlayerId("player1") != null) {
+			gameState.getHexlocations().get(10).setOwner(gameState.getPlayerByPlayerId("player1"));
+			gameState.getHexlocations().get(10).capture(gameState.getPlayerByPlayerId("player1"));
+			gameState.getHexlocations().get(10).addGamePieceToLocation(gameState.getGamePiece("Fort_01-03"));
+			gameState.getGamePiece("Fort_01-03").setOwner(gameState.getPlayerByPlayerId("player1"));
+		}
+
+		if (gameState.getPlayerByPlayerId("player2") != null) {
+			gameState.getHexlocations().get(11).setOwner(gameState.getPlayerByPlayerId("player2"));
+			gameState.getHexlocations().get(11).capture(gameState.getPlayerByPlayerId("player2"));
+			gameState.getHexlocations().get(11).addGamePieceToLocation(gameState.getGamePiece("Fort_02-02"));
+			gameState.getPlayerByPlayerId("player2").assignGamePieceToPlayer(gameState.getGamePiece("Fort_02-02"));
+			Set<GamePiece> stackPieces = new HashSet<GamePiece>();
+			stackPieces.add(gameState.getGamePiece("T_Desert_116-02"));
+			stackPieces.add(gameState.getGamePiece("T_Desert_108-02"));
+			stackPieces.add(gameState.getGamePiece("T_Desert_114-02"));
+			gameState.getHexlocations().get(11).createAndAddNewStackWithPieces(gameState.getPlayerByPlayerId("player2"), stackPieces);
+		}
+
+		if (gameState.getPlayerByPlayerId("player2") != null) {
+			gameState.getHexlocations().get(12).setOwner(gameState.getPlayerByPlayerId("player2"));
+			gameState.getHexlocations().get(12).capture(gameState.getPlayerByPlayerId("player2"));
+			gameState.getHexlocations().get(12).addGamePieceToLocation(gameState.getGamePiece("Fort_02-03"));
+			gameState.getPlayerByPlayerId("player2").assignGamePieceToPlayer(gameState.getGamePiece("Fort_02-03"));
+		}
+
+		if (gameState.getPlayerByPlayerId("player2") != null) {
+			gameState.getHexlocations().get(13).setOwner(gameState.getPlayerByPlayerId("player2"));
+			gameState.getHexlocations().get(13).capture(gameState.getPlayerByPlayerId("player2"));
+			gameState.getHexlocations().get(13).addGamePieceToLocation(gameState.getGamePiece("Fort_03-02"));
+			gameState.getGamePiece("Fort_03-02").setOwner(gameState.getPlayerByPlayerId("player2"));
+		}
+
+		if (gameState.getPlayerByPlayerId("player3") != null) {
+			gameState.getHexlocations().get(14).setOwner(gameState.getPlayerByPlayerId("player3"));
+			gameState.getHexlocations().get(14).capture(gameState.getPlayerByPlayerId("player3"));
+		}
+
+		if (gameState.getPlayerByPlayerId("player3") != null) {
+			gameState.getHexlocations().get(15).setOwner(gameState.getPlayerByPlayerId("player3"));
+			gameState.getHexlocations().get(15).capture(gameState.getPlayerByPlayerId("player3"));
+		}
+
+		// gameState.getHexlocations().get(16).setOwner(gameState.getPlayerByPlayerId("player1"));
+		// gameState.getHexlocations().get(17).setOwner(gameState.getPlayerByPlayerId("player1"));
+
+		if (gameState.getPlayerByPlayerId("player4") != null) {
+			gameState.getHexlocations().get(18).setOwner(gameState.getPlayerByPlayerId("player4"));
+			gameState.getHexlocations().get(18).capture(gameState.getPlayerByPlayerId("player4"));
+			gameState.getHexlocations().get(18).addGamePieceToLocation(gameState.getGamePiece("Fort_01-04"));
+			gameState.getGamePiece("Fort_01-04").setOwner(gameState.getPlayerByPlayerId("player4"));
+		}
+
+		if (gameState.getPlayerByPlayerId("player4") != null) {
+			gameState.getHexlocations().get(19).setOwner(gameState.getPlayerByPlayerId("player4"));
+			gameState.getHexlocations().get(19).capture(gameState.getPlayerByPlayerId("player4"));
+			gameState.getHexlocations().get(19).addGamePieceToLocation(gameState.getGamePiece("Fort_03-03"));
+			gameState.getGamePiece("Fort_03-03").setOwner(gameState.getPlayerByPlayerId("player4"));
+		}
+
+		if (gameState.getPlayerByPlayerId("player4") != null) {
+			gameState.getHexlocations().get(20).setOwner(gameState.getPlayerByPlayerId("player4"));
+			gameState.getHexlocations().get(20).capture(gameState.getPlayerByPlayerId("player4"));
+		}
+
+		// gameState.getHexlocations().get(21).setOwner(gameState.getPlayerByPlayerId("player1"));
+
+		if (gameState.getPlayerByPlayerId("player1") != null) {
+			gameState.getHexlocations().get(22).setOwner(gameState.getPlayerByPlayerId("player1"));
+			gameState.getHexlocations().get(22).capture(gameState.getPlayerByPlayerId("player1"));
+			gameState.getHexlocations().get(22).addGamePieceToLocation(gameState.getGamePiece("village_01"));
+			gameState.getPlayerByPlayerId("player1").assignGamePieceToPlayer(gameState.getGamePiece("village_01"));
+		}
+
+		if (gameState.getPlayerByPlayerId("player1") != null) {
+			gameState.getHexlocations().get(23).setOwner(gameState.getPlayerByPlayerId("player1"));
+			gameState.getHexlocations().get(23).capture(gameState.getPlayerByPlayerId("player1"));
+		}
+
+		if (gameState.getPlayerByPlayerId("player1") != null) {
+			gameState.getHexlocations().get(24).setOwner(gameState.getPlayerByPlayerId("player1"));
+			gameState.getHexlocations().get(24).capture(gameState.getPlayerByPlayerId("player1"));
+			gameState.getHexlocations().get(24).addGamePieceToLocation(gameState.getGamePiece("Fort_03-03"));
+			gameState.getGamePiece("Fort_03-03").setOwner(gameState.getPlayerByPlayerId("player1"));
+		}
+
+		if (gameState.getPlayerByPlayerId("player2") != null) {
+			gameState.getHexlocations().get(25).setOwner(gameState.getPlayerByPlayerId("player2"));
+			gameState.getHexlocations().get(25).capture(gameState.getPlayerByPlayerId("player2"));
+			gameState.getHexlocations().get(25).addGamePieceToLocation(gameState.getGamePiece("Fort_02-04"));
+			gameState.getPlayerByPlayerId("player2").assignGamePieceToPlayer(gameState.getGamePiece("Fort_02-04"));
+		}
+
+		if (gameState.getPlayerByPlayerId("player2") != null) {
+			gameState.getHexlocations().get(26).setOwner(gameState.getPlayerByPlayerId("player2"));
+			gameState.getHexlocations().get(26).capture(gameState.getPlayerByPlayerId("player2"));
+			gameState.getHexlocations().get(26).addGamePieceToLocation(gameState.getGamePiece("village_02"));
+			gameState.getPlayerByPlayerId("player2").assignGamePieceToPlayer(gameState.getGamePiece("village_02"));
+		}
+
+		if (gameState.getPlayerByPlayerId("player2") != null) {
+			gameState.getHexlocations().get(27).setOwner(gameState.getPlayerByPlayerId("player2"));
+			gameState.getHexlocations().get(27).capture(gameState.getPlayerByPlayerId("player2"));
+		}
+
+		if (gameState.getPlayerByPlayerId("player2") != null) {
+			gameState.getHexlocations().get(28).setOwner(gameState.getPlayerByPlayerId("player2"));
+			gameState.getHexlocations().get(28).capture(gameState.getPlayerByPlayerId("player2"));
+		}
+
+		if (gameState.getPlayerByPlayerId("player2") != null) {
+			gameState.getHexlocations().get(29).setOwner(gameState.getPlayerByPlayerId("player2"));
+			gameState.getHexlocations().get(29).capture(gameState.getPlayerByPlayerId("player2"));
+		}
+
+		if (gameState.getPlayerByPlayerId("player3") != null) {
+			gameState.getHexlocations().get(30).setOwner(gameState.getPlayerByPlayerId("player3"));
+			gameState.getHexlocations().get(30).capture(gameState.getPlayerByPlayerId("player3"));
+		}
+
+		if (gameState.getPlayerByPlayerId("player3") != null) {
+			gameState.getHexlocations().get(31).setOwner(gameState.getPlayerByPlayerId("player3"));
+			gameState.getHexlocations().get(31).capture(gameState.getPlayerByPlayerId("player3"));
+			gameState.getHexlocations().get(31).addGamePieceToLocation(gameState.getGamePiece("Fort_02-04"));
+			gameState.getPlayerByPlayerId("player3").assignGamePieceToPlayer(gameState.getGamePiece("Fort_02-04"));
+		}
+
+		if (gameState.getPlayerByPlayerId("player3") != null) {
+			gameState.getHexlocations().get(32).setOwner(gameState.getPlayerByPlayerId("player3"));
+			gameState.getHexlocations().get(32).capture(gameState.getPlayerByPlayerId("player3"));
+			gameState.getHexlocations().get(32).addGamePieceToLocation(gameState.getGamePiece("city_01"));
+			gameState.getPlayerByPlayerId("player3").assignGamePieceToPlayer(gameState.getGamePiece("city_01"));
+		}
+
+		// gameState.getHexlocations().get(33).setOwner(gameState.getPlayerByPlayerId("player1"));
+
+		if (gameState.getPlayerByPlayerId("player4") != null) {
+			gameState.getHexlocations().get(34).setOwner(gameState.getPlayerByPlayerId("player4"));
+			gameState.getHexlocations().get(34).capture(gameState.getPlayerByPlayerId("player4"));
+		}
+
+		if (gameState.getPlayerByPlayerId("player4") != null) {
+			gameState.getHexlocations().get(35).setOwner(gameState.getPlayerByPlayerId("player4"));
+			gameState.getHexlocations().get(35).capture(gameState.getPlayerByPlayerId("player4"));
+			gameState.getHexlocations().get(35).addGamePieceToLocation(gameState.getGamePiece("village_03"));
+			gameState.getPlayerByPlayerId("player4").assignGamePieceToPlayer(gameState.getGamePiece("village_03"));
+		}
+
+		if (gameState.getPlayerByPlayerId("player4") != null) {
+			gameState.getHexlocations().get(36).setOwner(gameState.getPlayerByPlayerId("player4"));
+			gameState.getHexlocations().get(36).capture(gameState.getPlayerByPlayerId("player4"));
+			gameState.getHexlocations().get(36).addGamePieceToLocation(gameState.getGamePiece("Fort_02-05"));
+			gameState.getPlayerByPlayerId("player4").assignGamePieceToPlayer(gameState.getGamePiece("Fort_02-05"));
+		}
+
+	}
+
 
 	public static void assignDefaultGamePiecesAndGoldToPlayers(GameState gameState) {
 		Iterator<Player> it = gameState.getPlayers().iterator();
