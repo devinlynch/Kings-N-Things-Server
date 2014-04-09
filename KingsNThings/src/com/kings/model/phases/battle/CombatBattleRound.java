@@ -3,6 +3,7 @@ package com.kings.model.phases.battle;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -219,8 +220,12 @@ public class CombatBattleRound {
 			}
 		}
 		
-		for(Stack stack : stacks) {
-			for(GamePiece piece: stack.getGamePieces()) {
+		Iterator<Stack> stackIt = stacks.iterator();
+		while(stackIt.hasNext()) {
+			Stack stack = stackIt.next();
+			Iterator<GamePiece> piecesIt = new ArrayList<GamePiece>(stack.getGamePieces()).iterator();
+			while(piecesIt.hasNext()) {
+				GamePiece piece = piecesIt.next();
 				if(piece instanceof Creature || piece instanceof SpecialCharacter){
 					hexForPlayerToMoveTo.addGamePieceToLocation(piece);
 				} else {

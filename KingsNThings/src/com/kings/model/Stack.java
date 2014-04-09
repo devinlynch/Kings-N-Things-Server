@@ -57,4 +57,16 @@ public class Stack extends BoardLocation {
 			owner.assignGamePieceToPlayer(it.next());
 		}
 	}
+	
+	/**
+	 * Destroys a stack <b>ONLY</b> if it does not have any game pieces
+	 */
+	public void destroy() {
+		if(getGamePieces().size()==0)
+			return;
+		
+		if(this.getHexLocation() != null) {
+			this.getHexLocation().removeStack(this);
+		}
+	}
 }
