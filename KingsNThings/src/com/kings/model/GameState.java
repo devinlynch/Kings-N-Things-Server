@@ -22,7 +22,6 @@ public class GameState extends AbstractSerializedObject {
 
 	@JsonIgnore private Phase currentPhase;
 	private boolean isStarted;
-	private List<SentMessage> sentMessages;
 	
 	// In Game Shtuff
 	private PlayingCup playingCup;
@@ -56,7 +55,6 @@ public class GameState extends AbstractSerializedObject {
 
 	public GameState() {
 		this.players = new HashSet<Player>();
-		this.setSentMessages(new ArrayList<SentMessage>());
 		this.setGamePieces(new HashMap<String,GamePiece>());
 		this.hexlocations = new ArrayList<HexLocation>();
 		this.playingCup = new PlayingCup("playingCup");
@@ -137,14 +135,6 @@ public class GameState extends AbstractSerializedObject {
 	public void setGameId(String gameId) {
 		this.gameId = gameId;
 	}
-
-	protected void addSentMessage(SentMessage sentMessage) {
-		getSentMessages().add(sentMessage);
-	}
-	
-	protected void addSentMessages(Set<SentMessage> sentMessages) {
-		getSentMessages().addAll(sentMessages);
-	}
 	
 	public void queueUpGameMessageToSendToAllPlayers(GameMessage gameMessage) {
 		Set<SentMessage> sentMessages;
@@ -162,7 +152,6 @@ public class GameState extends AbstractSerializedObject {
 		if(!isTestMode)
 			saveGameWithSentMessages(sentMessages);
 		
-		addSentMessages(sentMessages);
 	}
 	
 	public void saveGameWithSentMessages(Set<SentMessage> sentMessages) {
@@ -209,14 +198,6 @@ public class GameState extends AbstractSerializedObject {
 
 	public void setStarted(boolean isStarted) {
 		this.isStarted = isStarted;
-	}
-
-	public List<SentMessage> getSentMessages() {
-		return sentMessages;
-	}
-
-	public void setSentMessages(List<SentMessage> sentMessages) {
-		this.sentMessages = sentMessages;
 	}
 
 	public List<HexLocation> getHexlocations() {

@@ -53,7 +53,7 @@ public class GameStateFactory {
 
 		if (gameState.isDemo()) {
 			setHexTilesOnLocationsForDemo2(gameState);
-			handleDemo3Settings(gameState);
+			handleDemo2Settings(gameState);
 		} else
 			setRandomHexTiles(gameState, numTiles);
 
