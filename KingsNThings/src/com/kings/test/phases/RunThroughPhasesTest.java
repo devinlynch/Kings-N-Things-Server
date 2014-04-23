@@ -290,9 +290,7 @@ public class RunThroughPhasesTest {
 		System.out.println("Sent chat message: [" + chatMsg.toJson() + "]");
 		
 		
-		for(SentMessage msg : gs.getSentMessages()){
-			System.out.println(msg.getJson());
-		}
+		
 	}
 	
 	@Test
