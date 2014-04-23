@@ -1,0 +1,10 @@
+1. You need to install MySql, and keep note of the username and password.
+2. Open the project in eclipse.  Open hibernate.cfg.xml.  Edit the username and password to be whatever you made it to be when installing mysql.
+3. Install MySQL workbench (http://dev.mysql.com/downloads/tools/workbench/) and connect it with your DB server
+4. Open up the connection to your DB server, and then press "Data Import/Restore" on the left.  Navigate to the directory of the Kings and Things Server project, and open up the DUMP.sql file that is located in the directory /databaseScripts
+5. Run the import
+6. Instructions for setting up server in eclipse: https://github.com/devinlynch/Kings-N-Things-Server/issues/1
+9. Run the server, make sure from the console in Eclipse there is no stack traces
+7. Open the client Xcode project
+8. Open server_config.plist.  Change the IP address and port to be the address and port of the machine running the server.
+9. Run the simulator, it should be able to connect to the databse.
